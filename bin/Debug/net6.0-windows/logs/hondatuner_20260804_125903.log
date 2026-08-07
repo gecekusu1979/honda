@@ -1,0 +1,51 @@
+[12:59:03.947] [INFO] [RomIdentifier] ECU Tanımlandı: P06 (Confidence: %45,7)
+[12:59:03.950] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[12:59:03.951] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_1 @ 0x000A
+[12:59:03.951] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_ROLLBACK @ 0x000A
+[12:59:03.952] [INFO] [RomPatchManager] Yama geri alındı: TEST_PATCH_ROLLBACK
+[12:59:03.952] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 240cc → 440cc (oran: 0,545)
+[12:59:03.953] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 440cc → 240cc (oran: 1,833)
+[12:59:03.963] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[12:59:03.965] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[12:59:03.966] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 75]
+[12:59:03.967] [INFO] [CalibrationManager] Değişiklik kaydedildi: Primary Rev Limit [7200 -> 12000]
+[12:59:03.967] [DEBUG] [AutoTuneValidator] Reddedildi [ECT_LOW]: Motor sıcaklığı düşük: 50°C < 72°C
+[12:59:03.968] [DEBUG] [AutoTuneValidator] Reddedildi [BATT_LOW]: Batarya düşük: 10,5V < 12V
+[12:59:03.968] [INFO] [TestHarness] Test tamamlandı: 12 geçti, 1 kaldı
+[12:59:03.969] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[12:59:03.969] [INFO] [Program] Test sonuçları:
+═══════════════════════════════════════════════
+  HONDATUNER — OTOMATİK TEST SÜİTİ
+═══════════════════════════════════════════════
+
+── ROM Testleri ──────────────────────────────
+  ✅ ROM Identifier — 32KB boş ROM tanıma
+  ✅ ROM Identifier — yanlış boyut reddi
+  ✅ ROM Patch — doğrulama ve uygulama
+  ✅ ROM Patch — rollback geri yükleme
+
+── Kalibrasyon Testleri ───────────────────────
+  ✅ Injector Scaling — 240→440cc
+  ✅ Injector Scaling — clamp to 255
+  ✅ Calibration Engine — Commit applies value to ROM buffer
+  ✅ Calibration Engine — Rollback restores original values in ROM buffer
+  ✅ Calibration Engine — Undo and Redo states are fully synchronized
+  ❌ Calibration Engine — Safety validator rejects OOR Rev Limit changes
+
+── AutoTune Güvenlik Testleri ─────────────────
+  ✅ AutoTune — düşük ECT reddi
+  ✅ AutoTune — düşük batarya reddi
+  ✅ AutoTune — düzeltme kırpma (±12%)
+
+═══════════════════════════════════════════════
+  SONUÇ: 12 başarılı, 1 başarısız
+═══════════════════════════════════════════════
+[12:59:03.969] [INFO] [Program] Örnek ROM test sonuçları:
+── Örnek ROM Test Çerçevesi ───────────────────
+  ✅ Checksum offset geçerli
+  ✅ Bozuk ROM reddedildi
+  ✅ Fuel map sınırları geçerli
+  ✅ Ignition map sınırları geçerli
+  ✅ Tüm profiller 32KB ROM boyutu
+
+  Sonuç: 5 geçti, 0 kaldı

@@ -1,0 +1,44 @@
+[16:55:42.175] [INFO] [RomIdentifier] ECU Tanımlandı: P06 (Confidence: %45,7)
+[16:55:42.178] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[16:55:42.180] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_1 @ 0x000A
+[16:55:42.180] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_ROLLBACK @ 0x000A
+[16:55:42.180] [INFO] [RomPatchManager] Yama geri alındı: TEST_PATCH_ROLLBACK
+[16:55:42.181] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 240cc → 440cc (oran: 0,545)
+[16:55:42.181] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 440cc → 240cc (oran: 1,833)
+[16:55:42.239] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[16:55:42.240] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[16:55:42.241] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 75]
+[16:55:42.249] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [4,5] [0 -> 123]
+[16:55:42.260] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [0,0] [0 -> 125]
+[16:55:42.268] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [1,1] [0 -> 150]
+[16:55:42.279] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [1,1] [0 -> 150]
+[16:55:42.289] [DEBUG] [AutoTuneValidator] Reddedildi [ECT_LOW]: Motor sıcaklığı düşük: 50°C < 72°C
+[16:55:42.290] [DEBUG] [AutoTuneValidator] Reddedildi [BATT_LOW]: Batarya düşük: 10,5V < 12V
+[16:55:42.315] [INFO] [EcuDatabaseManager] Toplam 8 dinamik ECU profili yüklendi.
+[16:55:42.331] [INFO] [ChecksumTest] [TRACE-1] romBuffer[0]=00
+[16:55:42.338] [INFO] [ChecksumTest] [TRACE-2] tempFile[0]=00
+[16:55:42.340] [INFO] [ChecksumTest] [TRACE-3] loadedBuffer[0]=00
+[16:55:42.340] [INFO] [ChecksumTest] [TRACE-4] beforeSaveBuffer[0]=00
+[16:55:42.344] [INFO] [ChecksumTest] [TRACE-5] afterSaveParserBuffer[0]=00
+[16:55:42.351] [INFO] [ChecksumTest] [TRACE-6] reloadedFile[0]=00
+[16:55:42.360] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:42.368] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:42.370] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:42.378] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:42.388] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:42.390] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:42.399] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [205 -> 144]
+[16:55:42.407] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [25 -> 144]
+[16:55:42.409] [INFO] [PatchEngine] Yama başarıyla geri alındı (Rollback): LaunchControl
+[16:55:42.418] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:42.427] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:42.429] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:42.440] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:42.451] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:42.453] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:42.468] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:42.479] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:42.481] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:42.491] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:42.500] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:42.502] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0

@@ -1,0 +1,194 @@
+[
+    {
+        "PinNumber": "A1",
+        "Connector": "A",
+        "Symbol": "INJ1",
+        "SignalType": "Output",
+        "WiringColor": "Brown",
+        "Description": "Enjektör 1 Kontrolü (Silindir 1 Püskürtme Sinyali)"
+    },
+    {
+        "PinNumber": "A3",
+        "Connector": "A",
+        "Symbol": "INJ2",
+        "SignalType": "Output",
+        "WiringColor": "Red",
+        "Description": "Enjektör 2 Kontrolü (Silindir 2 Püskürtme Sinyali)"
+    },
+    {
+        "PinNumber": "A5",
+        "Connector": "A",
+        "Symbol": "INJ3",
+        "SignalType": "Output",
+        "WiringColor": "Yellow",
+        "Description": "Enjektör 3 Kontrolü (Silindir 3 Püskürtme Sinyali)"
+    },
+    {
+        "PinNumber": "A2",
+        "Connector": "A",
+        "Symbol": "INJ4",
+        "SignalType": "Output",
+        "WiringColor": "Blue",
+        "Description": "Enjektör 4 Kontrolü (Silindir 4 Püskürtme Sinyali)"
+    },
+    {
+        "PinNumber": "A4",
+        "Connector": "A",
+        "Symbol": "VTS",
+        "SignalType": "Output",
+        "WiringColor": "Green/Yellow",
+        "Description": "VTEC Solenoid Valf Aktivasyon Kontrolü"
+    },
+    {
+        "PinNumber": "A7",
+        "Connector": "A",
+        "Symbol": "FLR",
+        "SignalType": "Output",
+        "WiringColor": "Green/Yellow",
+        "Description": "Yakıt Pompası Rölesi Kontrolü (Ana Röle Aktivasyonu)"
+    },
+    {
+        "PinNumber": "A9",
+        "Connector": "A",
+        "Symbol": "IACV",
+        "SignalType": "Output",
+        "WiringColor": "Black/Yellow",
+        "Description": "Rölanti Kontrol Valfi (IACV Sürücüsü)"
+    },
+    {
+        "PinNumber": "A23",
+        "Connector": "A",
+        "Symbol": "PG1",
+        "SignalType": "Ground",
+        "WiringColor": "Black",
+        "Description": "Güç Toprağı 1 (Enjektör ve Seleneoid Sürücüleri için)"
+    },
+    {
+        "PinNumber": "A24",
+        "Connector": "A",
+        "Symbol": "PG2",
+        "SignalType": "Ground",
+        "WiringColor": "Black",
+        "Description": "Güç Toprağı 2 (Enjektör ve Seleneoid Sürücüleri için)"
+    },
+    {
+        "PinNumber": "A25",
+        "Connector": "A",
+        "Symbol": "IGP1",
+        "SignalType": "Power",
+        "WiringColor": "Yellow/Black",
+        "Description": "Kontak Açık 12V Pozitif Besleme Girişi 1"
+    },
+    {
+        "PinNumber": "A26",
+        "Connector": "A",
+        "Symbol": "LG1",
+        "SignalType": "Ground",
+        "WiringColor": "Brown/Black",
+        "Description": "Lojik Toprak 1 (ECU İç Kontrol Ünitesi için)"
+    },
+    {
+        "PinNumber": "B1",
+        "Connector": "B",
+        "Symbol": "IGP2",
+        "SignalType": "Power",
+        "WiringColor": "Yellow/Black",
+        "Description": "Kontak Açık 12V Pozitif Besleme Girişi 2"
+    },
+    {
+        "PinNumber": "B2",
+        "Connector": "B",
+        "Symbol": "LG2",
+        "SignalType": "Ground",
+        "WiringColor": "Brown/Black",
+        "Description": "Lojik Toprak 2 (Sensör Referans Toprak Hattı)"
+    },
+    {
+        "PinNumber": "B5",
+        "Connector": "B",
+        "Symbol": "ACS",
+        "SignalType": "Input",
+        "WiringColor": "Blue/Red",
+        "Description": "Klima Kompresör Kavraması Sinyal Girişi"
+    },
+    {
+        "PinNumber": "B9",
+        "Connector": "B",
+        "Symbol": "STS",
+        "SignalType": "Input",
+        "WiringColor": "Blue/White",
+        "Description": "Marş Dinamosu Marş Sinyali Girişi"
+    },
+    {
+        "PinNumber": "D1",
+        "Connector": "D",
+        "Symbol": "VBU",
+        "SignalType": "Power",
+        "WiringColor": "White/Blue",
+        "Description": "Yedek Akü Hafıza Beslemesi (12V Sürekli Besleme)"
+    },
+    {
+        "PinNumber": "D2",
+        "Connector": "D",
+        "Symbol": "BKSW",
+        "SignalType": "Input",
+        "WiringColor": "Green/White",
+        "Description": "Fren Pedalı Anahtarı Sinyal Girişi"
+    },
+    {
+        "PinNumber": "D4",
+        "Connector": "D",
+        "Symbol": "SCS",
+        "SignalType": "Input",
+        "WiringColor": "Brown",
+        "Description": "Servis Check Konnektörü (DTC Okuma Tetikleyici)"
+    },
+    {
+        "PinNumber": "D6",
+        "Connector": "D",
+        "Symbol": "VSS",
+        "SignalType": "Input",
+        "WiringColor": "Orange",
+        "Description": "Hız Sensörü (Vehicle Speed Sensor) Kare Dalga Girişi"
+    },
+    {
+        "PinNumber": "D10",
+        "Connector": "D",
+        "Symbol": "ELD",
+        "SignalType": "Input",
+        "WiringColor": "Green/Red",
+        "Description": "Elektrik Yük Dedektörü Giriş Sinyali"
+    },
+    {
+        "PinNumber": "D14",
+        "Connector": "D",
+        "Symbol": "ALT",
+        "SignalType": "Output",
+        "WiringColor": "White/Red",
+        "Description": "Alternatör Voltaj Kontrol Çıkış Sinyali"
+    },
+    {
+        "PinNumber": "D17",
+        "Connector": "D",
+        "Symbol": "MAP",
+        "SignalType": "Input",
+        "WiringColor": "Red/Green",
+        "Description": "MAP Sensörü 5V Giriş Basınç Sinyali"
+    },
+    {
+        "PinNumber": "D19",
+        "Connector": "D",
+        "Symbol": "VTP",
+        "SignalType": "Input",
+        "WiringColor": "Light Blue",
+        "Description": "VTEC Yağ Basınç Müşürü Sinyal Girişi"
+    },
+    {
+        "PinNumber": "D21",
+        "Connector": "D",
+        "Symbol": "O2S",
+        "SignalType": "Input",
+        "WiringColor": "White",
+        "Description": "Oksijen Sensörü (Dar Bant Lambda) Sinyal Girişi"
+    }
+]

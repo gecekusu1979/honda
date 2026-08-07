@@ -1,0 +1,1078 @@
+[16:55:56.777] [INFO] [RomIdentifier] ECU Tanımlandı: P06 (Confidence: %45,7)
+[16:55:56.780] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[16:55:56.781] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_1 @ 0x000A
+[16:55:56.782] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_ROLLBACK @ 0x000A
+[16:55:56.782] [INFO] [RomPatchManager] Yama geri alındı: TEST_PATCH_ROLLBACK
+[16:55:56.783] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 240cc → 440cc (oran: 0,545)
+[16:55:56.783] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 440cc → 240cc (oran: 1,833)
+[16:55:56.838] [INFO] [RtpCalibrationEngine] Recovered 23 pending changes from persistent queue on disk.
+[16:55:56.841] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[16:55:56.842] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[16:55:56.843] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 75]
+[16:55:56.849] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [4,5] [0 -> 123]
+[16:55:56.858] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [0,0] [0 -> 125]
+[16:55:56.868] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [1,1] [0 -> 150]
+[16:55:56.877] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [1,1] [0 -> 150]
+[16:55:56.899] [DEBUG] [AutoTuneValidator] Reddedildi [ECT_LOW]: Motor sıcaklığı düşük: 50°C < 72°C
+[16:55:56.899] [DEBUG] [AutoTuneValidator] Reddedildi [BATT_LOW]: Batarya düşük: 10,5V < 12V
+[16:55:56.923] [INFO] [EcuDatabaseManager] Toplam 8 dinamik ECU profili yüklendi.
+[16:55:56.939] [INFO] [ChecksumTest] [TRACE-1] romBuffer[0]=00
+[16:55:56.948] [INFO] [ChecksumTest] [TRACE-2] tempFile[0]=00
+[16:55:56.949] [INFO] [ChecksumTest] [TRACE-3] loadedBuffer[0]=00
+[16:55:56.949] [INFO] [ChecksumTest] [TRACE-4] beforeSaveBuffer[0]=00
+[16:55:56.953] [INFO] [ChecksumTest] [TRACE-5] afterSaveParserBuffer[0]=00
+[16:55:56.960] [INFO] [ChecksumTest] [TRACE-6] reloadedFile[0]=00
+[16:55:56.968] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:56.978] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:56.981] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:56.988] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:57.000] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:57.002] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:57.009] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [205 -> 144]
+[16:55:57.020] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [25 -> 144]
+[16:55:57.021] [INFO] [PatchEngine] Yama başarıyla geri alındı (Rollback): LaunchControl
+[16:55:57.028] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:57.039] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:57.041] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:57.054] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:57.065] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:57.066] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:57.088] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:57.098] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:57.100] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:57.107] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte0 [144 -> 205]
+[16:55:57.118] [INFO] [CalibrationManager] Değişiklik kaydedildi: Patch.LaunchControl.Byte1 [144 -> 25]
+[16:55:57.120] [INFO] [PatchEngine] Yama başarıyla uygulandı: LaunchControl @ 0x1FB0
+[16:55:58.778] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:55:58.779] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 9c7c08df-7630-4fa9-b2c7-14e389e58ee0)
+[16:55:58.779] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 9c7c08df-7630-4fa9-b2c7-14e389e58ee0
+[16:55:58.779] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionPaused (Oturum: 9c7c08df-7630-4fa9-b2c7-14e389e58ee0)
+[16:55:58.780] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionResumed (Oturum: 9c7c08df-7630-4fa9-b2c7-14e389e58ee0)
+[16:55:58.780] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 9c7c08df-7630-4fa9-b2c7-14e389e58ee0)
+[16:55:58.788] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: TX-TEMP
+[16:55:58.798] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:55:58.800] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: TX-TEMP2
+[16:55:58.808] [INFO] [CalibrationRecoveryManager] Yarım kalmış işlem geri yükleniyor: TX-TEMP2
+[16:55:58.809] [INFO] [CalibrationSnapshotManager] Snapshot geri yükleniyor: SNAP-TEMP2, Kurtarılacak hücre: 1
+[16:55:58.809] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:55:58.813] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:55:58.813] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: fe2a177f-f566-45c3-83bf-a69f484affea)
+[16:55:58.813] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: fe2a177f-f566-45c3-83bf-a69f484affea
+[16:55:58.814] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionPaused (Oturum: fe2a177f-f566-45c3-83bf-a69f484affea)
+[16:55:58.814] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionResumed (Oturum: fe2a177f-f566-45c3-83bf-a69f484affea)
+[16:55:58.814] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: fe2a177f-f566-45c3-83bf-a69f484affea)
+[16:55:58.815] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:55:58.815] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 02cafa5d-e9db-466d-90de-99e769752506)
+[16:55:58.815] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 02cafa5d-e9db-466d-90de-99e769752506
+[16:55:58.816] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 02cafa5d-e9db-466d-90de-99e769752506)
+[16:55:58.816] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:55:58.817] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.817] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 5b2589a4-28b5-4ded-be11-af3e63af65fb
+[16:55:58.817] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.821] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.823] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[16:55:58.825] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.825] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:55:58.825] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.826] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:55:58.826] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.827] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:55:58.827] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.827] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.827] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[16:55:58.827] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.827] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:55:58.827] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.827] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:55:58.828] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.828] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:55:58.828] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.828] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.828] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[16:55:58.828] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.829] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:55:58.829] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.829] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:55:58.829] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.830] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:55:58.830] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.830] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.830] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[16:55:58.830] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.831] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:55:58.831] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.831] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:55:58.831] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.831] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:55:58.832] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.832] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.832] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[16:55:58.832] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.833] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:55:58.833] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.833] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:55:58.833] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.833] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:55:58.833] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.834] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.834] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[16:55:58.834] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.835] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:55:58.835] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.835] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:55:58.835] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.835] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:55:58.835] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 5b2589a4-28b5-4ded-be11-af3e63af65fb)
+[16:55:58.840] [INFO] [AdaptiveMemory] V1 hafıza verisi V2 şemasına başarıyla taşındı. Toplam kayıt: 1
+[16:55:58.840] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:55:58.841] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 3f7c8434-4b85-49e2-a2de-ab71865b3c2f)
+[16:55:58.841] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 3f7c8434-4b85-49e2-a2de-ab71865b3c2f
+[16:55:58.841] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 3f7c8434-4b85-49e2-a2de-ab71865b3c2f)
+[16:55:58.842] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:55:58.842] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 6b5aab6d-c78f-4082-a25c-005c68f359c6)
+[16:55:58.842] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 6b5aab6d-c78f-4082-a25c-005c68f359c6
+[16:55:58.842] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 6b5aab6d-c78f-4082-a25c-005c68f359c6)
+[16:55:58.844] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:55:58.845] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:55:58.845] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:55:58.845] [INFO] [RtpCalibrationEngine] Real-time synchronization paused.
+[16:55:58.846] [INFO] [RtpCalibrationEngine] RTP Emulator disconnected.
+[16:55:58.847] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:55:58.847] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:55:58.847] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:55:58.849] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 99]
+[16:55:59.059] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:55:59.059] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:55:59.061] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 10]
+[16:55:59.069] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 11]
+[16:55:59.079] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 12]
+[16:55:59.080] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:55:59.294] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:55:59.295] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:55:59.297] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[16:55:59.298] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[16:55:59.299] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[16:55:59.299] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:55:59.511] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:55:59.511] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:55:59.511] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:55:59.513] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 45]
+[16:55:59.730] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:55:59.730] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:55:59.730] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:55:59.734] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.737] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.739] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.741] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.749] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.750] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.753] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.762] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.774] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.776] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.779] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.788] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.789] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.800] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.801] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.803] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.811] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.822] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.831] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.834] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.836] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.846] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.847] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.849] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.852] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.854] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.857] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.860] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.869] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.872] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.874] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.884] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.884] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.887] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.889] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.901] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.904] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.906] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.908] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.918] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.919] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.931] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.935] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.941] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.950] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.957] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.960] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.963] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.970] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:55:59.971] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.974] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.976] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.978] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.980] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.982] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:55:59.995] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.006] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.017] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.020] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.022] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.035] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.038] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.040] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.051] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.051] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.054] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.066] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.076] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.079] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.081] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.089] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.100] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.111] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.124] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.125] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.127] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.128] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.131] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.144] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.155] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.158] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.160] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.163] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.170] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.171] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.184] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.187] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.196] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.208] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.211] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.213] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.220] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.221] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.230] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.230] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.233] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.242] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.243] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.245] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.247] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.250] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.253] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.267] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.270] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.279] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.291] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.294] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.296] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.310] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.313] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.323] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.326] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.329] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.332] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.346] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.349] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.351] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.367] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.381] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.384] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.386] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.389] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.392] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.394] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.402] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.403] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.406] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.415] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.415] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.418] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.421] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.423] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.426] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.434] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.435] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.438] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.447] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.460] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.462] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.465] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.467] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.476] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.477] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.479] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.482] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.484] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.492] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.493] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.496] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.498] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.509] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.510] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.512] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.524] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.528] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.530] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.535] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.544] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.545] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.548] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.550] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.553] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.572] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.575] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.579] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.589] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.590] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.592] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.601] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.604] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.606] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.620] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.623] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.625] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.628] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.641] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.656] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.658] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.661] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.663] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.666] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.673] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.674] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.688] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.691] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.693] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.696] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.698] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.706] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.707] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.721] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.724] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.727] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.730] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.738] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.750] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.752] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.755] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.763] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.770] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.783] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.797] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.799] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.802] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.804] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.807] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.822] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.825] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.828] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.842] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.844] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.847] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.859] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.868] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.868] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.871] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.873] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.881] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:00.882] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.884] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.887] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.890] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.892] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.908] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.911] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.922] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.938] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.952] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.955] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.957] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.960] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.970] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.972] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.974] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.989] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.992] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:00.999] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.002] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.004] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.018] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.021] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.028] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.028] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.031] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.034] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.037] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.039] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.042] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.045] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.052] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.053] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.056] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.059] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.068] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.069] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.076] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.077] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.080] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.083] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.091] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.093] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.096] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.099] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.108] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.118] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.136] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.139] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.153] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.164] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.175] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.191] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.194] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.203] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.204] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.218] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.235] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.245] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.246] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.247] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.250] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.253] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.256] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.261] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.264] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.273] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.274] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.277] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.284] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.285] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.294] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.302] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.315] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.318] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.332] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.335] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.351] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.353] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.363] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.364] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.369] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.370] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.371] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.373] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.393] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.396] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.412] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.415] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.423] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.424] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.427] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.435] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.436] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.446] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.447] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.451] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.461] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.463] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.466] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.468] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.479] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.488] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.492] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.495] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.512] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.515] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.522] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.523] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.526] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.529] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.535] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.537] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.544] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.544] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.547] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.557] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.560] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.576] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.578] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.587] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.588] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.596] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.597] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.600] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.603] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.617] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.633] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.637] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.645] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.659] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.662] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.665] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.668] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.671] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.674] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.677] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.680] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.683] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.686] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.688] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.691] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.694] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.696] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.699] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.702] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.704] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.707] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.710] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.712] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.716] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.719] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.722] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.724] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.727] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.729] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.732] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.734] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.737] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.740] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.742] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.744] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.747] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.750] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.752] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.754] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.757] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.759] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.762] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.778] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.781] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.785] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.788] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.792] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.798] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.799] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.802] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.805] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.813] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.814] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.823] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.823] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.826] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.841] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.844] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.847] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.850] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.854] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.862] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.863] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.867] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.878] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.887] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.890] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.893] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.898] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.909] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.912] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.915] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.918] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.933] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.936] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.946] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.949] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.958] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.961] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.964] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.972] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.974] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.976] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.983] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.984] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.987] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:01.995] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:01.997] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.005] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.007] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.010] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.015] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.024] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.030] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.031] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.046] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.050] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.066] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.081] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.084] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.093] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.116] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.119] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.132] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.135] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.144] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.146] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.149] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.159] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.162] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.177] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.186] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.186] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.196] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.197] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.199] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.203] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.213] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.223] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.226] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.240] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.243] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.252] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.254] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.261] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.262] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.265] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.268] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.277] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.278] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.281] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.296] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.299] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.309] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.310] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.314] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.329] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.346] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.349] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.352] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.361] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.362] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.366] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.369] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.372] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.375] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.378] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.381] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.383] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.386] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.389] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.393] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.396] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.400] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.403] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.406] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.409] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.412] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.415] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.417] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.420] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.423] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.426] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.435] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.450] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.453] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.460] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.469] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.469] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.477] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.478] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.491] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.501] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.508] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.509] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.512] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.522] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.524] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.533] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.547] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.550] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.553] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.563] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.564] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.567] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.570] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.577] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.590] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.600] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.604] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.621] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.632] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.636] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.651] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.653] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.656] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.665] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.668] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.671] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.681] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.682] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.685] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.688] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.691] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.700] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.701] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.715] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.719] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.727] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.729] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.730] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.732] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.734] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.735] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.737] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.738] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.741] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.764] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.777] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.793] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.798] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.801] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.827] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.832] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.836] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.846] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.855] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.863] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.864] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.867] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.870] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.889] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.899] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.900] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.909] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.923] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.932] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.934] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.946] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.967] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:02.976] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[16:56:02.977] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:03.382] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:56:03.382] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:56:03.383] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:56:03.384] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:56:03.384] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:56:03.385] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:56:03.389] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 55]
+[16:56:03.476] [ERROR] [RtpCalibrationEngine] Batch write execution failed: Batch block verification write failed: Simulated block write exception
+[16:56:03.599] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:56:03.599] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:56:03.599] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:56:03.611] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 88]
+[16:56:03.709] [ERROR] [RtpCalibrationEngine] Batch write execution failed: Batch block verification write failed: Batch block verify mismatch at relative index 0. Expected: 88, Actual: 167
+[16:56:03.824] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:56:03.824] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:56:03.825] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:56:03.829] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 22]
+[16:56:03.945] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 22]
+[16:56:04.070] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 0]
+[16:56:04.081] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[16:56:04.091] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[16:56:04.098] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[16:56:04.125] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 4]
+[16:56:04.148] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:04.159] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 6]
+[16:56:04.166] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 0]
+[16:56:04.176] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[16:56:04.188] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[16:56:04.196] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[16:56:04.207] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 4]
+[16:56:04.218] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:04.221] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 6]
+[16:56:04.242] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 0]
+[16:56:04.251] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[16:56:04.263] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[16:56:04.270] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[16:56:04.280] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 4]
+[16:56:04.399] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[16:56:04.510] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 6]
+[16:56:04.516] [ERROR] [RtpCalibrationEngine] RTP Configuration validation failed: Retry count must be between 0 and 10. (Parameter 'RetryCount')
+[16:56:04.519] [INFO] [RtpCalibrationEngine] Recovered 1 pending changes from persistent queue on disk.
+[16:56:04.546] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[16:56:04.546] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[16:56:04.547] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[16:56:04.556] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[16:56:04.556] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.557] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 1fda96e0-6448-471d-a939-21304058fe60
+[16:56:04.711] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.712] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.712] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.713] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 55f0147a-c5e0-43a0-96b2-9eac0a910b98, Hücre sayısı: 1
+[16:56:04.714] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 95300289-e6b0-434b-a984-f37dc05a0776
+[16:56:04.716] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [0 -> 15]
+[16:56:04.718] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.718] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:56:04.718] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.719] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.719] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 427a2f00-4e56-4464-83ac-13cda106e2a6, Hücre sayısı: 1
+[16:56:04.722] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 78017890-3284-426a-81a1-7d7429514a52
+[16:56:04.725] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[16:56:04.726] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.727] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:56:04.727] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.727] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.728] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 8af833f0-68c3-43d0-8313-0a65664201d8, Hücre sayısı: 1
+[16:56:04.730] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 70620959-8cf1-4e9d-a640-1c36a7b084de
+[16:56:04.733] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[16:56:04.735] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.735] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:56:04.735] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.757] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.759] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.759] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.760] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: b5b9f659-a570-408c-809d-0b9d7d2f083e, Hücre sayısı: 1
+[16:56:04.762] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 032631c3-1a45-4d00-872b-8a49d9771eb1
+[16:56:04.765] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[16:56:04.767] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.767] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:56:04.767] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.768] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.768] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: eff73502-a066-432c-842f-fa478c5765fd, Hücre sayısı: 1
+[16:56:04.770] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 4b064a85-26aa-4c24-82dc-772ad4717900
+[16:56:04.776] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[16:56:04.778] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.778] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:56:04.779] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.779] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.779] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: e9a74b24-7e1b-45f1-971a-220f57001ac3, Hücre sayısı: 1
+[16:56:04.782] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 85126a9e-e262-4f31-921b-ee6093392584
+[16:56:04.785] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[16:56:04.786] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.787] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:56:04.787] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.803] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.803] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.804] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.804] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 7b0c3661-f88b-4f13-a0e6-da0c95cd5db8, Hücre sayısı: 1
+[16:56:04.806] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: ac66f7ce-1bce-43c9-9a61-4286dc7e1f12
+[16:56:04.809] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[16:56:04.811] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.811] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:56:04.812] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.812] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.812] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 1842c4db-cd68-4697-9532-40dc8bcab4be, Hücre sayısı: 1
+[16:56:04.815] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: bd30fab7-fd53-49d7-9328-096ec4053d29
+[16:56:04.818] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[16:56:04.820] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.820] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:56:04.820] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.821] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.821] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: dec118e9-d479-4b2c-8bb0-3f990f2a2b91, Hücre sayısı: 1
+[16:56:04.824] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 45087c5a-eaf0-4d00-83e4-13a3ad0fbd0c
+[16:56:04.827] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[16:56:04.829] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.829] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:56:04.830] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.846] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.847] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.847] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.847] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 7e4342e6-8a60-4183-b0df-a7ff3664579b, Hücre sayısı: 1
+[16:56:04.850] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 275669c9-f48a-4ce8-8b81-b2cf9f0d3857
+[16:56:04.854] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[16:56:04.855] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.855] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:56:04.856] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.856] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.856] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 59434d58-f2cb-426a-907e-2d127b7432a3, Hücre sayısı: 1
+[16:56:04.859] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: c8ad7ebf-adbf-4d61-a12a-27d8df6b9af7
+[16:56:04.863] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[16:56:04.864] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.865] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:56:04.865] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.866] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.866] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 27af47b4-2625-4ff2-afe3-fbe941d68ab2, Hücre sayısı: 1
+[16:56:04.869] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: e1f7db1a-d9d5-40f2-b900-d593a5bafc47
+[16:56:04.872] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[16:56:04.874] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.874] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:56:04.875] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.893] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.893] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.894] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.894] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 2a405610-7535-4a7e-895f-da28bf17a7ee, Hücre sayısı: 1
+[16:56:04.897] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: aeede377-d654-4c63-b419-5331f1dd901d
+[16:56:04.900] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[16:56:04.902] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.902] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:56:04.902] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.904] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.905] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 236ed7f7-9fa4-49de-8ddf-9c31de6bced6, Hücre sayısı: 1
+[16:56:04.907] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: b49885ed-ad8a-4d8f-a20e-6eb5b0a2de83
+[16:56:04.923] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[16:56:04.925] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.925] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:56:04.925] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.926] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.926] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: ed494165-5950-4f66-accb-4a1c2624c126, Hücre sayısı: 1
+[16:56:04.929] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 7a469ca1-6384-499e-adc5-16128a9a22c4
+[16:56:04.932] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[16:56:04.933] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.933] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:56:04.934] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.955] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.956] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.956] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.956] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: ed55d43d-2fea-46e7-8309-011bfff10e55, Hücre sayısı: 1
+[16:56:04.959] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 6507ab01-dd46-4657-a629-72f75f6ffa57
+[16:56:04.962] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[16:56:04.963] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.963] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[16:56:04.964] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.964] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.964] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: b1fdfc6b-e1ab-40f1-8129-09302c3aafb6, Hücre sayısı: 1
+[16:56:04.966] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: d6f72ba1-eb58-4da3-b2d9-5fae20aadb8d
+[16:56:04.970] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[16:56:04.971] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.971] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[16:56:04.971] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.972] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:04.972] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: c5da23a5-e157-4d15-a2a9-d83d8fd583fd, Hücre sayısı: 1
+[16:56:04.974] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 6224ec82-6cea-4607-a907-8f21ac5e101e
+[16:56:04.979] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[16:56:04.981] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[16:56:04.981] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[16:56:04.981] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:05.309] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 1fda96e0-6448-471d-a939-21304058fe60)
+[16:56:05.644] [INFO] [TestHarness] Test tamamlandÄ±: 105 geÃ§ti, 1 kaldÄ±
+[16:56:05.644] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[16:56:05.645] [INFO] [Program] Test sonuçları:
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  HONDATUNER â€” OTOMATÄ°K TEST SÃœÄ°TÄ°
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+â”€â”€ ROM Testleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  ✅ ROM Identifier â€” 32KB boÅŸ ROM tanÄ±ma
+  ✅ ROM Identifier â€” yanlÄ±ÅŸ boyut reddi
+  ✅ ROM Patch â€” doÄŸrulama ve uygulama
+  ✅ ROM Patch â€” rollback geri yÃ¼kleme
+
+â”€â”€ Kalibrasyon Testleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  ✅ Injector Scaling â€” 240â†’440cc
+  ✅ Injector Scaling â€” clamp to 255
+  ✅ Calibration Engine â€” Commit applies value to ROM buffer
+  ✅ Calibration Engine â€” Rollback restores original values in ROM buffer
+  ✅ Calibration Engine â€” Undo and Redo states are fully synchronized
+  ✅ Calibration Engine â€” Safety validator rejects OOR Rev Limit changes
+
+â”€â”€ Faz 4: Map Engine & Interpolation Testleri â”€â”€
+  ✅ Map Engine â€” Cell write and read accuracy
+  ✅ Map Engine â€” Scale factors conversion logic
+  ✅ Map Engine â€” Invalid offset out-of-range bounds check
+  ✅ Map Engine â€” Transaction commits, rollbacks, and Undo/Redo integration
+  ✅ Interpolation â€” 4 neighbor bilinear cell weight sum equals exactly 1.0
+
+â”€â”€ AutoTune GÃ¼venlik Testleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  ✅ AutoTune â€” dÃ¼ÅŸÃ¼k ECT reddi
+  ✅ AutoTune â€” dÃ¼ÅŸÃ¼k batarya reddi
+  ✅ AutoTune â€” dÃ¼zeltme kÄ±rpma (Â±12%)
+
+── Faz 5: Checksum Engine & Safety Layer Testleri ──
+  ✅ Checksum â€” Stock ROM passes validation
+  ✅ Checksum â€” Corrupt byte fails validation
+  ✅ Checksum â€” Map change updates checksum successfully
+  ✅ Checksum â€” VerifyBeforeSave detects bad checksum and returns false
+  ✅ Checksum â€” Reloaded ROM checksum is valid
+  ✅ Checksum â€” Multiple regions validation is successful
+
+── ROM Patch Engine v2 Testleri ──
+  ✅ PatchEngine — Başarılı Yama Uygulama
+  ✅ PatchEngine — Yanlış ExpectedBytes Koruması
+  ✅ PatchEngine — Uyumsuz ECU Koruması
+  ✅ PatchEngine — ROM Boyut Limiti Koruması
+  ✅ PatchEngine — Yamayı Geri Alma (Rollback)
+  ✅ PatchEngine — İşlem (Transaction) Commit Entegrasyonu
+  ✅ PatchEngine — İşlem Geri Alma (Transaction Rollback)
+  ✅ PatchEngine — Otomatik Checksum Güncelleme
+  ✅ PatchEngine — Audit Loglama Kontrolü
+  ✅ PatchEngine — Profil Destekli Yamaları Bulma
+
+── Phase 7: Telemetry & Live Datalog Bus Engine Testleri ──
+  ✅ Telemetry - Event Bus Publish & Subscribe
+  ✅ Telemetry - Event Bus Metrics Kontrolü
+  ✅ Telemetry - Kanalsal Matematiksel Formül Çözümleme
+  ✅ Telemetry - Backpressure DropOldest Politikası
+  ✅ Telemetry - Backpressure DropNewest Politikası
+  ✅ Telemetry - Backpressure BlockPublisher Politikası
+  ✅ Telemetry - Yapılandırma Dosya İzleyicisi (Hot Reload)
+  ✅ Telemetry - Erişim Kontrolü Yetkilendirme Hiyerarşisi
+  ✅ Telemetry - SystemClock Monotonic Ticks
+  ✅ Telemetry - HighResolutionClock Performance Ticks
+  ✅ Telemetry - ReplayClock Geri Oynatıcı Zaman Akışı
+  ✅ Telemetry - Dairesel Bellek (RingBuffer) Kapasite Tanımı
+  ✅ Telemetry - RingBuffer Aşımında Overwrite (FIFO Overlay)
+  ✅ Telemetry - Moving Average Gürültü Azaltma Filtresi
+  ✅ Telemetry - Median (Ortanca) Filtreleme
+  ✅ Telemetry - LowPass Üstel Sinyal Yumuşatma
+  ✅ Telemetry - HighPass Dalgalanma Odaklı Sinyal Filtresi
+  ✅ Telemetry - MockProvider Canlı Veri Akış Simülasyonu
+  ✅ Telemetry - Sağlık İzleme (HealthMonitor) Parametreleri
+  ✅ Telemetry - HealthMonitor Bağlantı Kaybı Anomali Algılama
+  ✅ Telemetry - Analiz Hattı (AnalyzerPipeline) Sıralı Çalışma
+  ✅ Telemetry - Engine Profil Geçiş Yönetimi (Street -> Dyno)
+  ✅ Telemetry - Engine Canlı Datalogging Yaşam Döngüsü
+  ✅ Telemetry - GC Basıncını Azaltan Frame Nesne Havuzu
+  ✅ Telemetry - Salt-Okunur (Immutable) Snaphsot Yapısı
+  ✅ Telemetry - Multi-Thread Veri Giriş Stress Testi
+
+── Phase 8: AutoTune Closed Loop Engine Testleri ──
+  ✅ AutoTune - State transitions (Start, Pause, Resume, Stop) lifecycle verification
+  ✅ AutoTune - Confidence score calculation under low deviation is high
+  ✅ AutoTune - Confidence score calculation under high deviation is low
+  ✅ AutoTune - Stable window filter standard deviation and length checks
+  ✅ AutoTune - Config validator rejects JSON with missing target attributes
+  ✅ AutoTune - Config validator rejects out of bounds parameter variables
+  ✅ AutoTune - ParameterType safety enum structure check
+  ✅ AutoTune - Session manager multi session conflict prevention
+  ✅ AutoTune - Session manager releases lock and allows new allocation
+  ✅ AutoTune - Recovery manager logs interrupt trace successfully to file
+  ✅ AutoTune - Recovery manager restores trace and validates details
+  ✅ AutoTune - Diff engine returns detailed comparison matrix values
+  ✅ AutoTune - CSV Package export contains session identity and values
+  ✅ AutoTune - Replay simulator matches telemetry lists deterministically
+  ✅ AutoTune - SafetyRuleProvider loads dynamic rules successfully
+  ✅ AutoTune - QualityScoreCalculator rates stoichiometric history cleanly near 100
+  ✅ AutoTune - Telemetry loss pause and reconnect validation cycle
+  ✅ AutoTune - Domain event emitter publishes valid structured transition events
+  ✅ AutoTune - Calibration RTP stream publishing streams virtual changes
+  ✅ AutoTune - Replay validation checks run determinism bounds
+  ✅ AutoTune - Persistence layer correctly serializes state machine records and migrates schema V1 to V2
+  ✅ AutoTune - Query service retrieves session lists correctly
+  ✅ AutoTune - Command service issues control triggers successfully
+  ✅ AutoTune - Hardware checks and SafeMode blocks writing calibrations
+  ✅ AutoTune - Cell lock manager acquires, releases and traps conflicts
+
+── Faz 9: RTP Emulator & Real-Time Calibration Engine Testleri ──
+  ✅ RTP - Engine correctly registers and resolves from DI ServiceContainer
+  ✅ RTP - Connection state machine cycles correctly through all states
+  ✅ RTP - Transient write failures trigger automatic retries and recover successfully
+  ✅ RTP - Consecutive calibration edits coalesce into a single block write
+  ✅ RTP - Multi-threaded queue guarantees strict sequential write ordering
+  ✅ RTP - Execution latency benchmark tracking meets target limits
+  ✅ RTP - Engine sustains high-frequency (500+) update throughput stress
+  ✅ RTP - Background sync worker terminates cleanly on CancellationToken request
+  ✅ RTP - Hardware disconnect automatically halts sync and raises Faulted event
+  ✅ RTP - Enforces read-back verification after writing values to emulator
+  ✅ RTP - Idempotent synchronization ignores duplicate writes to target cells
+  ✅ RTP - Backpressure policy DropOldest purges oldest queued changes under load
+  ✅ RTP - Backpressure policy RejectNewest drops new updates under queue overflow
+  ✅ RTP - Backpressure policy BlockProducer controls producer rates correctly
+  ✅ RTP - Validation layer rejects bad config schema values at initialization
+  ✅ RTP - Restores un-synced calibration state queue records on startup
+  ✅ RTP - Synchronizes concurrently applied AutoTune decisions to hardware
+  ✅ TestMetadata_SerializationAndValidation
+  ✅ TestReverseEngineering_ExtractionAndDecompilation
+  ✅ TestAdvancedFuelCorrections
+  ❌ TestAdvancedIgnition_DecodingAndCalibration (CAN Decode Big Endian)
+
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  SONUÃ‡: 105 baÅŸarÄ±lÄ±, 1 baÅŸarÄ±sÄ±z
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+[16:56:05.646] [INFO] [Program] Örnek ROM test sonuçları:
+── Örnek ROM Test Çerçevesi ───────────────────
+  ✅ Checksum offset geçerli
+  ✅ Bozuk ROM reddedildi
+  ✅ Fuel map sınırları geçerli
+  ✅ Ignition map sınırları geçerli
+  ✅ Tüm profiller 32KB ROM boyutu
+
+  Sonuç: 5 geçti, 0 kaldı

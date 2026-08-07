@@ -1,0 +1,72 @@
+{
+    "SchemaVersion": "1.0.0",
+    "Profiles": [
+        {
+            "ProfileId": "Street",
+            "Name": "Street Tuning & Logging",
+            "Description": "Yol ayarları ve günlük datalogging için standart profil",
+            "EnabledChannels": [
+                "RPM",
+                "TPS",
+                "MAP",
+                "ECT",
+                "IAT",
+                "Battery",
+                "VehicleSpeed",
+                "AFR",
+                "Lambda",
+                "CalculatedLoad"
+            ]
+        },
+        {
+            "ProfileId": "Dyno",
+            "Name": "Dyno Calibration",
+            "Description": "Dyno üzerinde güç ölçümü ve avans/yakıt kalibrasyonu için yüksek hızlı profil",
+            "EnabledChannels": [
+                "RPM",
+                "TPS",
+                "MAP",
+                "InjectorDuty",
+                "IgnitionAdvance",
+                "AFR",
+                "KnockCount",
+                "Lambda",
+                "CalculatedLoad",
+                "AFRError"
+            ]
+        },
+        {
+            "ProfileId": "Racing",
+            "Name": "Track & Racing",
+            "Description": "Yarış pisti kullanımı için kritik ve hızlı motor verileri",
+            "EnabledChannels": [
+                "RPM",
+                "TPS",
+                "MAP",
+                "ECT",
+                "IAT",
+                "InjectorDuty",
+                "IgnitionAdvance",
+                "AFR",
+                "KnockCount"
+            ]
+        },
+        {
+            "ProfileId": "Diagnostics",
+            "Name": "Diagnostics & DTC Troubleshooting",
+            "Description": "Hata giderme ve sensör kontrolleri için tam profil",
+            "EnabledChannels": [
+                "RPM",
+                "TPS",
+                "MAP",
+                "ECT",
+                "IAT",
+                "Battery",
+                "VehicleSpeed",
+                "KnockCount",
+                "FuelTrimSTFT",
+                "FuelTrimLTFT"
+            ]
+        }
+    ]
+}

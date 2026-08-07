@@ -1,0 +1,47 @@
+[12:56:43.430] [INFO] [RomIdentifier] ECU Tanımlandı: P06 (Confidence: %45,7)
+[12:56:43.433] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[12:56:43.434] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_1 @ 0x000A
+[12:56:43.434] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_ROLLBACK @ 0x000A
+[12:56:43.435] [INFO] [RomPatchManager] Yama geri alındı: TEST_PATCH_ROLLBACK
+[12:56:43.436] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 240cc → 440cc (oran: 0,545)
+[12:56:43.436] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 440cc → 240cc (oran: 1,833)
+[12:56:43.452] [DEBUG] [AutoTuneValidator] Reddedildi [ECT_LOW]: Motor sıcaklığı düşük: 50°C < 72°C
+[12:56:43.452] [DEBUG] [AutoTuneValidator] Reddedildi [BATT_LOW]: Batarya düşük: 10,5V < 12V
+[12:56:43.454] [INFO] [TestHarness] Test tamamlandı: 9 geçti, 4 kaldı
+[12:56:43.455] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[12:56:43.455] [INFO] [Program] Test sonuçları:
+═══════════════════════════════════════════════
+  HONDATUNER — OTOMATİK TEST SÜİTİ
+═══════════════════════════════════════════════
+
+── ROM Testleri ──────────────────────────────
+  ✅ ROM Identifier — 32KB boş ROM tanıma
+  ✅ ROM Identifier — yanlış boyut reddi
+  ✅ ROM Patch — doğrulama ve uygulama
+  ✅ ROM Patch — rollback geri yükleme
+
+── Kalibrasyon Testleri ───────────────────────
+  ✅ Injector Scaling — 240→440cc
+  ✅ Injector Scaling — clamp to 255
+  ❌ Calibration Engine — Commit applies value to ROM buffer: Object reference not set to an instance of an object.
+  ❌ Calibration Engine — Rollback restores original values: Object reference not set to an instance of an object.
+  ❌ Calibration Engine — Undo/Redo failure: Object reference not set to an instance of an object.
+  ❌ Calibration Engine — Safety validator failure: Object reference not set to an instance of an object.
+
+── AutoTune Güvenlik Testleri ─────────────────
+  ✅ AutoTune — düşük ECT reddi
+  ✅ AutoTune — düşük batarya reddi
+  ✅ AutoTune — düzeltme kırpma (±12%)
+
+═══════════════════════════════════════════════
+  SONUÇ: 9 başarılı, 4 başarısız
+═══════════════════════════════════════════════
+[12:56:43.455] [INFO] [Program] Örnek ROM test sonuçları:
+── Örnek ROM Test Çerçevesi ───────────────────
+  ✅ Checksum offset geçerli
+  ✅ Bozuk ROM reddedildi
+  ✅ Fuel map sınırları geçerli
+  ✅ Ignition map sınırları geçerli
+  ✅ Tüm profiller 32KB ROM boyutu
+
+  Sonuç: 5 geçti, 0 kaldı

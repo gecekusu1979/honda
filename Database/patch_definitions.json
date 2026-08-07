@@ -1,0 +1,148 @@
+[
+    {
+        "PatchId": "LaunchControl",
+        "Name": "Launch Control (2-Step)",
+        "Description": "Araba dururken devir limitini ayarlar.",
+        "Category": "Control",
+        "CompatibleEcus": [
+            "P28",
+            "P30",
+            "P72"
+        ],
+        "RequiredFeatures": [
+            "LaunchControl"
+        ],
+        "AddressType": "ROM",
+        "Offset": 8112,
+        "ExpectedBytes": [
+            144,
+            144
+        ],
+        "PatchBytes": [
+            205,
+            25
+        ],
+        "RollbackBytes": [
+            144,
+            144
+        ],
+        "ChecksumRequired": true,
+        "SafetyLevel": "Caution",
+        "ValidationRules": [
+            "RequireExpectedBytes",
+            "RequireRomSize",
+            "RequireCompatibleEcu"
+        ],
+        "MinimumRomSize": 32768,
+        "MaximumRomSize": 32768,
+        "CreatedVersion": "2.0.0",
+        "LastUpdated": "2026-08-04"
+    },
+    {
+        "PatchId": "RevLimitPatch",
+        "Name": "Devir Limiti Yaması",
+        "Description": "Rev limit eşiğini ayarlar.",
+        "Category": "Safety",
+        "CompatibleEcus": [
+            "P28",
+            "P30"
+        ],
+        "RequiredFeatures": [
+            "RevLimiter"
+        ],
+        "AddressType": "ROM",
+        "Offset": 8106,
+        "ExpectedBytes": [
+            28,
+            32
+        ],
+        "PatchBytes": [
+            32,
+            28
+        ],
+        "RollbackBytes": [
+            28,
+            32
+        ],
+        "ChecksumRequired": true,
+        "SafetyLevel": "Caution",
+        "ValidationRules": [
+            "RequireExpectedBytes",
+            "RequireRomSize"
+        ],
+        "MinimumRomSize": 32768,
+        "MaximumRomSize": 32768,
+        "CreatedVersion": "2.0.0",
+        "LastUpdated": "2026-08-04"
+    },
+    {
+        "PatchId": "SpeedLimiterPatch",
+        "Name": "Hız Limiti Kaldırma",
+        "Description": "Maksimum hız limitini bypass eder.",
+        "Category": "Safety",
+        "CompatibleEcus": [
+            "P28"
+        ],
+        "RequiredFeatures": [
+            "SpeedLimiter"
+        ],
+        "AddressType": "ROM",
+        "Offset": 8108,
+        "ExpectedBytes": [
+            180,
+            0
+        ],
+        "PatchBytes": [
+            255,
+            255
+        ],
+        "RollbackBytes": [
+            180,
+            0
+        ],
+        "ChecksumRequired": true,
+        "SafetyLevel": "Caution",
+        "ValidationRules": [
+            "RequireExpectedBytes"
+        ],
+        "MinimumRomSize": 32768,
+        "MaximumRomSize": 32768,
+        "CreatedVersion": "2.0.0",
+        "LastUpdated": "2026-08-04"
+    },
+    {
+        "PatchId": "DtcBypassPatch",
+        "Name": "DTC Vuruntu Bypass",
+        "Description": "Knock sensör CEL kodunu devre dışı bırakır.",
+        "Category": "DTC",
+        "CompatibleEcus": [
+            "P28"
+        ],
+        "RequiredFeatures": [
+            "DtcBypass"
+        ],
+        "AddressType": "ROM",
+        "Offset": 8118,
+        "ExpectedBytes": [
+            1,
+            2
+        ],
+        "PatchBytes": [
+            0,
+            0
+        ],
+        "RollbackBytes": [
+            1,
+            2
+        ],
+        "ChecksumRequired": true,
+        "SafetyLevel": "Safe",
+        "ValidationRules": [
+            "RequireExpectedBytes"
+        ],
+        "MinimumRomSize": 32768,
+        "MaximumRomSize": 32768,
+        "CreatedVersion": "2.0.0",
+        "LastUpdated": "2026-08-04"
+    }
+]

@@ -1,0 +1,970 @@
+[04:40:03.021] [INFO] [RomIdentifier] ECU Tanımlandı: P06 (Confidence: %45,7)
+[04:40:03.024] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[04:40:03.025] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_1 @ 0x000A
+[04:40:03.026] [INFO] [RomPatchManager] Yama uygulandı: TEST_PATCH_ROLLBACK @ 0x000A
+[04:40:03.026] [INFO] [RomPatchManager] Yama geri alındı: TEST_PATCH_ROLLBACK
+[04:40:03.027] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 240cc → 440cc (oran: 0,545)
+[04:40:03.027] [INFO] [InjectorManager] Fuel haritası ölçeklendi: 440cc → 240cc (oran: 1,833)
+[04:40:03.094] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[04:40:03.095] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 60]
+[04:40:03.096] [INFO] [CalibrationManager] Değişiklik kaydedildi: Fuel Cell [0,0] [50 -> 75]
+[04:40:03.104] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [4,5] [0 -> 123]
+[04:40:03.113] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [0,0] [0 -> 125]
+[04:40:03.121] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [1,1] [0 -> 150]
+[04:40:03.130] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelMapTest Hücre [1,1] [0 -> 150]
+[04:40:03.138] [DEBUG] [AutoTuneValidator] Reddedildi [ECT_LOW]: Motor sıcaklığı düşük: 50°C < 72°C
+[04:40:03.139] [DEBUG] [AutoTuneValidator] Reddedildi [BATT_LOW]: Batarya düşük: 10,5V < 12V
+[04:40:03.209] [INFO] [EcuDatabaseManager] Toplam 8 dinamik ECU profili yüklendi.
+[04:40:03.225] [INFO] [ChecksumTest] [TRACE-1] romBuffer[0]=00
+[04:40:03.234] [INFO] [ChecksumTest] [TRACE-2] tempFile[0]=00
+[04:40:03.235] [INFO] [ChecksumTest] [TRACE-3] loadedBuffer[0]=00
+[04:40:03.235] [INFO] [ChecksumTest] [TRACE-4] beforeSaveBuffer[0]=00
+[04:40:03.238] [INFO] [ChecksumTest] [TRACE-5] afterSaveParserBuffer[0]=00
+[04:40:03.247] [INFO] [ChecksumTest] [TRACE-6] reloadedFile[0]=00
+[04:40:04.968] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:04.968] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 1b72a2c0-2db1-43e6-99d8-144f5a75dd6a)
+[04:40:04.969] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 1b72a2c0-2db1-43e6-99d8-144f5a75dd6a
+[04:40:04.970] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionPaused (Oturum: 1b72a2c0-2db1-43e6-99d8-144f5a75dd6a)
+[04:40:04.970] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionResumed (Oturum: 1b72a2c0-2db1-43e6-99d8-144f5a75dd6a)
+[04:40:04.970] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 1b72a2c0-2db1-43e6-99d8-144f5a75dd6a)
+[04:40:04.997] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: TX-TEMP
+[04:40:05.007] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:05.009] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: TX-TEMP2
+[04:40:05.015] [INFO] [CalibrationRecoveryManager] Yarım kalmış işlem geri yükleniyor: TX-TEMP2
+[04:40:05.016] [INFO] [CalibrationSnapshotManager] Snapshot geri yükleniyor: SNAP-TEMP2, Kurtarılacak hücre: 1
+[04:40:05.016] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:05.020] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:05.020] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 858915eb-c479-4085-a999-5d43bf3aacaa)
+[04:40:05.021] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 858915eb-c479-4085-a999-5d43bf3aacaa
+[04:40:05.021] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionPaused (Oturum: 858915eb-c479-4085-a999-5d43bf3aacaa)
+[04:40:05.021] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionResumed (Oturum: 858915eb-c479-4085-a999-5d43bf3aacaa)
+[04:40:05.022] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 858915eb-c479-4085-a999-5d43bf3aacaa)
+[04:40:05.022] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:05.022] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 4dfef5a7-8918-4233-bebe-633096170bd2)
+[04:40:05.023] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 4dfef5a7-8918-4233-bebe-633096170bd2
+[04:40:05.023] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 4dfef5a7-8918-4233-bebe-633096170bd2)
+[04:40:05.023] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:05.023] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.024] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b
+[04:40:05.024] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.029] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.031] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[04:40:05.032] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.032] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:05.033] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.033] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:05.034] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.034] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:05.034] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.034] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.035] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[04:40:05.035] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.035] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:05.036] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.036] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:05.036] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.036] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:05.036] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.036] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.037] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[04:40:05.037] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.037] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:05.037] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.037] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:05.037] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.038] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:05.038] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.038] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.038] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[04:40:05.038] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.038] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:05.039] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.039] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:05.039] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.039] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:05.039] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.039] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.039] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[04:40:05.040] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.040] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:05.040] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.040] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:05.040] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.040] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:05.040] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.041] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.041] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Fuel adres: FuelVETable[3,4]
+[04:40:05.041] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.041] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:05.041] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.041] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:05.041] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.041] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:05.042] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 52cbe1b8-085a-4795-afa3-e12eb8b7b47b)
+[04:40:05.046] [INFO] [AdaptiveMemory] V1 hafıza verisi V2 şemasına başarıyla taşındı. Toplam kayıt: 1
+[04:40:05.046] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:05.047] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 49df5771-56ae-429f-8592-138e453f55c4)
+[04:40:05.047] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 49df5771-56ae-429f-8592-138e453f55c4
+[04:40:05.047] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 49df5771-56ae-429f-8592-138e453f55c4)
+[04:40:05.047] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:05.048] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 57accd9e-f44d-4053-a683-419d9c09caba)
+[04:40:05.048] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 57accd9e-f44d-4053-a683-419d9c09caba
+[04:40:05.048] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 57accd9e-f44d-4053-a683-419d9c09caba)
+[04:40:05.050] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:05.050] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:05.050] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:05.051] [INFO] [RtpCalibrationEngine] Real-time synchronization paused.
+[04:40:05.051] [INFO] [RtpCalibrationEngine] RTP Emulator disconnected.
+[04:40:05.052] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:05.052] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:05.052] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:05.054] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 99]
+[04:40:05.261] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:05.261] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:05.263] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 10]
+[04:40:05.264] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 11]
+[04:40:05.270] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 12]
+[04:40:05.270] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:05.478] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:05.478] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:05.480] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[04:40:05.490] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[04:40:05.492] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[04:40:05.492] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:05.703] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:05.703] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:05.704] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:05.708] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 45]
+[04:40:05.918] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:05.918] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:05.919] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:05.923] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.925] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.927] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.938] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.944] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[04:40:05.946] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.949] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.964] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.966] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.969] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.971] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.973] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.975] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.978] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.980] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.982] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.984] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.992] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.994] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.996] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:05.998] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.001] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.003] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.005] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.008] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.010] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.012] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.015] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.017] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.019] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.021] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.024] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.031] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[04:40:06.032] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.034] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.036] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.050] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.053] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.056] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.065] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[04:40:06.066] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.069] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.072] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.075] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.079] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.081] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.083] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.085] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.088] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.090] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.092] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.094] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.096] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.099] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.101] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.103] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.105] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.107] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.109] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.111] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.113] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.115] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.118] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.120] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.130] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[04:40:06.130] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.132] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.135] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.137] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.139] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.141] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.143] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.145] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.147] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.149] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.151] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.154] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.156] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.158] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.160] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.162] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.164] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.166] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.169] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.170] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.173] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.175] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.177] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.179] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.192] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.195] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.197] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.200] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.202] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.204] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.206] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.208] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.210] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.213] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.215] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.217] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.219] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.222] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.224] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.226] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.229] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.231] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.233] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.236] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.238] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.240] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.243] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.245] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.247] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.249] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.251] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.254] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.256] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.258] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.261] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.263] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.266] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.268] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.270] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.273] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.275] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.278] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.281] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.285] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.287] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.290] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.292] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.294] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.296] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.298] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.301] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.303] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.306] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.308] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.310] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.313] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.315] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.318] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.320] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.322] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.324] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.327] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.330] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.333] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.336] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.339] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.342] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.344] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.350] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.353] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.356] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.358] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.361] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.363] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.366] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.369] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.371] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.374] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.377] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.379] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.382] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.385] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.388] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.391] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.393] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.396] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.399] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.401] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.404] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.407] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.410] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.412] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.415] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.418] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.421] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.424] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.426] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.428] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.430] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.433] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.436] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.439] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.441] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.444] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.446] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.449] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.451] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.454] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.456] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.459] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.461] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.464] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.467] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.470] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.472] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.475] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.477] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.480] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.482] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.485] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.488] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.492] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.496] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.499] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.502] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.505] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.508] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.511] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.513] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.523] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.535] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.538] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.542] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.544] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.547] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.550] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.553] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.555] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.558] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.560] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.563] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.565] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.568] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.571] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.574] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.577] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.580] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.582] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.586] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.589] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.594] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.597] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.600] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.602] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.605] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.608] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.611] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.615] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.618] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.621] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.625] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.630] [WARNING] [RtpCalibrationEngine] Could not save persistent sync queue: The process cannot access the file 'C:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\bin\Debug\net6.0-windows\Database\pending_rtp_queue.json' because it is being used by another process.
+[04:40:06.631] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.633] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.638] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.641] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.644] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.647] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.649] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.667] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.671] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.673] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.675] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.678] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.681] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.684] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.686] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.689] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.691] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.695] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.713] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.718] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.720] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.723] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.726] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.729] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.731] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.734] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.737] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.740] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.743] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.746] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.749] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.752] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.754] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.758] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.761] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.764] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.767] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.769] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.773] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.776] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.779] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.781] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.784] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.788] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.790] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.794] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.796] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.801] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.806] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.809] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.811] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.814] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.817] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.820] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.823] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.828] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.832] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.835] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.838] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.841] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.844] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.847] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.850] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.852] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.856] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.860] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.863] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.865] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.868] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.871] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.874] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.878] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.882] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.885] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.888] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.891] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.894] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.896] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.900] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.902] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.906] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.909] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.911] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.914] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.917] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.920] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.923] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.926] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.929] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.932] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.935] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.938] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.941] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.944] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.947] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.951] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.954] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.957] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.960] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.963] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.966] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.969] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.972] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.974] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.977] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.980] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.983] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.985] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.988] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.991] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.994] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:06.997] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.001] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.004] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.007] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.010] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.013] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.017] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.020] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.023] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.026] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.028] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.031] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.034] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.037] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.039] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.042] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.045] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.048] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.051] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.054] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.057] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.060] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.063] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.067] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.070] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.074] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.078] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.084] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.087] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.090] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.094] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.097] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.100] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.103] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.107] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.109] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.113] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.116] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.119] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.122] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.125] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.128] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.132] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.135] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.138] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.141] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.145] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.169] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.172] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.175] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.178] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.187] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.190] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.193] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.196] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.200] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.203] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.206] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.211] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.214] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.217] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.220] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.223] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.227] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.230] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.233] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.238] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.241] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.244] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.247] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.250] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.253] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.257] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.260] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.264] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.267] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.270] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.273] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.276] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.279] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.284] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.287] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.290] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.294] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.298] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.301] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.304] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.306] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.309] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.312] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.315] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.317] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.320] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.324] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.327] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.330] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.334] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.337] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.340] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.343] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.346] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.350] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.355] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.358] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.361] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.365] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.368] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.371] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.375] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.378] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.382] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.385] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.388] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.392] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.395] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.399] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.402] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.405] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.409] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.414] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.417] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.420] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.423] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.426] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.430] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.433] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.436] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.439] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.443] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.445] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.448] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.451] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.454] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.458] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.461] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.466] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.470] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.473] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.477] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.480] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.483] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.487] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.490] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.493] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.496] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.498] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.501] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:07.908] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:07.908] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:07.908] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:07.909] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:07.910] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:07.910] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:07.914] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 55]
+[04:40:07.998] [ERROR] [RtpCalibrationEngine] Batch write execution failed: Batch block verification write failed: Simulated block write exception
+[04:40:08.125] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:08.126] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:08.127] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:08.133] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 88]
+[04:40:08.218] [ERROR] [RtpCalibrationEngine] Batch write execution failed: Batch block verification write failed: Batch block verify mismatch at relative index 0. Expected: 88, Actual: 167
+[04:40:08.343] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:08.343] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:08.344] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:08.348] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 22]
+[04:40:08.467] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 22]
+[04:40:08.589] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 0]
+[04:40:08.599] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[04:40:08.608] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[04:40:08.617] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[04:40:08.626] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 4]
+[04:40:08.664] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:08.674] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 6]
+[04:40:08.699] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 0]
+[04:40:08.710] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[04:40:08.722] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[04:40:08.732] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[04:40:08.743] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 4]
+[04:40:08.754] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:08.759] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 6]
+[04:40:08.772] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 0]
+[04:40:08.781] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 1]
+[04:40:08.791] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 2]
+[04:40:08.801] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 3]
+[04:40:08.810] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 4]
+[04:40:08.930] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 5]
+[04:40:09.038] [INFO] [CalibrationManager] Değişiklik kaydedildi:  [ -> 6]
+[04:40:09.050] [ERROR] [RtpCalibrationEngine] RTP Configuration validation failed: Retry count must be between 0 and 10. (Parameter 'RetryCount')
+[04:40:09.066] [INFO] [RtpCalibrationEngine] Recovered 1 pending changes from persistent queue on disk.
+[04:40:09.105] [INFO] [RtpCalibrationEngine] Connecting to RTP emulator...
+[04:40:09.105] [INFO] [RtpCalibrationEngine] RTP emulator connected successfully.
+[04:40:09.105] [INFO] [RtpCalibrationEngine] Real-time synchronization active.
+[04:40:09.114] [INFO] [AutoTuneSafetyManager] Güvenlik limitleri yüklendi. Etkin kural sayısı: 4
+[04:40:09.115] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.115] [INFO] [AutoTuneEngine] Oturum başarıyla başlatıldı: 62e2359e-e428-4e9f-8188-ad307586b634
+[04:40:09.256] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.257] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.257] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.259] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 4578319b-0e66-47d2-bc2d-d956c92e7b2a, Hücre sayısı: 1
+[04:40:09.261] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: bad8251f-1c33-4685-b183-c6ab57780dc0
+[04:40:09.266] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [0 -> 15]
+[04:40:09.268] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.268] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:09.270] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.270] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.270] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: d95dcbff-5599-4de2-adcc-b82cecdb64fc, Hücre sayısı: 1
+[04:40:09.273] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: ac590079-41b8-4953-a30b-e7a622a058d0
+[04:40:09.278] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[04:40:09.279] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.279] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:09.280] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.280] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.280] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 9b5b57f1-65f7-45d3-95d7-de0360a6a8a1, Hücre sayısı: 1
+[04:40:09.283] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: d07b2267-395a-468d-8f1e-99b63ee4ad10
+[04:40:09.286] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[04:40:09.288] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.288] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:09.288] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.303] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.304] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.304] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.304] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 26687e40-c93d-4f03-941d-9f5c969984bf, Hücre sayısı: 1
+[04:40:09.307] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 2592da05-7e6a-4883-92b3-d483e5ecd87f
+[04:40:09.310] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[04:40:09.311] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.312] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:09.312] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.312] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.313] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 8cc879f2-d415-4680-9d75-5f5e75ba3937, Hücre sayısı: 1
+[04:40:09.315] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: ce285202-7631-41a1-8f3c-c11ff8fdb904
+[04:40:09.318] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[04:40:09.320] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.320] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:09.321] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.321] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.321] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 15b6fa34-c1a9-4783-99a1-c8c2bd5b2554, Hücre sayısı: 1
+[04:40:09.324] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: bc0ecca7-783d-40a6-8b43-21931dfdcb7e
+[04:40:09.327] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[04:40:09.328] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.328] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:09.330] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.350] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.350] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.351] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.351] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 620786d9-1397-4efd-aaa5-ac99f480951e, Hücre sayısı: 1
+[04:40:09.354] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 0476ceaa-dd2b-4663-9711-ee938bb86f82
+[04:40:09.357] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[04:40:09.358] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.358] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:09.359] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.359] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.359] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 314c9835-2405-4353-a110-77ff4fbeef0e, Hücre sayısı: 1
+[04:40:09.361] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 87db1721-e538-454b-a8de-d14d4ec0f364
+[04:40:09.364] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[04:40:09.366] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.366] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:09.367] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.367] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.367] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 63b5c87e-1f66-40fe-86b9-967f9763ad3b, Hücre sayısı: 1
+[04:40:09.370] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: c7375c26-97f0-4570-9eba-9be5bdb5e279
+[04:40:09.373] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[04:40:09.374] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.374] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:09.375] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.396] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.397] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.397] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.397] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: f879d9de-72dd-42c3-b4bd-78736e041308, Hücre sayısı: 1
+[04:40:09.398] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 6b160312-e08b-4e5d-b00d-c353603ed0f9
+[04:40:09.404] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[04:40:09.405] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.405] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:09.406] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.406] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.407] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 90db5113-243b-46c6-8f44-9c93ad9667a5, Hücre sayısı: 1
+[04:40:09.409] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 008a6aed-3038-4149-840a-20c1338d7eb8
+[04:40:09.412] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[04:40:09.414] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.414] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:09.414] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.415] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.415] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 99821586-6d7d-4687-9853-763220173fd3, Hücre sayısı: 1
+[04:40:09.417] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 26dabd0a-e074-4996-af48-63a0727fbbb9
+[04:40:09.421] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[04:40:09.422] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.423] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:09.423] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.444] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.444] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.445] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.445] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 505fa6c1-1fd1-4eb0-8ef3-4d779fb141c5, Hücre sayısı: 1
+[04:40:09.448] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 5fcb1188-5131-471c-a84d-6d1e2f8ace3a
+[04:40:09.451] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[04:40:09.452] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.453] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:09.453] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.453] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.454] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: b5c15f87-c5e1-467d-964c-e9cc9c875dc5, Hücre sayısı: 1
+[04:40:09.456] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 6d0102fe-351a-4950-93f2-31b4f3b52db8
+[04:40:09.459] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[04:40:09.461] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.461] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:09.461] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.461] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.462] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 4e65a502-e213-4c17-bbc0-df5660bb0b2e, Hücre sayısı: 1
+[04:40:09.464] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 2ffb4567-6b9e-4faf-8cc4-10d7edbe171d
+[04:40:09.468] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[04:40:09.469] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.469] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:09.470] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.490] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: TelemetryWindowAccepted (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.491] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SafetyViolation (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.491] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.492] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 54b810f3-d5c4-4f70-8c37-133276452c34, Hücre sayısı: 1
+[04:40:09.494] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: cdd16418-09f6-468e-b4a9-3eaf6df38aa5
+[04:40:09.498] [INFO] [CalibrationManager] Değişiklik kaydedildi: AFRTargetTable Hücre [3,4] [60 -> 15]
+[04:40:09.499] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.500] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Lambda adres: AFRTargetTable[3,4]
+[04:40:09.500] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.501] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.501] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 8427cd77-3ae1-4317-9246-b6dde6832921, Hücre sayısı: 1
+[04:40:09.503] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: aff780d7-bfdf-4b10-b39a-da273263f21b
+[04:40:09.521] [INFO] [CalibrationManager] Değişiklik kaydedildi: IgnitionTable Hücre [3,4] [15 -> 16]
+[04:40:09.523] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.523] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: Ignition adres: IgnitionTable[3,4]
+[04:40:09.523] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.524] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: DecisionCreated (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.524] [INFO] [CalibrationSnapshotManager] Snapshot oluşturuldu: 3887676f-6492-45ab-9c1c-c1e2fd25b7bd, Hücre sayısı: 1
+[04:40:09.527] [INFO] [CalibrationRecoveryManager] Bekleyen işlem kaydedildi: 7f2d4f10-e2a0-4d33-a5e7-a5141471da11
+[04:40:09.531] [INFO] [CalibrationManager] Değişiklik kaydedildi: FuelVETable Hücre [3,4] [16 -> 60]
+[04:40:09.532] [INFO] [CalibrationRecoveryManager] Bekleyen işlem temizlendi (başarılı commit).
+[04:40:09.532] [INFO] [CalibrationStreamPublisher] Uygulanan değişiklik yayınlandı: VE adres: FuelVETable[3,4]
+[04:40:09.532] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: MapChangeApplied (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.864] [INFO] [AutoTuneEventPublisher] Domain olayı yayınlandı: SessionStopped (Oturum: 62e2359e-e428-4e9f-8188-ad307586b634)
+[04:40:09.866] [INFO] [TestHarness] Test tamamlandÄ±: 93 geÃ§ti, 9 kaldÄ±
+[04:40:09.867] [WARNING] [RomIdentifier] ROM imzası hiçbir ECU profiliyle eşleşmedi.
+[04:40:09.868] [INFO] [Program] Test sonuçları:
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  HONDATUNER â€” OTOMATÄ°K TEST SÃœÄ°TÄ°
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+â”€â”€ ROM Testleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  âœ… ROM Identifier â€” 32KB boÅŸ ROM tanÄ±ma
+  âœ… ROM Identifier â€” yanlÄ±ÅŸ boyut reddi
+  âœ… ROM Patch â€” doÄŸrulama ve uygulama
+  âœ… ROM Patch â€” rollback geri yÃ¼kleme
+
+â”€â”€ Kalibrasyon Testleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  âœ… Injector Scaling â€” 240â†’440cc
+  âœ… Injector Scaling â€” clamp to 255
+  âœ… Calibration Engine â€” Commit applies value to ROM buffer
+  âœ… Calibration Engine â€” Rollback restores original values in ROM buffer
+  âœ… Calibration Engine â€” Undo and Redo states are fully synchronized
+  âœ… Calibration Engine â€” Safety validator rejects OOR Rev Limit changes
+
+â”€â”€ Faz 4: Map Engine & Interpolation Testleri â”€â”€
+  âœ… Map Engine â€” Cell write and read accuracy
+  âœ… Map Engine â€” Scale factors conversion logic
+  âœ… Map Engine â€” Invalid offset out-of-range bounds check
+  âœ… Map Engine â€” Transaction commits, rollbacks, and Undo/Redo integration
+  âœ… Interpolation â€” 4 neighbor bilinear cell weight sum equals exactly 1.0
+
+â”€â”€ AutoTune GÃ¼venlik Testleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  âœ… AutoTune â€” dÃ¼ÅŸÃ¼k ECT reddi
+  âœ… AutoTune â€” dÃ¼ÅŸÃ¼k batarya reddi
+  âœ… AutoTune â€” dÃ¼zeltme kÄ±rpma (Â±12%)
+
+── Faz 5: Checksum Engine & Safety Layer Testleri ──
+  âœ… Checksum â€” Stock ROM passes validation
+  âœ… Checksum â€” Corrupt byte fails validation
+  âœ… Checksum â€” Map change updates checksum successfully
+  âœ… Checksum â€” VerifyBeforeSave detects bad checksum and returns false
+  âœ… Checksum â€” Reloaded ROM checksum is valid
+  âœ… Checksum â€” Multiple regions validation is successful
+
+── ROM Patch Engine v2 Testleri ──
+  âŒ PatchEngine — Başarılı Yama Uygulama (Hata: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âŒ PatchEngine — Yanlış ExpectedBytes Koruması (Hata: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âŒ PatchEngine — Uyumsuz ECU Koruması (Hata: Yama tanımları arasında 'SpeedLimiterPatch' bulunamadı.)
+  âŒ PatchEngine — ROM Boyut Limiti Koruması (Hata: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âŒ PatchEngine — Yamayı Geri Alma (Rollback) (Apply Hata: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âŒ PatchEngine — İşlem (Transaction) Commit Entegrasyonu (Hata: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âœ… PatchEngine — İşlem Geri Alma (Transaction Rollback)
+  âŒ PatchEngine — Otomatik Checksum Güncelleme (Hata: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âŒ PatchEngine — Audit Loglama Kontrolü (Hata: logs=LaunchControl:FAILED: Yama tanımları arasında 'LaunchControl' bulunamadı.)
+  âŒ PatchEngine — Profil Destekli Yamaları Bulma
+
+── Phase 7: Telemetry & Live Datalog Bus Engine Testleri ──
+  âœ… Telemetry - Event Bus Publish & Subscribe
+  âœ… Telemetry - Event Bus Metrics Kontrolü
+  âœ… Telemetry - Kanalsal Matematiksel Formül Çözümleme
+  âœ… Telemetry - Backpressure DropOldest Politikası
+  âœ… Telemetry - Backpressure DropNewest Politikası
+  âœ… Telemetry - Backpressure BlockPublisher Politikası
+  âœ… Telemetry - Yapılandırma Dosya İzleyicisi (Hot Reload)
+  âœ… Telemetry - Erişim Kontrolü Yetkilendirme Hiyerarşisi
+  âœ… Telemetry - SystemClock Monotonic Ticks
+  âœ… Telemetry - HighResolutionClock Performance Ticks
+  âœ… Telemetry - ReplayClock Geri Oynatıcı Zaman Akışı
+  âœ… Telemetry - Dairesel Bellek (RingBuffer) Kapasite Tanımı
+  âœ… Telemetry - RingBuffer Aşımında Overwrite (FIFO Overlay)
+  âœ… Telemetry - Moving Average Gürültü Azaltma Filtresi
+  âœ… Telemetry - Median (Ortanca) Filtreleme
+  âœ… Telemetry - LowPass Üstel Sinyal Yumuşatma
+  âœ… Telemetry - HighPass Dalgalanma Odaklı Sinyal Filtresi
+  âœ… Telemetry - MockProvider Canlı Veri Akış Simülasyonu
+  âœ… Telemetry - Sağlık İzleme (HealthMonitor) Parametreleri
+  âœ… Telemetry - HealthMonitor Bağlantı Kaybı Anomali Algılama
+  âœ… Telemetry - Analiz Hattı (AnalyzerPipeline) Sıralı Çalışma
+  âœ… Telemetry - Engine Profil Geçiş Yönetimi (Street -> Dyno)
+  âœ… Telemetry - Engine Canlı Datalogging Yaşam Döngüsü
+  âœ… Telemetry - GC Basıncını Azaltan Frame Nesne Havuzu
+  âœ… Telemetry - Salt-Okunur (Immutable) Snaphsot Yapısı
+  âœ… Telemetry - Multi-Thread Veri Giriş Stress Testi
+
+── Phase 8: AutoTune Closed Loop Engine Testleri ──
+  âœ… AutoTune - State transitions (Start, Pause, Resume, Stop) lifecycle verification
+  âœ… AutoTune - Confidence score calculation under low deviation is high
+  âœ… AutoTune - Confidence score calculation under high deviation is low
+  âœ… AutoTune - Stable window filter standard deviation and length checks
+  âœ… AutoTune - Config validator rejects JSON with missing target attributes
+  âœ… AutoTune - Config validator rejects out of bounds parameter variables
+  âœ… AutoTune - ParameterType safety enum structure check
+  âœ… AutoTune - Session manager multi session conflict prevention
+  âœ… AutoTune - Session manager releases lock and allows new allocation
+  âœ… AutoTune - Recovery manager logs interrupt trace successfully to file
+  âœ… AutoTune - Recovery manager restores trace and validates details
+  âœ… AutoTune - Diff engine returns detailed comparison matrix values
+  âœ… AutoTune - CSV Package export contains session identity and values
+  âœ… AutoTune - Replay simulator matches telemetry lists deterministically
+  âœ… AutoTune - SafetyRuleProvider loads dynamic rules successfully
+  âœ… AutoTune - QualityScoreCalculator rates stoichiometric history cleanly near 100
+  âœ… AutoTune - Telemetry loss pause and reconnect validation cycle
+  âœ… AutoTune - Domain event emitter publishes valid structured transition events
+  âœ… AutoTune - Calibration RTP stream publishing streams virtual changes
+  âœ… AutoTune - Replay validation checks run determinism bounds
+  âœ… AutoTune - Persistence layer correctly serializes state machine records and migrates schema V1 to V2
+  âœ… AutoTune - Query service retrieves session lists correctly
+  âœ… AutoTune - Command service issues control triggers successfully
+  âœ… AutoTune - Hardware checks and SafeMode blocks writing calibrations
+  âœ… AutoTune - Cell lock manager acquires, releases and traps conflicts
+
+── Faz 9: RTP Emulator & Real-Time Calibration Engine Testleri ──
+  âœ… RTP - Engine correctly registers and resolves from DI ServiceContainer
+  âœ… RTP - Connection state machine cycles correctly through all states
+  âœ… RTP - Transient write failures trigger automatic retries and recover successfully
+  âœ… RTP - Consecutive calibration edits coalesce into a single block write
+  âœ… RTP - Multi-threaded queue guarantees strict sequential write ordering
+  âœ… RTP - Execution latency benchmark tracking meets target limits
+  âœ… RTP - Engine sustains high-frequency (500+) update throughput stress
+  âœ… RTP - Background sync worker terminates cleanly on CancellationToken request
+  âœ… RTP - Hardware disconnect automatically halts sync and raises Faulted event
+  âœ… RTP - Enforces read-back verification after writing values to emulator
+  âœ… RTP - Idempotent synchronization ignores duplicate writes to target cells
+  âœ… RTP - Backpressure policy DropOldest purges oldest queued changes under load
+  âœ… RTP - Backpressure policy RejectNewest drops new updates under queue overflow
+  âœ… RTP - Backpressure policy BlockProducer controls producer rates correctly
+  âœ… RTP - Validation layer rejects bad config schema values at initialization
+  âœ… RTP - Restores un-synced calibration state queue records on startup
+  âœ… RTP - Synchronizes concurrently applied AutoTune decisions to hardware
+
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  SONUÃ‡: 93 baÅŸarÄ±lÄ±, 9 baÅŸarÄ±sÄ±z
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+[04:40:09.869] [INFO] [Program] Örnek ROM test sonuçları:
+── Örnek ROM Test Çerçevesi ───────────────────
+  ✅ Checksum offset geçerli
+  ✅ Bozuk ROM reddedildi
+  ✅ Fuel map sınırları geçerli
+  ✅ Ignition map sınırları geçerli
+  ✅ Tüm profiller 32KB ROM boyutu
+
+  Sonuç: 5 geçti, 0 kaldı

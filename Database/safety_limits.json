@@ -1,0 +1,9 @@
+{
+    "MaxAFRError": 4.0,
+    "MaxFuelCorrection": 20.0,
+    "MaxIgnitionDelta": 5.0,
+    "MaxKnockCount": 3,
+    "MaxECT": 105.0,
+    "MinVoltage": 11.5,
+    "MaxLatencyMs": 150
+}

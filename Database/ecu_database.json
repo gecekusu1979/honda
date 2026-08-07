@@ -1,0 +1,388 @@
+[
+    {
+        "EcuCode": "P05",
+        "EngineCode": "D15Z1",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 8000,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": true,
+            "iab": false,
+            "launchControl": false
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            2,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P05",
+        "SupportedFeatures": [
+            "VtecControl",
+            "RevLimiter",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    },
+    {
+        "EcuCode": "P06",
+        "EngineCode": "D15B7",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 0,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": false,
+            "iab": false,
+            "launchControl": false
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            3,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P06",
+        "SupportedFeatures": [
+            "RevLimiter",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    },
+    {
+        "EcuCode": "P28",
+        "EngineCode": "D16Z6",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 8000,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": true,
+            "iab": false,
+            "launchControl": true
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "Checksums": [
+            {
+                "ChecksumType": "Main",
+                "Algorithm": "Xor8",
+                "Address": "0x7FFF",
+                "Size": 1,
+                "RangeStart": "0x0000",
+                "RangeEnd": "0x7FFE",
+                "ByteOrder": "LittleEndian"
+            }
+        ],
+        "SignatureBytes": [
+            1,
+            4,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P28",
+        "SupportedFeatures": [
+            "VtecControl",
+            "RevLimiter",
+            "SpeedLimiter",
+            "LaunchControl",
+            "DtcBypass",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ],
+        "SupportedPatches": [
+            {
+                "PatchId": "LaunchControl",
+                "Offset": "0x1FB0",
+                "RequiredFeature": "LaunchControl"
+            },
+            {
+                "PatchId": "RevLimitPatch",
+                "Offset": "0x1FAA",
+                "RequiredFeature": "RevLimiter"
+            },
+            {
+                "PatchId": "SpeedLimiterPatch",
+                "Offset": "0x1FAC",
+                "RequiredFeature": "SpeedLimiter"
+            },
+            {
+                "PatchId": "DtcBypassPatch",
+                "Offset": "0x1FB6",
+                "RequiredFeature": "DtcBypass"
+            }
+        ],
+        "Maps": [
+            {
+                "Name": "Fuel",
+                "Offset": "0x1D40",
+                "Rows": 16,
+                "Columns": 16,
+                "Scale": 0.1,
+                "Unit": "Percent"
+            },
+            {
+                "Name": "Ignition",
+                "Offset": "0x1E40",
+                "Rows": 16,
+                "Columns": 16,
+                "Scale": 0.25,
+                "Unit": "Degrees"
+            }
+        ]
+    },
+    {
+        "EcuCode": "P30",
+        "EngineCode": "D15B2",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 0,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": false,
+            "iab": false,
+            "launchControl": false
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            5,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P30",
+        "SupportedFeatures": [
+            "RevLimiter",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    },
+    {
+        "EcuCode": "P61",
+        "EngineCode": "B17A1",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 8000,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": true,
+            "iab": false,
+            "launchControl": true
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            6,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P61",
+        "SupportedFeatures": [
+            "VtecControl",
+            "RevLimiter",
+            "SpeedLimiter",
+            "LaunchControl",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    },
+    {
+        "EcuCode": "P72",
+        "EngineCode": "B18C1",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 8000,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": true,
+            "iab": true,
+            "launchControl": true
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            7,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P72",
+        "SupportedFeatures": [
+            "VtecControl",
+            "RevLimiter",
+            "SpeedLimiter",
+            "LaunchControl",
+            "DtcBypass",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    },
+    {
+        "EcuCode": "P74",
+        "EngineCode": "B18B1",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 0,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": false,
+            "iab": false,
+            "launchControl": false
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            8,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P74",
+        "SupportedFeatures": [
+            "RevLimiter",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    },
+    {
+        "EcuCode": "P13",
+        "EngineCode": "H22A",
+        "RomSize": 32768,
+        "Checksum": 32767,
+        "FuelMapOffset": 7488,
+        "FuelMapRows": 16,
+        "FuelMapColumns": 16,
+        "FuelAxisOffset": 7424,
+        "IgnitionOffset": 7744,
+        "IgnitionRows": 16,
+        "IgnitionColumns": 16,
+        "IgnitionAxisOffset": 7680,
+        "VtecOffset": 8000,
+        "RevLimitOffset": 8106,
+        "SpeedLimitOffset": 8108,
+        "KnockOffset": 8118,
+        "InjectorOffset": 7552,
+        "IdleOffset": 7808,
+        "Capabilities": {
+            "vtec": true,
+            "iab": false,
+            "launchControl": true
+        },
+        "ChecksumAlgorithm": "Xor8",
+        "SignatureBytes": [
+            1,
+            9,
+            0,
+            16
+        ],
+        "HeaderPattern": "HONDA-OBD1-P13",
+        "SupportedFeatures": [
+            "VtecControl",
+            "RevLimiter",
+            "SpeedLimiter",
+            "LaunchControl",
+            "ChecksumVal"
+        ],
+        "RomLayouts": [
+            "OBD1_32K"
+        ]
+    }
+]

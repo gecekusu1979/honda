@@ -1,0 +1,97 @@
+[
+    {
+        "ProfileName": "Street",
+        "EnabledChannels": [
+            "AFR",
+            "ECT",
+            "RPM",
+            "MAP",
+            "Knock"
+        ],
+        "MaxFuelCorrection": 15.0,
+        "MaxIgnitionCorrection": 3.0,
+        "CorrectionRate": 0.5,
+        "DecaySettings": {
+            "TimeDecayRate": 0.01,
+            "TemperatureDecayRate": 0.05
+        },
+        "AllowedModes": [
+            "Normal",
+            "DryRun",
+            "Simulation",
+            "SafeMode"
+        ]
+    },
+    {
+        "ProfileName": "Dyno",
+        "EnabledChannels": [
+            "AFR",
+            "ECT",
+            "RPM",
+            "MAP",
+            "Knock",
+            "IAT"
+        ],
+        "MaxFuelCorrection": 25.0,
+        "MaxIgnitionCorrection": 5.0,
+        "CorrectionRate": 0.8,
+        "DecaySettings": {
+            "TimeDecayRate": 0.00,
+            "TemperatureDecayRate": 0.02
+        },
+        "AllowedModes": [
+            "Normal",
+            "DryRun",
+            "Simulation"
+        ]
+    },
+    {
+        "ProfileName": "Race",
+        "EnabledChannels": [
+            "AFR",
+            "ECT",
+            "RPM",
+            "MAP",
+            "Knock",
+            "IAT",
+            "TPS"
+        ],
+        "MaxFuelCorrection": 35.0,
+        "MaxIgnitionCorrection": 8.0,
+        "CorrectionRate": 1.0,
+        "DecaySettings": {
+            "TimeDecayRate": 0.00,
+            "TemperatureDecayRate": 0.00
+        },
+        "AllowedModes": [
+            "Normal",
+            "DryRun"
+        ]
+    },
+    {
+        "ProfileName": "Development",
+        "EnabledChannels": [
+            "AFR",
+            "ECT",
+            "RPM",
+            "MAP",
+            "Knock",
+            "IAT",
+            "TPS",
+            "VSS"
+        ],
+        "MaxFuelCorrection": 50.0,
+        "MaxIgnitionCorrection": 15.0,
+        "CorrectionRate": 1.2,
+        "DecaySettings": {
+            "TimeDecayRate": 0.10,
+            "TemperatureDecayRate": 0.10
+        },
+        "AllowedModes": [
+            "Normal",
+            "DryRun",
+            "Simulation",
+            "SafeMode"
+        ]
+    }
+]

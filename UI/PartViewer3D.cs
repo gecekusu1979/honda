@@ -342,8 +342,7 @@ namespace HondaTuner.UI
             {
                 "honda_b16_engine.obj",
                 System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "honda_b16_engine.obj"),
-                System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "honda_b16_engine.obj"),
-                @"c:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner\honda_b16_engine.obj"
+                System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "honda_b16_engine.obj")
             };
 
             string foundPath = null;

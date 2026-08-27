@@ -1,0 +1,37 @@
+# ====================================================================
+# HONDATUNER V2 - GITHUB PUBLIC READINESS .GITIGNORE
+# ====================================================================
+
+# -- Target folders to ignore --
+_TELIFLI_ROM_YEDEKLERI/
+test_roms/
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+.vs/
+.idea/
+
+# -- Binary, ROM, and patch files (DMCA protection) --
+*.bin
+*.BIN
+*.rom
+*.ROM
+*.hex
+*.HEX
+
+# -- Intermediate, user-specific and logging outputs --
+*.user
+*.suo
+*.userprefs
+*.tmp
+*.log
+run_tests_output.log
+test_result.txt
+test_result2.txt
+test_run.log
+test_run_utf8.log
+build_log.txt
+build_output.txt
+build_result.txt
+build_errors.txt
+msbuild.log

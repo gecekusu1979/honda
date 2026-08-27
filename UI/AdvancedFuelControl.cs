@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using HondaTuner.Calibration.Fuel;
 
@@ -410,7 +411,7 @@ namespace HondaTuner.UI
         private void BtnBlastThrottle_Click(object sender, EventArgs e)
         {
             _transientFuelAccumulator = 0.0;
-            _txtSimDtps.Text = "120.0";
+            _txtSimDtps.Text = FormatDtps(120.0);
             _transientTimer.Start();
         }
 
@@ -418,13 +419,18 @@ namespace HondaTuner.UI
         {
             double dTPS = GetDouble(_txtSimDtps.Text);
 
-            // dTPS hızla sönümlenir
-            dTPS = Math.Max(0.0, dTPS - 30.0);
-            _txtSimDtps.Text = dTPS.ToString("F1");
+            // dTPS hızla sönümlenir; küçük/bozuk değerler UI'a taşmadan sıfırlanır.
+            dTPS = double.IsFinite(dTPS) ? Math.Max(0.0, dTPS - 30.0) : 0.0;
+            if (dTPS < 0.1)
+            {
+                dTPS = 0.0;
+            }
+
+            _txtSimDtps.Text = FormatDtps(dTPS);
 
             RunSimulation();
 
-            if (dTPS <= 0.1 && _transientFuelAccumulator <= 0.01)
+            if (dTPS <= 0.0)
             {
                 _transientTimer.Stop();
             }
@@ -484,6 +490,14 @@ namespace HondaTuner.UI
                 return resLocal;
             return 0.0;
         }
+
+        private static string FormatDtps(double value)
+        {
+            if (!double.IsFinite(value) || value < 0.1)
+                value = 0.0;
+            return value.ToString("F1", CultureInfo.InvariantCulture);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

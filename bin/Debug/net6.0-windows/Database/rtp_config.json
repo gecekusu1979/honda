@@ -1,9 +1,0 @@
-{
-  "RetryCount": 3,
-  "WriteTimeoutMs": 250,
-  "PacketSize": 64,
-  "SyncIntervalMs": 50,
-  "BatchingPolicy": "CoalesceConsecutive",
-  "QueueLimit": 1000,
-  "BackpressurePolicy": "DropOldest"
-}

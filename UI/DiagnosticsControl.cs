@@ -362,8 +362,12 @@ namespace HondaTuner.UI
         {
             if (disposing)
             {
-                _trafficTimer?.Stop();
-                _trafficTimer?.Dispose();
+                if (_trafficTimer != null)
+                {
+                    _trafficTimer.Tick -= TrafficTimer_Tick;
+                    _trafficTimer.Stop();
+                    _trafficTimer.Dispose();
+                }
             }
             base.Dispose(disposing);
         }

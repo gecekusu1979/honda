@@ -474,8 +474,12 @@ namespace HondaTuner.UI
         {
             if (disposing)
             {
-                _watchdogTimer?.Stop();
-                _watchdogTimer?.Dispose();
+                if (_watchdogTimer != null)
+                {
+                    _watchdogTimer.Tick -= WatchdogTimer_Tick;
+                    _watchdogTimer.Stop();
+                    _watchdogTimer.Dispose();
+                }
             }
             base.Dispose(disposing);
         }

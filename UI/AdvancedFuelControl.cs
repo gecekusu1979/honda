@@ -488,8 +488,12 @@ namespace HondaTuner.UI
         {
             if (disposing)
             {
-                _transientTimer?.Stop();
-                _transientTimer?.Dispose();
+                if (_transientTimer != null)
+                {
+                    _transientTimer.Tick -= TransientTimer_Tick;
+                    _transientTimer.Stop();
+                    _transientTimer.Dispose();
+                }
             }
             base.Dispose(disposing);
         }

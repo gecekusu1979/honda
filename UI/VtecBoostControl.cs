@@ -438,8 +438,12 @@ namespace HondaTuner.UI
         {
             if (disposing)
             {
-                _simTimer?.Stop();
-                _simTimer?.Dispose();
+                if (_simTimer != null)
+                {
+                    _simTimer.Tick -= SimTimer_Tick;
+                    _simTimer.Stop();
+                    _simTimer.Dispose();
+                }
             }
             base.Dispose(disposing);
         }

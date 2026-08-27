@@ -47,3 +47,81 @@ dotnet run
 # Yalnızca otomatik test suite'ini çalıştırmak için:
 dotnet run -- --test-only
 ```
+
+---
+
+## Proje Mimarisi
+
+```plaintext
+HondaTuner/
+├── Core/
+│   ├── AutoTune/              AutoTune karar, güvenlik, snapshot ve recovery servisleri
+│   ├── Calibration/           Yakıt, ateşleme, diagnostics, dyno/log ve koruma tabloları
+│   ├── Rom/                   ROM servisleri, checksum, patch engine ve backup yönetimi
+│   ├── ReverseEngineering/    ROM analiz, map search ve axis extraction yardımcıları
+│   ├── Rtp/                   RTP kalibrasyon motoru ve event modelleri
+│   ├── Telemetry/             Telemetry bus, provider, dispatcher, frame ve channel altyapısı
+│   ├── EcuProfiles.cs         Desteklenen ECU profil tanımları
+│   ├── EcuConstants.cs        Ortak ROM boyutu ve OBD1 baud rate sabitleri
+│   └── RomParser.cs           ROM buffer okuma/yazma ve temel parser işlemleri
+├── UI/
+│   ├── MainForm.cs            Ana Windows Forms arayüzü
+│   ├── MapGridControl.cs      Harita düzenleme grid bileşeni
+│   ├── TelemetryDashboard.cs  Canlı telemetri ekranı
+│   ├── ReverseControl.cs      ROM inceleme ekranı
+│   └── Controls/              Kalibrasyon, diagnostics, dyno ve donanım ekranları
+├── Hardware/
+│   ├── EEPROM/                CH341A ve TL866 programlayıcı sınıfları
+│   ├── Emulator/              Ostrich emulator entegrasyonu
+│   ├── OBD/                   Honda OBD1 seri bağlantı ve DTC yönetimi
+│   └── Discovery/             Donanım keşif yardımcıları
+├── Tests/                     Tuning test harness ve sample ROM testleri
+└── HondaTuner.csproj
+```
+
+---
+
+## ROM ve ECU Referans Bilgileri
+
+* **Varsayılan Honda OBD1 ROM Boyutu:** 32768 byte (32 KB - P28/P30)
+* **Genişletilmiş ROM Boyutu:** 65536 byte (64 KB - P72/P06 MCU extension)
+* **OBD1 K-Line Baud Rate:** 9600 bps
+* **Sabitler Sınıfı:** `Core/EcuConstants.cs`
+
+---
+
+## P28 Temel Bellek Haritası
+
+| Parametre / Tablo | Başlangıç Offset | Boyut / Format |
+| :--- | :---: | :--- |
+| Fuel Map (Düşük Yük) | 0x1D40 | 16x16 Tablo |
+| Ignition Map (Düşük Yük) | 0x1E40 | 16x16 Tablo |
+| VTEC Devri (RPM) | 0x1F40 | 2 Byte (Word) |
+| Rev Limiter (Kesici) | 0x1FAA | 2 Byte (Word) |
+| ROM Checksum | 0x7FFF | 1 Byte |
+
+---
+
+## Donanım Entegrasyon Durumu
+
+| Modül | Durum | Açıklama |
+| :--- | :---: | :--- |
+| **CH341A EEPROM Programlayıcı** | ⚠️ Altyapı Hazır | Sürücü ve API wrapper hazır; donanım ile test edilebilir. |
+| **TL866 / Minipro Wrapper** | ⚠️ Altyapı Hazır | minipro.exe CLI arayüzü üzerinden entegre edilmiştir. |
+| **Moates Ostrich 2.0 Emülatör** | ⚠️ Altyapı Hazır | Seri haberleşme ve gerçek zamanlı ROM yükleme altyapısı tamam. |
+| **Honda OBD1 Seri Telemetri** | ⚠️ Altyapı Hazır | CN2 portu üzerinden 9600 baud k-line protokol desteği. |
+| **Simülatör & Datalog** | ✅ Aktif | Dahili telemetri jeneratörü ile donanımsız test edilebilir. |
+
+---
+
+## Yasal Uyarı ve Sorumluluk Reddi
+
+* **Kullanım Amacı:** Bu yazılım eğitim, hobi ve pist/yarış geliştirme amacıyla sunulmuştur. Kamuya açık yollarda kullanılan araçlarda kalibrasyon değişikliği yapılması önerilmez.
+* **Sorumluluk:** Yanlış yapılan yakıt, avans veya devir kesici ayarlarından doğabilecek mekanik arızalar, motor hasarları veya maddi/manevi zararlardan yazılım geliştiricileri sorumlu tutulamaz. Detaylı bilgi için `DISCLAIMER.md` dosyasını inceleyiniz.
+* **Ticari Markalar:** "Honda", "VTEC", "PGM-FI" ve ilgili araç modelleri Honda Motor Co., Ltd. şirketinin tescilli ticari markalarıdır. Bu projede yalnızca donanım mimarisini ve protokolleri tanımlama amacıyla kullanılmıştır.
+
+---
+
+## Lisans
+
+Bu proje MIT Lisansı altında açık kaynak olarak lisanslanmıştır.

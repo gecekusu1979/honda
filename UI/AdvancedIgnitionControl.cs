@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using HondaTuner.Calibration.Ignition;
@@ -518,7 +519,7 @@ namespace HondaTuner.UI
                 else
                     _tables.CrankingTimingAdvances[e.RowIndex] = val;
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine($"[AdvancedIgnitionControl] Cranking hücresi parse hatası: {ex.Message}"); }
         }
 
         private void DgvSensorCurve_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -533,7 +534,7 @@ namespace HondaTuner.UI
                     _activeSensor.PhysicalValues[e.RowIndex] = val;
                 RunSensorSimulation();
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine($"[AdvancedIgnitionControl] SensorCurve hücresi parse hatası: {ex.Message}"); }
         }
 
         private void ComboSensorPreset_SelectedIndexChanged(object sender, EventArgs e)
@@ -579,7 +580,7 @@ namespace HondaTuner.UI
 
                 RunCanSimulation();
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine($"[AdvancedIgnitionControl] CAN decoder parametre hatası: {ex.Message}"); }
         }
 
         private void TxtCanHex_TextChanged(object sender, EventArgs e)

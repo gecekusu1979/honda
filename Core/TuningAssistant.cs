@@ -216,5 +216,165 @@ namespace HondaTuner.Core
             if (value > max) return max;
             return value;
         }
+
+        // ── Stage 1 Basemap Generator ───────────────────────────────────────
+        /// <summary>
+        /// Generates and writes a complete Stage 1 basemap directly into the live ROM buffer.
+        /// Applies VTEC RPM, rev limit, speed limiter, and goal-adjusted fuel/ignition tables.
+        /// </summary>
+        /// <param name="profile">Active ECU profile (offsets, axes, limits).</param>
+        /// <param name="currentFuel">Current fuel map (rows=RPM, cols=load).</param>
+        /// <param name="currentIgnition">Current ignition map.</param>
+        /// <param name="setup">Tuning parameters (goal, injector cc, AFR targets, limits).</param>
+        /// <param name="parser">Live RomParser instance for writing limit bytes to ROM.</param>
+        /// <returns>Fully populated TuningResult with modified maps and a summary report.</returns>
+        public static TuningResult CreateStage1Map(
+            EcuProfile profile,
+            byte[,] currentFuel,
+            byte[,] currentIgnition,
+            TuningSetup setup,
+            RomParser parser)
+        {
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+            if (currentFuel == null) throw new ArgumentNullException(nameof(currentFuel));
+            if (currentIgnition == null) throw new ArgumentNullException(nameof(currentIgnition));
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+
+            var notes = new StringBuilder();
+            notes.AppendLine("╔═ STAGE 1 BASEMAP RAPORU ══════════════════════════════╗");
+            notes.AppendLine($"  ECU      : {profile.EcuCode} ({profile.EngineCode})");
+            notes.AppendLine($"  Hedef    : {DescribeGoal(setup.Goal)}");
+            notes.AppendLine($"  Enjektör : {setup.InjectorCc} cc");
+            notes.AppendLine($"  Power AFR: {setup.TargetAfrPower:0.0}");
+            notes.AppendLine("╠═ LİMİTLER ════════════════════════════════════════════╣");
+
+            // 1. VTEC RPM
+            if (profile.HasVtec)
+            {
+                int vtecMin = profile.VtecRpmMin > 0 ? profile.VtecRpmMin : 2000;
+                int vtecMax = profile.VtecRpmMax > 0 ? profile.VtecRpmMax : profile.RevLimitDefault;
+                int vtecRpm = (int)Clamp(setup.VtecRpm, vtecMin, vtecMax);
+                if (parser != null && parser.IsLoaded)
+                {
+                    try
+                    {
+                        parser.WriteVtecRpm(vtecRpm);
+                        notes.AppendLine($"  VTEC RPM : {vtecRpm} rpm (offset 0x{profile.VtecRpmOffset:X4}) ✔");
+                    }
+                    catch (Exception ex) { notes.AppendLine($"  VTEC RPM : YAZMA HATASI — {ex.Message}"); }
+                }
+                else
+                {
+                    notes.AppendLine($"  VTEC RPM : {vtecRpm} rpm (ROM yüklü değil — atlandı)");
+                }
+            }
+            else
+            {
+                notes.AppendLine($"  VTEC RPM : {setup.VtecRpm} rpm (VTEC yok — atlandı)");
+            }
+
+            // 2. Rev Limit
+            {
+                int revMin = profile.RevLimitMin > 0 ? profile.RevLimitMin : 5000;
+                int revMax = profile.RevLimitMax > 0 ? profile.RevLimitMax : 9500;
+                int revRpm = (int)Clamp(setup.RevLimitRpm, revMin, revMax);
+                if (parser != null && parser.IsLoaded)
+                {
+                    try
+                    {
+                        parser.WriteRevLimit(revRpm);
+                        notes.AppendLine($"  Rev Limit: {revRpm} rpm (offset 0x{profile.RevLimitOffset:X4}) ✔");
+                    }
+                    catch (Exception ex) { notes.AppendLine($"  Rev Limit: YAZMA HATASI — {ex.Message}"); }
+                }
+                else
+                {
+                    notes.AppendLine($"  Rev Limit: {revRpm} rpm (ROM yüklü değil — atlandı)");
+                }
+            }
+
+            // 3. Speed Limiter
+            {
+                int speedKmh = (int)Clamp(setup.SpeedLimitKmh, 60, 280);
+                if (parser != null && parser.IsLoaded)
+                {
+                    try
+                    {
+                        parser.WriteSpeedLimiter(speedKmh);
+                        notes.AppendLine($"  Hız Limit: {speedKmh} km/h (offset 0x{profile.SpeedLimiterOffset:X4}) ✔");
+                    }
+                    catch (Exception ex) { notes.AppendLine($"  Hız Limit: YAZMA HATASI — {ex.Message}"); }
+                }
+                else
+                {
+                    notes.AppendLine($"  Hız Limit: {speedKmh} km/h (ROM yüklü değil — atlandı)");
+                }
+            }
+
+            // 4. Apply fuel & ignition map corrections (Stage 1 profile)
+            notes.AppendLine("╠═ YAKIT & ATEŞİ HARITASI ══════════════════════════════╣");
+            double injectorScale = setup.InjectorCc > 0 ? 240.0 / setup.InjectorCc : 1.0;
+            injectorScale = Clamp(injectorScale, 0.55, 1.45);
+            notes.AppendLine($"  Enjektör ölçeği  : {injectorScale:0.000}x");
+
+            var fuel = (byte[,])currentFuel.Clone();
+            var ignition = (byte[,])currentIgnition.Clone();
+
+            int rows = fuel.GetLength(0);
+            int cols = fuel.GetLength(1);
+            int modifiedCells = 0;
+
+            for (int r = 0; r < rows; r++)
+            {
+                int rpm = Axis(profile.RpmAxis, r);
+                for (int c = 0; c < cols; c++)
+                {
+                    int load = Axis(profile.LoadAxis, c);
+                    double fuelMult = injectorScale * GoalFuelMultiplier(setup.Goal, rpm, load, setup.MapSensorBar);
+                    double ignDelta = GoalIgnitionDelta(setup.Goal, rpm, load, setup.MapSensorBar);
+
+                    byte newFuel = ClampByte(fuel[r, c] * fuelMult);
+                    byte newIgn = ClampByte(ignition[r, c] + ignDelta);
+
+                    if (newFuel != fuel[r, c] || newIgn != ignition[r, c]) modifiedCells++;
+                    fuel[r, c] = newFuel;
+                    ignition[r, c] = newIgn;
+                }
+            }
+
+            // 2-pass smoothing for professional Stage 1 surface quality
+            SmoothMap(fuel, 2);
+            SmoothMap(ignition, 2);
+
+            notes.AppendLine($"  Değiştirilen hücre: {modifiedCells} / {rows * cols}");
+            notes.AppendLine($"  Yumuşatma geçişi  : 2 pass");
+
+            // 5. Write corrected maps back through parser
+            if (parser != null && parser.IsLoaded)
+            {
+                try
+                {
+                    parser.WriteFuelMap(fuel);
+                    parser.WriteIgnitionMap(ignition);
+                    notes.AppendLine("  Haritalar ROM'a yazıldı ✔");
+                }
+                catch (Exception ex)
+                {
+                    notes.AppendLine($"  Harita yazma HATASI: {ex.Message}");
+                }
+            }
+
+            notes.AppendLine("╠═ AFR HEDEFLERİ ═══════════════════════════════════════╣");
+            notes.AppendLine($"  Idle    : λ={setup.TargetAfrIdle / 14.7:0.00}  ({setup.TargetAfrIdle:0.0} AFR)");
+            notes.AppendLine($"  Cruise  : λ={setup.TargetAfrCruise / 14.7:0.00}  ({setup.TargetAfrCruise:0.0} AFR)");
+            notes.AppendLine($"  Power   : λ={setup.TargetAfrPower / 14.7:0.00}  ({setup.TargetAfrPower:0.0} AFR)");
+            notes.AppendLine("╠═ UYARI ════════════════════════════════════════════════╣");
+            notes.AppendLine("  Stage 1 basemap güvenli başlangıç değerlerini içerir.");
+            notes.AppendLine("  Dynometre + wideband kaydı alınmadan araca YAZILMAZ.");
+            notes.AppendLine("  Her değişiklik için checksum güncellemeyi unutmayın.");
+            notes.AppendLine("╚═══════════════════════════════════════════════════════╝");
+
+            return new TuningResult(fuel, ignition, notes.ToString());
+        }
     }
 }

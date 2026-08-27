@@ -362,17 +362,17 @@ namespace HondaTuner.UI
         private void DynoConfigChanged(object sender, EventArgs e)
         {
             if (_txtWeight == null || _txtLoss == null) return;
-            _service.Tables.VehicleWeightKg = GetDouble(_txtWeight.Text);
-            _service.Tables.DrivetrainLossPct = GetDouble(_txtLoss.Text);
+            _service.Tables.VehicleWeightKg = GetDouble(_txtWeight.Text, _service.Tables.VehicleWeightKg);
+            _service.Tables.DrivetrainLossPct = GetDouble(_txtLoss.Text, _service.Tables.DrivetrainLossPct);
             _service.Tables.CorrectionFactorType = _cbCorrection.SelectedItem?.ToString() ?? "SAE";
         }
 
         private void PerformanceConfigChanged(object sender, EventArgs e)
         {
             if (_txtTyreSize == null || _txtGearRatio == null || _txtFinalDrive == null) return;
-            _service.Tables.TyreDiameterInches = GetDouble(_txtTyreSize.Text);
-            _service.Tables.SelectedGearRatio = GetDouble(_txtGearRatio.Text);
-            _service.Tables.FinalDriveRatio = GetDouble(_txtFinalDrive.Text);
+            _service.Tables.TyreDiameterInches = GetDouble(_txtTyreSize.Text, _service.Tables.TyreDiameterInches);
+            _service.Tables.SelectedGearRatio = GetDouble(_txtGearRatio.Text, _service.Tables.SelectedGearRatio);
+            _service.Tables.FinalDriveRatio = GetDouble(_txtFinalDrive.Text, _service.Tables.FinalDriveRatio);
         }
 
         private void LoadData()
@@ -426,13 +426,13 @@ namespace HondaTuner.UI
             }
         }
 
-        private double GetDouble(string text)
+        private double GetDouble(string text, double fallback = 0.0)
         {
             if (double.TryParse(text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double res))
                 return res;
             if (double.TryParse(text, out double resLocal))
                 return resLocal;
-            return 0.0;
+            return fallback;
         }
 
         private DataGridView CreateStyledGrid()
@@ -469,6 +469,15 @@ namespace HondaTuner.UI
             ctrl.Size = new Size(80, 20);
             pnl.Controls.Add(lbl);
             pnl.Controls.Add(ctrl);
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _watchdogTimer?.Stop();
+                _watchdogTimer?.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

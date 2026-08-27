@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
+using HondaTuner.Core.Logging;
 
 namespace HondaTuner.Core.Config
 {
@@ -107,7 +108,7 @@ namespace HondaTuner.Core.Config
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[ERR] Failed to load XML/JSON profile {file}: {ex.Message}");
+                    ApplicationLogger.Error("EcuDatabaseManager", $"Failed to load XML/JSON profile {file}: {ex.Message}");
                 }
             }
 

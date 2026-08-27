@@ -6,7 +6,6 @@ using HondaTuner.Calibration.Maps;
 using HondaTuner.Calibration.Interpolation;
 using HondaTuner.Core.Interfaces;
 using HondaTuner.Core.Rom;
-using HondaTuner.Hardware.Discovery;
 using HondaTuner.Hardware.EEPROM;
 using HondaTuner.Hardware.Emulator;
 using HondaTuner.Hardware.OBD;
@@ -49,6 +48,10 @@ namespace HondaTuner.Core.Container
             Register<IObdConnection>(new RealObd1Connection());
             Register<IEepromProgrammer>(new Tl866Programmer());
             Register<IEmulator>(new OstrichEmulator());
+
+            // Phase 10 — Real hardware additions
+            Register<Ch341aProgrammer>(new Ch341aProgrammer());
+            Register<DtcManager>(new DtcManager());
 
             // AutoTune varsayılan olarak P28 ekseniyle başlayabilir,
             // runtime'da güncellenebilir veya yeniden çözümlenebilir.

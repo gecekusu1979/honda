@@ -464,11 +464,26 @@ namespace HondaTuner.Core.AutoTune
                 // Transaction open
                 _calibrationService.BeginTransaction();
 
-                // Define map limits
+                // Define map limits — look up real map offset from active ROM profile
+                int resolvedOffset = 0x0278; // P28 fuel map default (safe non-arbitrary fallback)
+                try
+                {
+                    var romSvc = HondaTuner.Core.Container.ServiceContainer.Resolve<IRomService>();
+                    var prof = romSvc?.Profile;
+                    if (prof != null && decision.Offset <= 0)
+                    {
+                        bool isIgn = decision.MapName?.IndexOf("ign", StringComparison.OrdinalIgnoreCase) >= 0;
+                        resolvedOffset = isIgn ? prof.IgnMapOffset : prof.FuelMapOffset;
+                    }
+                    else if (decision.Offset > 0)
+                        resolvedOffset = decision.Offset;
+                }
+                catch { /* Profile not loaded yet — use fallback */ }
+
                 var dummyDef = new MapDefinition
                 {
                     MapName = decision.MapName,
-                    Offset = decision.Offset > 0 ? decision.Offset : 0x0500, // mock offset fallback
+                    Offset = resolvedOffset,
                     Rows = 8,
                     Columns = 8
                 };

@@ -349,15 +349,14 @@ namespace HondaTuner.Core.Telemetry
 
         public Obd2Provider(ITimeProvider timeProvider) : base(timeProvider)
         {
+            // TODO: Gerçek OBD2 desteği için MockProtocol yerine SerialPortTransport(portName, baudRate)
+            // kullanarak Protocol'ü başlatın. Connect() sırasında gerçek port açılacak.
             Protocol = new MockProtocol(new MockTransport());
         }
 
         protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
-            {
-                Thread.Sleep(intervalMs); // OBDII simülasyonu bekleme süresi
-            }
+            throw new NotImplementedException("Real OBD2 streaming loop is not implemented in this version.");
         }
     }
 
@@ -378,15 +377,14 @@ namespace HondaTuner.Core.Telemetry
 
         public RtpEmulatorProvider(ITimeProvider timeProvider) : base(timeProvider)
         {
+            // TODO: Gerçek RTP emülatör desteği için MockProtocol yerine ftdi/USB tabanlı
+            // bir transport (OstrichUSBTransport vb.) ile Protocol'ü başlatın.
             Protocol = new MockProtocol(new MockTransport());
         }
 
         protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
-            {
-                Thread.Sleep(intervalMs);
-            }
+            throw new NotImplementedException("Real-Time Emulator telemetry streaming loop is not implemented in this version.");
         }
     }
 
@@ -395,23 +393,35 @@ namespace HondaTuner.Core.Telemetry
     {
         public override string Name => "CanProvider";
         public override ProviderCapabilities Capabilities => new ProviderCapabilities();
+        // TODO: CanProvider — Gerçek CAN bus desteği için MockProtocol yerine SocketCanTransport veya PCAN/VECTOR transport bağlayın.
         public CanProvider(ITimeProvider timeProvider) : base(timeProvider) { Protocol = new MockProtocol(new MockTransport()); }
-        protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token) { }
+        protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token)
+        {
+            throw new NotImplementedException("CAN telemetry streaming loop is not implemented in this version.");
+        }
     }
 
     public class KLineProvider : BaseTelemetryProvider
     {
         public override string Name => "KLineProvider";
         public override ProviderCapabilities Capabilities => new ProviderCapabilities();
+        // TODO: KLineProvider — Gerçek K-Line desteği için MockProtocol yerine SerialPort K-Line transport bağlayın.
         public KLineProvider(ITimeProvider timeProvider) : base(timeProvider) { Protocol = new MockProtocol(new MockTransport()); }
-        protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token) { }
+        protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token)
+        {
+            throw new NotImplementedException("K-Line telemetry streaming loop is not implemented in this version.");
+        }
     }
 
     public class J2534Provider : BaseTelemetryProvider
     {
         public override string Name => "J2534Provider";
         public override ProviderCapabilities Capabilities => new ProviderCapabilities();
+        // TODO: J2534Provider — Gerçek J2534 desteği için MockProtocol yerine PassThru DLL transport bağlayın.
         public J2534Provider(ITimeProvider timeProvider) : base(timeProvider) { Protocol = new MockProtocol(new MockTransport()); }
-        protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token) { }
+        protected override void StreamLoop(IEnumerable<string> channelIds, int intervalMs, CancellationToken token)
+        {
+            throw new NotImplementedException("J2534 telemetry streaming loop is not implemented in this version.");
+        }
     }
 }

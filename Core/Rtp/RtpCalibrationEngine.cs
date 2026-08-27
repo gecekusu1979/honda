@@ -127,7 +127,10 @@ namespace HondaTuner.Core.Rtp
                     string json = JsonSerializer.Serialize(_config, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(configPath, json);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    ApplicationLogger.Warn("RtpCalibrationEngine", $"Failed to save default RtpConfig: {ex.Message}");
+                }
             }
 
             // Restore persistent queue if exists

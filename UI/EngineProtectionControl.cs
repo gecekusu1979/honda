@@ -365,20 +365,20 @@ namespace HondaTuner.UI
 
         private void ConfigTextChanged(object sender, EventArgs e)
         {
-            _service.Tables.MaxOilTemp = GetDouble(_txtMaxOilTemp.Text);
-            _service.Tables.MinFuelPressure = GetDouble(_txtMinFuelPress.Text);
-            _service.Tables.FanTargetTemp = GetDouble(_txtFanTargetTemp.Text);
-            _service.Tables.MaxEgtLimit = GetDouble(_txtMaxEgt.Text);
+            _service.Tables.MaxOilTemp = GetDouble(_txtMaxOilTemp.Text, _service.Tables.MaxOilTemp);
+            _service.Tables.MinFuelPressure = GetDouble(_txtMinFuelPress.Text, _service.Tables.MinFuelPressure);
+            _service.Tables.FanTargetTemp = GetDouble(_txtFanTargetTemp.Text, _service.Tables.FanTargetTemp);
+            _service.Tables.MaxEgtLimit = GetDouble(_txtMaxEgt.Text, _service.Tables.MaxEgtLimit);
         }
 
         private void ThermalTextChanged(object sender, EventArgs e)
         {
-            _service.Tables.IatHeatSoakRetardThreshold = GetDouble(_txtIatSoakTemp.Text);
-            _service.Tables.IatHeatSoakRetard = GetDouble(_txtIatSoakRetard.Text);
-            _service.Tables.IatBoostLimitReduction = GetDouble(_txtIatBoostReduction.Text);
-            _service.Tables.EgtTimingPull = GetDouble(_txtEgtRetard.Text);
-            _service.Tables.EgtFuelEnrichment = GetDouble(_txtEgtEnrichment.Text);
-            _service.Tables.ThermalLimpModeRpm = GetDouble(_txtLimpRpm.Text);
+            _service.Tables.IatHeatSoakRetardThreshold = GetDouble(_txtIatSoakTemp.Text, _service.Tables.IatHeatSoakRetardThreshold);
+            _service.Tables.IatHeatSoakRetard = GetDouble(_txtIatSoakRetard.Text, _service.Tables.IatHeatSoakRetard);
+            _service.Tables.IatBoostLimitReduction = GetDouble(_txtIatBoostReduction.Text, _service.Tables.IatBoostLimitReduction);
+            _service.Tables.EgtTimingPull = GetDouble(_txtEgtRetard.Text, _service.Tables.EgtTimingPull);
+            _service.Tables.EgtFuelEnrichment = GetDouble(_txtEgtEnrichment.Text, _service.Tables.EgtFuelEnrichment);
+            _service.Tables.ThermalLimpModeRpm = GetDouble(_txtLimpRpm.Text, _service.Tables.ThermalLimpModeRpm);
         }
 
         private void DgvOilPressCurve_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -389,7 +389,7 @@ namespace HondaTuner.UI
                 double val = Convert.ToDouble(_dgvOilPressCurve.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
                 _service.Tables.MinOilPressureCurve[e.RowIndex] = val;
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[EngineProtectionControl] OilPressCurve hücresi parse hatası: {ex.Message}"); }
         }
 
         private void Service_ProtectionAlarmTriggered(object sender, string msg)
@@ -455,13 +455,22 @@ namespace HondaTuner.UI
             }
         }
 
-        private double GetDouble(string text)
+        private double GetDouble(string text, double fallback = 0.0)
         {
             if (double.TryParse(text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double res))
                 return res;
             if (double.TryParse(text, out double resLocal))
                 return resLocal;
-            return 0.0;
+            return fallback;
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _simTimer?.Stop();
+                _simTimer?.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

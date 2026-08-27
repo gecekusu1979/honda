@@ -52,10 +52,10 @@ namespace HondaTuner.Core.Rom.Patch
         public List<ValidationRule> ValidationRules { get; set; } = new List<ValidationRule>();
 
         /// <summary>Minimum desteklenen ROM boyutu</summary>
-        public int MinimumRomSize { get; set; } = 32768;
+        public int MinimumRomSize { get; set; } = EcuConstants.DefaultRomSize;
 
         /// <summary>Maximum desteklenen ROM boyutu</summary>
-        public int MaximumRomSize { get; set; } = 32768;
+        public int MaximumRomSize { get; set; } = EcuConstants.DefaultRomSize;
 
         /// <summary>Oluşturulma sürümü</summary>
         public string CreatedVersion { get; set; }

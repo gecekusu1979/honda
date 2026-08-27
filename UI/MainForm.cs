@@ -154,6 +154,24 @@ namespace HondaTuner.UI
         private DiagnosticsControl _diagnosticsControl;
         private DynoLogsControl _dynoLogsControl;
 
+        // ── Donanım Kontrol (Phase 10) ───────────────────────────
+        private HondaTuner.Hardware.EEPROM.Ch341aProgrammer _programmer;
+        private HondaTuner.Hardware.OBD.DtcManager _dtcManager;
+        private HondaTuner.Hardware.Emulator.OstrichEmulator _ostrich;
+        private ToolStripStatusLabel _progStatusLabel;
+        private ToolStripStatusLabel _emuStatusLabel;
+
+        // Hardware Kontrol UI bileşenleri
+        private ComboBox _chipTypeCombo;
+        private Label _progStateLabel;
+        private Button _btnProgConnect, _btnProgDisconnect;
+        private Button _btnProgRead, _btnProgWrite, _btnProgErase, _btnProgVerify;
+        private ProgressBar _progProgressBar;
+        private RichTextBox _progLog;
+        private DataGridView _dtcGrid;
+        private HondaTuner.Hardware.OBD.IObdConnection _obdConn;
+        private ComboBox _dtcPortCombo;
+
         public MainForm()
         {
             Text = "HondaTuner";
@@ -188,6 +206,23 @@ namespace HondaTuner.UI
             {
                 _rtpEngine.OnRtpDomainEvent += OnRtpDomainEvent;
             }
+
+            // ── Donanım Kontrol başlat ───────────────────────────
+            _programmer = new HondaTuner.Hardware.EEPROM.Ch341aProgrammer();
+            _programmer.StateChanged += OnProgrammerStateChanged;
+            _programmer.ProgressChanged += (s, pct) =>
+            {
+                if (InvokeRequired) BeginInvoke((Action)(() => { if (_progProgressBar != null) _progProgressBar.Value = Math.Min(100, Math.Max(0, pct)); }));
+                else if (_progProgressBar != null) _progProgressBar.Value = Math.Min(100, Math.Max(0, pct));
+            };
+            _programmer.OperationCompleted += (s, msg) =>
+            {
+                if (InvokeRequired) BeginInvoke((Action)(() => AppendProgLog("✅ " + msg)));
+                else AppendProgLog("✅ " + msg);
+            };
+            _dtcManager = new HondaTuner.Hardware.OBD.DtcManager();
+            _ostrich = new HondaTuner.Hardware.Emulator.OstrichEmulator();
+            _ostrich.StateChanged += OnOstrichStateChanged;
 
             BuildMenu();
             BuildHeader();
@@ -366,6 +401,7 @@ namespace HondaTuner.UI
                 "🛡️ Engine Protection",
                 "📶 Diagnostics & A2L",
                 "📊 Dyno, Logs & Branching",
+                "🔌 Donanım Kontrol",
             };
 
             _tabBar = new Panel
@@ -506,6 +542,9 @@ namespace HondaTuner.UI
             _dynoLogsControl = new DynoLogsControl();
             _tabPages[14].Controls.Add(_dynoLogsControl);
 
+            // -- [15] Donanım Kontrol
+            BuildHardwareControlPage(_tabPages[15]);
+
             // ───────────────────────────────────────────────
             // 4. FORMA EKLE (sıra önemli)
             // ───────────────────────────────────────────────
@@ -515,6 +554,613 @@ namespace HondaTuner.UI
 
             SelectTab(0);
         }
+
+        // ── Donanım Kontrol Sayfası ──────────────────────────────
+
+        private void BuildHardwareControlPage(Panel tab)
+        {
+            tab.Padding = new Padding(10);
+            tab.BackColor = BgDark;
+
+            var mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 1,
+                ColumnCount = 2,
+                BackColor = BgDark
+            };
+            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52f));
+            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48f));
+
+            // ── Sol Panel: CH341A EEPROM Programlayıcı ──────────
+            var leftPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                AutoScroll = true,
+                BackColor = BgPanel,
+                Padding = new Padding(14, 10, 14, 10)
+            };
+
+            var progTitle = new Label
+            {
+                Text = "CH341A EEPROM Programlayıcı",
+                Font = new Font("Segoe UI", 11f, FontStyle.Bold),
+                ForeColor = AccentBlue,
+                AutoSize = true,
+                Margin = new Padding(0, 0, 0, 10)
+            };
+            leftPanel.Controls.Add(progTitle);
+
+            // Çip Tipi
+            var chipPanel = new Panel { Width = 380, Height = 30, Margin = new Padding(0, 0, 0, 6) };
+            var chipLabel = new Label
+            {
+                Text = "Çip Tipi:",
+                Font = new Font("Segoe UI", 9f),
+                ForeColor = TextMuted,
+                AutoSize = true,
+                Location = new Point(0, 6)
+            };
+            _chipTypeCombo = new ComboBox
+            {
+                Location = new Point(70, 2),
+                Width = 180,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                BackColor = BgCard,
+                ForeColor = TextPrimary,
+                Font = new Font("Segoe UI", 9f)
+            };
+            _chipTypeCombo.Items.AddRange(new object[] { "SST27SF512", "27C256", "29C256", "AM29F010" });
+            _chipTypeCombo.SelectedIndex = 0;
+            _chipTypeCombo.SelectedIndexChanged += (s, e) =>
+            {
+                if (_programmer != null && _chipTypeCombo != null)
+                    _programmer.ChipType = _chipTypeCombo.SelectedItem?.ToString() ?? "SST27SF512";
+            };
+            chipPanel.Controls.Add(chipLabel);
+            chipPanel.Controls.Add(_chipTypeCombo);
+            leftPanel.Controls.Add(chipPanel);
+
+            // Durum etiketi
+            _progStateLabel = new Label
+            {
+                Text = "● Bağlı Değil",
+                Font = new Font("Segoe UI", 9f, FontStyle.Bold),
+                ForeColor = TextMuted,
+                AutoSize = true,
+                Margin = new Padding(0, 0, 0, 8)
+            };
+            leftPanel.Controls.Add(_progStateLabel);
+
+            // Bağlan / Kes butonları
+            var connBtnPanel = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 8) };
+            _btnProgConnect = MakeHwButton("Bağlan", 90, Color.FromArgb(40, 167, 69));
+            _btnProgDisconnect = MakeHwButton("Bağlantıyı Kes", 130, Color.FromArgb(185, 28, 28));
+            _btnProgDisconnect.Enabled = false;
+            _btnProgConnect.Margin = new Padding(0, 0, 8, 0);
+            _btnProgConnect.Click += OnProgConnect;
+            _btnProgDisconnect.Click += OnProgDisconnect;
+            connBtnPanel.Controls.Add(_btnProgConnect);
+            connBtnPanel.Controls.Add(_btnProgDisconnect);
+            leftPanel.Controls.Add(connBtnPanel);
+
+            // İşlem butonları
+            var opBtnPanel = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 8), WrapContents = true, MaximumSize = new Size(390, 200) };
+            _btnProgRead = MakeHwButton("Çipten Oku", 115, Color.FromArgb(13, 110, 190));
+            _btnProgWrite = MakeHwButton("Çipe Yaz", 100, Color.FromArgb(185, 28, 28));
+            _btnProgErase = MakeHwButton("Çipi Sil", 90, Color.FromArgb(80, 80, 90));
+            _btnProgVerify = MakeHwButton("Çipi Doğrula", 115, Color.FromArgb(30, 120, 60));
+            foreach (var btn in new[] { _btnProgRead, _btnProgWrite, _btnProgErase, _btnProgVerify })
+            {
+                btn.Enabled = false;
+                btn.Margin = new Padding(0, 0, 6, 6);
+            }
+            _btnProgRead.Click += OnProgReadChip;
+            _btnProgWrite.Click += OnProgWriteChip;
+            _btnProgErase.Click += OnProgEraseChip;
+            _btnProgVerify.Click += OnProgVerifyChip;
+            opBtnPanel.Controls.Add(_btnProgRead);
+            opBtnPanel.Controls.Add(_btnProgWrite);
+            opBtnPanel.Controls.Add(_btnProgErase);
+            opBtnPanel.Controls.Add(_btnProgVerify);
+            leftPanel.Controls.Add(opBtnPanel);
+
+            // Progress Bar
+            var progLabelBar = new Label { Text = "İlerleme:", Font = new Font("Segoe UI", 8.5f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 0, 0, 2) };
+            leftPanel.Controls.Add(progLabelBar);
+            _progProgressBar = new ProgressBar
+            {
+                Width = 370,
+                Height = 18,
+                Minimum = 0,
+                Maximum = 100,
+                Value = 0,
+                Style = ProgressBarStyle.Continuous,
+                Margin = new Padding(0, 0, 0, 8)
+            };
+            leftPanel.Controls.Add(_progProgressBar);
+
+            // Log Konsolu
+            var logLabel = new Label { Text = "İşlem Kaydı:", Font = new Font("Segoe UI", 8.5f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 0, 0, 2) };
+            leftPanel.Controls.Add(logLabel);
+            _progLog = new RichTextBox
+            {
+                Width = 370,
+                Height = 220,
+                ReadOnly = true,
+                BackColor = Color.FromArgb(12, 15, 20),
+                ForeColor = VtecGreen,
+                Font = new Font("Consolas", 8.5f),
+                BorderStyle = BorderStyle.FixedSingle,
+                ScrollBars = RichTextBoxScrollBars.Vertical,
+                Margin = new Padding(0, 0, 0, 0)
+            };
+            leftPanel.Controls.Add(_progLog);
+            AppendProgLog("CH341A Programlayıcı hazır. 'Bağlan' butonuna basın.");
+
+            // ── Sağ Panel: Canlı OBD1 DTC ───────────────────────
+            var rightPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                AutoScroll = true,
+                BackColor = BgPanel,
+                Padding = new Padding(14, 10, 14, 10),
+                Margin = new Padding(8, 0, 0, 0)
+            };
+
+            var dtcTitle = new Label
+            {
+                Text = "Canlı OBD1 Arıza Kodları (DTC)",
+                Font = new Font("Segoe UI", 11f, FontStyle.Bold),
+                ForeColor = AccentRed,
+                AutoSize = true,
+                Margin = new Padding(0, 0, 0, 6)
+            };
+            rightPanel.Controls.Add(dtcTitle);
+
+            var dtcInfo = new Label
+            {
+                Text = "OBD1 seri portu seçin, bağlantı kurun, sonra kodu okuyun.",
+                Font = new Font("Segoe UI", 8f),
+                ForeColor = TextMuted,
+                AutoSize = true,
+                Margin = new Padding(0, 0, 0, 8)
+            };
+            rightPanel.Controls.Add(dtcInfo);
+
+            // OBD Port seçimi
+            var obdPortRow = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 8) };
+            var obdPortLabel = new Label { Text = "Port:", Font = new Font("Segoe UI", 9f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 5, 6, 0) };
+            _dtcPortCombo = new ComboBox
+            {
+                Width = 100,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                BackColor = BgCard,
+                ForeColor = TextPrimary,
+                Font = new Font("Segoe UI", 9f)
+            };
+            foreach (var p in System.IO.Ports.SerialPort.GetPortNames())
+                _dtcPortCombo.Items.Add(p);
+            if (_dtcPortCombo.Items.Count > 0) _dtcPortCombo.SelectedIndex = 0;
+            var btnObdConnect = MakeButton("Bağlan", new Point(0, 0), 72, VtecGreen);
+            btnObdConnect.Margin = new Padding(6, 0, 6, 0);
+            btnObdConnect.Click += (s, ex) =>
+            {
+                if (_dtcPortCombo.SelectedItem == null)
+                {
+                    MessageBox.Show("Lütfen bir seri port seçin.", "Port Seçin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                try
+                {
+                    _obdConn?.Disconnect();
+                    var conn = new HondaTuner.Hardware.OBD.RealObd1Connection();
+                    conn.Open(_dtcPortCombo.SelectedItem.ToString(), EcuConstants.Obd1BaudRate);
+                    _obdConn = conn;
+                    SetStatus($"OBD Bağlantısı: {_dtcPortCombo.SelectedItem} açıldı.");
+                }
+                catch (Exception exConn)
+                {
+                    MessageBox.Show($"OBD bağlantı hatası:\n{exConn.Message}", "Bağlantı Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+            var btnObdRefreshPorts = MakeButton("Yenile", new Point(0, 0), 54, AccentBlue);
+            btnObdRefreshPorts.Margin = new Padding(0, 0, 0, 0);
+            btnObdRefreshPorts.Click += (s, ex) =>
+            {
+                _dtcPortCombo.Items.Clear();
+                foreach (var p in System.IO.Ports.SerialPort.GetPortNames())
+                    _dtcPortCombo.Items.Add(p);
+                if (_dtcPortCombo.Items.Count > 0) _dtcPortCombo.SelectedIndex = 0;
+            };
+            obdPortRow.Controls.Add(obdPortLabel);
+            obdPortRow.Controls.Add(_dtcPortCombo);
+            obdPortRow.Controls.Add(btnObdConnect);
+            obdPortRow.Controls.Add(btnObdRefreshPorts);
+            rightPanel.Controls.Add(obdPortRow);
+
+            var dtcBtnPanel = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 10) };
+            var btnReadDtc = MakeButton("Arıza Kodlarını Oku", new Point(0, 0), 175, AccentRed);
+            var btnClearDtc = MakeButton("Kodları Temizle", new Point(0, 0), 145, Color.FromArgb(255, 200, 0));
+            btnReadDtc.Margin = new Padding(0, 0, 8, 0);
+            btnReadDtc.Click += OnReadDtcsLive;
+            btnClearDtc.Click += OnClearDtcsLive;
+            dtcBtnPanel.Controls.Add(btnReadDtc);
+            dtcBtnPanel.Controls.Add(btnClearDtc);
+            rightPanel.Controls.Add(dtcBtnPanel);
+
+            // DTC DataGridView
+            _dtcGrid = new DataGridView
+            {
+                Width = 380,
+                Height = 420,
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                AllowUserToResizeRows = false,
+                RowHeadersVisible = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                BackgroundColor = Color.FromArgb(12, 15, 20),
+                GridColor = Border,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(22, 27, 34),
+                    ForeColor = TextPrimary,
+                    SelectionBackColor = Color.FromArgb(40, 88, 166, 255),
+                    SelectionForeColor = Color.White,
+                    Font = new Font("Segoe UI", 9f)
+                },
+                ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = BgCard,
+                    ForeColor = AccentBlue,
+                    Font = new Font("Segoe UI", 9f, FontStyle.Bold),
+                    SelectionBackColor = BgCard
+                },
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
+                ColumnHeadersHeight = 28,
+                BorderStyle = BorderStyle.None,
+                Margin = new Padding(0)
+            };
+            _dtcGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Kod", HeaderText = "Kod", Width = 80 });
+            _dtcGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Aciklama", HeaderText = "Açıklama", Width = 280, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            rightPanel.Controls.Add(_dtcGrid);
+
+            // Assemble
+            mainLayout.Controls.Add(leftPanel, 0, 0);
+            mainLayout.Controls.Add(rightPanel, 1, 0);
+            tab.Controls.Add(mainLayout);
+        }
+
+        // ── Hardware Event Handlers ──────────────────────────────
+
+        private void OnProgrammerStateChanged(object sender, HondaTuner.Core.Interfaces.ConnectionStateChangedEventArgs e)
+        {
+            if (InvokeRequired) { BeginInvoke((Action)(() => OnProgrammerStateChanged(sender, e))); return; }
+
+            // Durum etiketi rengi
+            switch (e.NewState)
+            {
+                case HondaTuner.Core.Interfaces.ConnectionState.Connected:
+                    _progStateLabel.Text = "● Bağlandı";
+                    _progStateLabel.ForeColor = VtecGreen;
+                    _progStatusLabel.Text = "🔌 PROG: ONLINE";
+                    _progStatusLabel.ForeColor = VtecGreen;
+                    _btnProgConnect.Enabled = false;
+                    _btnProgDisconnect.Enabled = true;
+                    foreach (var b in new[] { _btnProgRead, _btnProgWrite, _btnProgErase, _btnProgVerify })
+                        b.Enabled = true;
+                    break;
+                case HondaTuner.Core.Interfaces.ConnectionState.Connecting:
+                    _progStateLabel.Text = "● Bağlanıyor...";
+                    _progStateLabel.ForeColor = AccentBlue;
+                    _progStatusLabel.Text = "🔌 PROG: BAĞLANIYOR";
+                    _progStatusLabel.ForeColor = AccentBlue;
+                    break;
+                case HondaTuner.Core.Interfaces.ConnectionState.Error:
+                    _progStateLabel.Text = "● Hata";
+                    _progStateLabel.ForeColor = AccentRed;
+                    _progStatusLabel.Text = "🔌 PROG: HATA";
+                    _progStatusLabel.ForeColor = AccentRed;
+                    _btnProgConnect.Enabled = true;
+                    _btnProgDisconnect.Enabled = false;
+                    foreach (var b in new[] { _btnProgRead, _btnProgWrite, _btnProgErase, _btnProgVerify })
+                        b.Enabled = false;
+                    break;
+                default:  // Disconnected / TimedOut
+                    _progStateLabel.Text = "● Bağlı Değil";
+                    _progStateLabel.ForeColor = TextMuted;
+                    _progStatusLabel.Text = "🔌 PROG: OFFLINE";
+                    _progStatusLabel.ForeColor = TextMuted;
+                    _btnProgConnect.Enabled = true;
+                    _btnProgDisconnect.Enabled = false;
+                    foreach (var b in new[] { _btnProgRead, _btnProgWrite, _btnProgErase, _btnProgVerify })
+                        b.Enabled = false;
+                    break;
+            }
+            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Durum: {e.NewState} — {e.Message}");
+        }
+
+        private void OnOstrichStateChanged(object sender, HondaTuner.Core.Interfaces.ConnectionStateChangedEventArgs e)
+        {
+            if (InvokeRequired) { BeginInvoke((Action)(() => OnOstrichStateChanged(sender, e))); return; }
+
+            switch (e.NewState)
+            {
+                case HondaTuner.Core.Interfaces.ConnectionState.Connected:
+                    _emuStatusLabel.Text = "🎮 EMU: ONLINE";
+                    _emuStatusLabel.ForeColor = VtecGreen;
+                    break;
+                case HondaTuner.Core.Interfaces.ConnectionState.Connecting:
+                    _emuStatusLabel.Text = "🎮 EMU: BAĞLANIYOR";
+                    _emuStatusLabel.ForeColor = AccentBlue;
+                    break;
+                case HondaTuner.Core.Interfaces.ConnectionState.Error:
+                    _emuStatusLabel.Text = "🎮 EMU: HATA";
+                    _emuStatusLabel.ForeColor = AccentRed;
+                    break;
+                default:
+                    _emuStatusLabel.Text = "🎮 EMU: OFFLINE";
+                    _emuStatusLabel.ForeColor = TextMuted;
+                    break;
+            }
+        }
+
+        private void AppendProgLog(string message)
+        {
+            if (_progLog == null) return;
+            if (InvokeRequired) { BeginInvoke((Action)(() => AppendProgLog(message))); return; }
+            _progLog.AppendText(message + Environment.NewLine);
+            _progLog.ScrollToCaret();
+        }
+
+        private void OnProgConnect(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_chipTypeCombo != null)
+                    _programmer.ChipType = _chipTypeCombo.SelectedItem?.ToString() ?? "SST27SF512";
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Bağlanıyor... (Çip: {_programmer.ChipType})");
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try { _programmer.Connect(); }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"CH341A bağlantı hatası:\n{ex.Message}", "Bağlantı Hatası",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bağlantı başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnProgDisconnect(object sender, EventArgs e)
+        {
+            try
+            {
+                _programmer.Disconnect();
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Bağlantı kesildi.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bağlantı kesme hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnProgReadChip(object sender, EventArgs e)
+        {
+            try
+            {
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çip okunuyor...");
+                _progProgressBar.Value = 0;
+                int romLen = _activeProfile != null ? _activeProfile.RomSize : EcuConstants.DefaultRomSize;
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        byte[] data = _programmer.ReadChip(romLen);
+                        BeginInvoke((Action)(() =>
+                        {
+                            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ {data.Length} bayt okundu.");
+                            SetStatus($"CH341A: {data.Length} bayt okundu.");
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"Okuma hatası:\n{ex.Message}", "Okuma Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Okuma başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnProgWriteChip(object sender, EventArgs e)
+        {
+            if (!_parser.IsLoaded) { NoRomWarning(); return; }
+            if (MessageBox.Show("Aktif ROM dosyası çipe yazılacak. Yedek otomatik alınacak. Devam?",
+                "Çipe Yaz", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+            try
+            {
+                byte[] romData = _parser.GetRomBuffer();
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çipe yazılıyor ({romData.Length} bayt)...");
+                _progProgressBar.Value = 0;
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        _programmer.WriteChip(romData);
+                        BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ Yazma tamamlandı."); SetStatus("CH341A: Yazma tamamlandı."); }));
+                    }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"Yazma hatası:\n{ex.Message}", "Yazma Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Yazma başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnProgEraseChip(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Çip tamamen silinecek! Bu işlem geri alınamaz. Devam?",
+                "Çipi Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+            try
+            {
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çip siliniyor...");
+                _progProgressBar.Value = 0;
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        _programmer.EraseChip();
+                        BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ Silme tamamlandı."); SetStatus("CH341A: Silme tamamlandı."); }));
+                    }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"Silme hatası:\n{ex.Message}", "Silme Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Silme başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnProgVerifyChip(object sender, EventArgs e)
+        {
+            if (!_parser.IsLoaded) { NoRomWarning(); return; }
+            try
+            {
+                byte[] expected = _parser.GetRomBuffer();
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çip doğrulanıyor ({expected.Length} bayt karşılaştırılıyor)...");
+                _progProgressBar.Value = 0;
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        bool ok = _programmer.VerifyChip(expected);
+                        BeginInvoke((Action)(() =>
+                        {
+                            string msg = ok ? "✅ Doğrulama başarılı — çip ROM ile eşleşiyor." : "❌ Doğrulama BAŞARISIZ — çip verisi farklı!";
+                            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] {msg}");
+                            SetStatus($"CH341A Doğrulama: {(ok ? "BAŞARILI" : "BAŞARISIZ")}");
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"Doğrulama hatası:\n{ex.Message}", "Doğrulama Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Doğrulama başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnReadDtcsLive(object sender, EventArgs e)
+        {
+            if (_obdConn == null)
+            {
+                MessageBox.Show(
+                    "OBD1 bağlantısı kurulmamış.\nLütfen sağ paneldeki Port seçiciden 'Bağlan' butonuna basın.",
+                    "OBD Bağlantısı Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            try
+            {
+                _dtcGrid.Rows.Clear();
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        var dtcList = _dtcManager.ReadDtcsLive(_obdConn);
+                        BeginInvoke((Action)(() =>
+                        {
+                            _dtcGrid.Rows.Clear();
+                            if (dtcList == null || dtcList.Count == 0)
+                            {
+                                _dtcGrid.Rows.Add("—", "Arıza kodu bulunamadı.");
+                            }
+                            else
+                            {
+                                foreach (var dtc in dtcList)
+                                    _dtcGrid.Rows.Add($"P{dtc.Code:D4}", dtc.Description);
+                            }
+                            SetStatus($"DTC: {dtcList?.Count ?? 0} arıza kodu okundu.");
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"DTC okuma hatası:\n{ex.Message}", "DTC Okuma Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"DTC okuma başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnClearDtcsLive(object sender, EventArgs e)
+        {
+            if (_obdConn == null)
+            {
+                MessageBox.Show(
+                    "OBD1 bağlantısı kurulmamış.\nLütfen sağ paneldeki Port seçiciden 'Bağlan' butonuna basın.",
+                    "OBD Bağlantısı Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (MessageBox.Show("ECU'daki tüm arıza kodları temizlenecek. Devam?",
+                "Arıza Kodlarını Temizle", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+            try
+            {
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        _dtcManager.ClearDtcsLive(_obdConn);
+                        BeginInvoke((Action)(() =>
+                        {
+                            _dtcGrid.Rows.Clear();
+                            _dtcGrid.Rows.Add("—", "Arıza kodları temizlendi.");
+                            SetStatus("DTC: Arıza kodları ECU'dan temizlendi.");
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        BeginInvoke((Action)(() =>
+                            MessageBox.Show($"DTC temizleme hatası:\n{ex.Message}", "DTC Temizleme Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"DTC temizleme başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ── Bölüm Sonu ───────────────────────────────────────────
 
         private void BuildPartPage(Panel tab)
         {
@@ -1076,11 +1722,15 @@ namespace HondaTuner.UI
 
             var btnApply = MakeButton("Basemap Uygula", new Point(14, y + 4), 150, AccentBlue);
             var btnPreview = MakeButton("Notları Yenile", new Point(174, y + 4), 150, VtecGreen);
+            var btnStage1 = MakeButton("⚡ Stage 1 Map", new Point(14, y + 44), 310, AccentRed);
             btnApply.Click += OnApplyAssistantBasemap;
             btnPreview.Click += (s, e) => UpdateAssistantDefaults();
+            btnStage1.Click += OnApplyStage1Basemap;
+            new ToolTip().SetToolTip(btnStage1, "Stage 1 Basemap: VTEC RPM + Rev Limit + Hız + Yakıt/Ateşleme haritasını ROM'a yazar");
             left.Controls.Add(btnApply);
             left.Controls.Add(btnPreview);
-            y += 42;
+            left.Controls.Add(btnStage1);
+            y += 84;
 
             AddAssistantLabel(left, "Wideband yakıt düzeltme", y);
             y += 24;
@@ -1787,11 +2437,25 @@ namespace HondaTuner.UI
                 BorderSides = ToolStripStatusLabelBorderSides.Left,
                 ForeColor = TextMuted,
             };
+            _progStatusLabel = new ToolStripStatusLabel
+            {
+                Text = "🔌 PROG: OFFLINE",
+                BorderSides = ToolStripStatusLabelBorderSides.Left,
+                ForeColor = TextMuted,
+            };
+            _emuStatusLabel = new ToolStripStatusLabel
+            {
+                Text = "🎮 EMU: OFFLINE",
+                BorderSides = ToolStripStatusLabelBorderSides.Left,
+                ForeColor = TextMuted,
+            };
 
             _status.Items.Add(_statusLabel);
             _status.Items.Add(_checksumLabel);
             _status.Items.Add(_profileLabel);
             _status.Items.Add(_datalogStatusLabel);
+            _status.Items.Add(_progStatusLabel);
+            _status.Items.Add(_emuStatusLabel);
             Controls.Add(_status);
         }
 
@@ -2216,6 +2880,57 @@ namespace HondaTuner.UI
             SetStatus("Tuning asistanı basemap'i haritalara uyguladı.");
         }
 
+        private void OnApplyStage1Basemap(object sender, EventArgs e)
+        {
+            if (!_parser.IsLoaded) { NoRomWarning(); return; }
+
+            var confirm = MessageBox.Show(
+                "Stage 1 Basemap;\n" +
+                "  • VTEC RPM, Rev Limit ve Hız Sınırı'nı ROM'a yazacak\n" +
+                "  • Yakıt ve Ateşleme haritalarını enjektör + hedef AFR'ye göre güncelleyecek\n\n" +
+                "Devam etmek istiyor musunuz?",
+                "⚡ Stage 1 Basemap Onayla",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                var setup = BuildAssistantSetup();
+
+                var result = TuningAssistant.CreateStage1Map(
+                    _activeProfile,
+                    _fuelGrid.GetData(),
+                    _ignGrid.GetData(),
+                    setup,
+                    _parser);   // parser writes limits directly to ROM
+
+                // Sync UI spinners with the values that were written
+                if (_activeProfile.HasVtec)
+                    _vtecRpmSpinner.Value = Clamp(setup.VtecRpm, _vtecRpmSpinner.Minimum, _vtecRpmSpinner.Maximum);
+                _revLimitSpinner.Value = Clamp(setup.RevLimitRpm, _revLimitSpinner.Minimum, _revLimitSpinner.Maximum);
+                _speedLimitSpinner.Value = Clamp(setup.SpeedLimitKmh, _speedLimitSpinner.Minimum, _speedLimitSpinner.Maximum);
+
+                // Sync fuel/ignition grids with the written maps
+                _fuelGrid.SetData(result.FuelMap);
+                _ignGrid.SetData(result.IgnitionMap);
+
+                // Show the full report in the assistant notes panel
+                _assistantNotes.Text = result.Summary;
+                _assistantNotes.SelectionStart = 0;
+                _assistantNotes.SelectionLength = 0;
+                _assistantNotes.ScrollToCaret();
+
+                MarkDirty();
+                SetStatus("⚡ Stage 1 Basemap ROM'a uygulandı — kaydetmeyi unutmayın.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Stage 1 uygulanamadı:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void OnApplyWidebandCorrection(object sender, EventArgs e)
         {
             if (!_parser.IsLoaded) { NoRomWarning(); return; }
@@ -2395,6 +3110,36 @@ namespace HondaTuner.UI
             };
             b.FlatAppearance.BorderColor = accent;
             b.FlatAppearance.BorderSize = 1;
+            return b;
+        }
+
+        /// <summary>Donanım paneli için beyaz yazılı, düz renkli buton.</summary>
+        private Button MakeHwButton(string text, int w, Color bg)
+        {
+            var b = new Button
+            {
+                Text = text,
+                Size = new Size(w, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = bg,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 9f, FontStyle.Bold),
+                Cursor = Cursors.Hand,
+                UseVisualStyleBackColor = false,
+            };
+            b.FlatAppearance.BorderColor = ControlPaint.Light(bg, 0.4f);
+            b.FlatAppearance.BorderSize = 1;
+            // Disabled durumda da beyaz metin korunuyor
+            b.Paint += (s, e) =>
+            {
+                if (!b.Enabled)
+                {
+                    e.Graphics.Clear(Color.FromArgb(60, bg.R, bg.G, bg.B));
+                    TextRenderer.DrawText(e.Graphics, b.Text, b.Font,
+                        b.ClientRectangle, Color.FromArgb(160, 255, 255, 255),
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                }
+            };
             return b;
         }
 
@@ -2811,7 +3556,7 @@ namespace HondaTuner.UI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnAutoTuneDomainEvent UI güncelleme hatası: {ex.Message}"); }
         }
 
         private static int Clamp(int v, int min, int max) => v < min ? min : v > max ? max : v;
@@ -2821,6 +3566,9 @@ namespace HondaTuner.UI
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             _datalogMgr?.Disconnect();
+            _programmer?.Disconnect();
+            _ostrich?.Disconnect();
+            _obdConn?.Disconnect();
             if (_rtpEngine != null)
             {
                 _rtpEngine.OnRtpDomainEvent -= OnRtpDomainEvent;
@@ -2860,7 +3608,7 @@ namespace HondaTuner.UI
 
                 UpdateRtpStatusUI();
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnRtpDomainEvent UI güncelleme hatası: {ex.Message}"); }
         }
 
         private void UpdateRtpStatusUI()

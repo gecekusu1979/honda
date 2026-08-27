@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using HondaTuner.Calibration.VtecBoost;
@@ -345,8 +346,8 @@ namespace HondaTuner.UI
 
         private void VtecLimits_Changed(object sender, EventArgs e)
         {
-            double minR = GetDouble(_txtVtecMinRpm.Text);
-            double minS = GetDouble(_txtVtecMinSpeed.Text);
+            double minR = GetDouble(_txtVtecMinRpm.Text, _service.Tables.VtecMinRpm);
+            double minS = GetDouble(_txtVtecMinSpeed.Text, _service.Tables.VtecMinSpeed);
             _service.Tables.VtecMinRpm = minR;
             _service.Tables.VtecMinSpeed = minS;
         }
@@ -359,7 +360,7 @@ namespace HondaTuner.UI
                 double val = Convert.ToDouble(_dgvBoostTargets.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
                 _service.Tables.BoostTargets[e.RowIndex, e.ColumnIndex - 1] = val;
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine($"[VtecBoostControl] BoostTargets hücresi parse hatası: {ex.Message}"); }
         }
 
         private void DgvWgDuties_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -370,7 +371,7 @@ namespace HondaTuner.UI
                 double val = Convert.ToDouble(_dgvWgDuties.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
                 _service.Tables.BaseWgDuty[e.RowIndex, e.ColumnIndex - 1] = val;
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine($"[VtecBoostControl] WgDuties hücresi parse hatası: {ex.Message}"); }
         }
 
         private void Service_WgFailureAlarm(object sender, string alarmMsg)
@@ -425,13 +426,22 @@ namespace HondaTuner.UI
             }
         }
 
-        private double GetDouble(string text)
+        private double GetDouble(string text, double fallback = 0.0)
         {
             if (double.TryParse(text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double res))
                 return res;
             if (double.TryParse(text, out double resLocal))
                 return resLocal;
-            return 0.0;
+            return fallback;
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _simTimer?.Stop();
+                _simTimer?.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

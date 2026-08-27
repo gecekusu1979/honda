@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using HondaTuner.Core.Logging;
 
 namespace HondaTuner.Core
 {
@@ -32,8 +33,7 @@ namespace HondaTuner.Core
             // Checksum uyarı olarak göster, hata fırlatma
             // (Demo ROM'lar ve swap ECU'lar farklı checksum değeri taşıyabilir)
             if (!VerifyChecksum())
-                System.Diagnostics.Debug.WriteLine(
-                    $"[UYARI] Checksum doğrulanamadı: {_profile.Name}");
+                ApplicationLogger.Warn("RomParser", $"Checksum doğrulanamadı: {_profile.Name}");
         }
 
         // ── Fuel Map ─────────────────────────────────────────────

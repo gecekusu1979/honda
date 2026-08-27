@@ -339,7 +339,7 @@ namespace HondaTuner.Core.Telemetry
                 compFrame.FrameId = frameIdCounter++;
                 compFrame.Source = "TelemetryEngine_Computed";
                 compFrame.SourceId = "CPU_EVALUATOR";
-                compFrame.SessionId = "SESSION-MOCK-99";
+                compFrame.SessionId = ResolveActiveSessionId();
                 compFrame.Transport = "Internal";
                 compFrame.Direction = FrameDirection.Rx;
                 compFrame.FrameType = "Calculated";
@@ -362,6 +362,25 @@ namespace HondaTuner.Core.Telemetry
             }
         }
         private long frameIdCounter = 1000000;
+
+        // Stable GUID for this engine instance, used when no AutoTune session is active
+        private readonly string _engineSessionId = Guid.NewGuid().ToString();
+
+        /// <summary>
+        /// Returns the active AutoTune session ID, or falls back to the engine's own GUID.
+        /// </summary>
+        private string ResolveActiveSessionId()
+        {
+            try
+            {
+                var autoTuneEngine = HondaTuner.Core.Container.ServiceContainer
+                    .Resolve<HondaTuner.Core.AutoTune.IAutoTuneEngine>();
+                if (autoTuneEngine is HondaTuner.Core.AutoTune.AutoTuneEngine ate && ate.ActiveSession != null)
+                    return ate.ActiveSession.SessionId;
+            }
+            catch { /* No session or ServiceContainer not ready */ }
+            return _engineSessionId;
+        }
 
         private void HandleDiagnosticEvent(TelemetryEvent diagEvent)
         {

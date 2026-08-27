@@ -421,8 +421,15 @@ namespace HondaTuner.UI
                 return;
             }
 
-            string offsetText = _dgvCandidates.SelectedRows[0].Cells[0].Value.ToString();
-            int selectedOffset = Convert.ToInt32(offsetText, 16);
+            string offsetText = _dgvCandidates.SelectedRows[0].Cells[0].Value?.ToString() ?? string.Empty;
+            offsetText = offsetText.Replace("0x", "").Replace("0X", "").Trim();
+            if (!int.TryParse(offsetText, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int selectedOffset))
+            {
+                _selectedCandidate = null;
+                _btnExtractAxes.Enabled = false;
+                _btnAdopt.Enabled = false;
+                return;
+            }
             _selectedCandidate = _candidates.FirstOrDefault(c => c.Offset == selectedOffset);
 
             if (_selectedCandidate != null)

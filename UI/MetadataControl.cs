@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -432,7 +433,7 @@ namespace HondaTuner.UI
                     loadAx = parser.Profile?.LoadAxis;
                 }
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine($"[MetadataControl] ROM parser erişim hatası: {ex.Message}"); }
 
             var validationResults = EcuMetadataValidator.Validate(_metadata, _romService.Profile, revLmtValue, loadAx);
 

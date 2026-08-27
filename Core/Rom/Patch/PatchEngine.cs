@@ -70,8 +70,8 @@ namespace HondaTuner.Core.Rom.Patch
                                 PatchBytes = dto.PatchBytes?.Select(x => (byte)x).ToArray() ?? Array.Empty<byte>(),
                                 RollbackBytes = dto.RollbackBytes?.Select(x => (byte)x).ToArray() ?? Array.Empty<byte>(),
                                 ChecksumRequired = dto.ChecksumRequired,
-                                MinimumRomSize = dto.MinimumRomSize > 0 ? dto.MinimumRomSize : 32768,
-                                MaximumRomSize = dto.MaximumRomSize > 0 ? dto.MaximumRomSize : 32768,
+                                MinimumRomSize = dto.MinimumRomSize > 0 ? dto.MinimumRomSize : EcuConstants.DefaultRomSize,
+                                MaximumRomSize = dto.MaximumRomSize > 0 ? dto.MaximumRomSize : EcuConstants.DefaultRomSize,
                                 CreatedVersion = dto.CreatedVersion,
                                 LastUpdated = dto.LastUpdated
                             };
@@ -198,8 +198,7 @@ namespace HondaTuner.Core.Rom.Patch
             {
                 if (runLocalTx)
                 {
-                    try { _calibrationService.RollbackTransaction(); } catch { }
-                    // Geri alma işlemi sonrasında local romData tamponunu da eski haline al
+                    try { _calibrationService.RollbackTransaction(); } catch (Exception rollbackEx) { Logging.ApplicationLogger.Error("PatchEngine", $"Rollback hatası: {rollbackEx.Message}"); }
                     for (int i = 0; i < patch.PatchBytes.Length; i++)
                     {
                         romData[offset + i] = originalBytes[i];
@@ -292,7 +291,7 @@ namespace HondaTuner.Core.Rom.Patch
             {
                 if (runLocalTx)
                 {
-                    try { _calibrationService.RollbackTransaction(); } catch { }
+                    try { _calibrationService.RollbackTransaction(); } catch (Exception rollbackEx) { Logging.ApplicationLogger.Error("PatchEngine", $"Rollback (ikincil) hatası: {rollbackEx.Message}"); }
                 }
                 result.ErrorMessage = ex.Message;
                 AddAudit(username, patchId, backup.PatchedBytes, backup.OriginalBytes, backup.Offset, $"ROLLBACK_FAILED: {ex.Message}", false, null);

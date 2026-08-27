@@ -2,6 +2,7 @@ using System;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
+using HondaTuner.Core;
 
 namespace HondaTuner.UI
 {
@@ -35,7 +36,7 @@ namespace HondaTuner.UI
         public void Connect(string portName)
         {
             Disconnect();
-            _port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One)
+            _port = new SerialPort(portName, EcuConstants.Obd1BaudRate, Parity.None, 8, StopBits.One)
             {
                 ReadTimeout = 200,
                 WriteTimeout = 200,

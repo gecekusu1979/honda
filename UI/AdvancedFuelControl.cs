@@ -360,7 +360,10 @@ namespace HondaTuner.UI
                 _fuelService.Tables.AlphaNVolumetricEfficiency[e.RowIndex, e.ColumnIndex - 1] = val;
                 RunSimulation();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[AdvancedFuelControl] AlphaN hücre güncellenemedi: {ex.Message}");
+            }
         }
 
         private void DgvMafScale_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -375,7 +378,10 @@ namespace HondaTuner.UI
                     _fuelService.Tables.MafFlowRates[e.RowIndex] = val;
                 RunSimulation();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[AdvancedFuelControl] MafScale hücre güncellenemedi: {ex.Message}");
+            }
         }
 
         private void DgvColdStart_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -390,7 +396,10 @@ namespace HondaTuner.UI
                     _fuelService.Tables.ColdStartMultipliers[e.RowIndex] = val;
                 RunSimulation();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[AdvancedFuelControl] ColdStart hücre güncellenemedi: {ex.Message}");
+            }
         }
 
         private void Inputs_Changed(object sender, EventArgs e)
@@ -474,6 +483,15 @@ namespace HondaTuner.UI
             if (double.TryParse(text, out double resLocal))
                 return resLocal;
             return 0.0;
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _transientTimer?.Stop();
+                _transientTimer?.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

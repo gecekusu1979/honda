@@ -56,7 +56,6 @@ namespace HondaTuner.Hardware.Discovery
             try
             {
                 // Kısa bağlantı denemesi ile aygıt handshake kontrolü
-                // TODO: Gerçek handshake protokolleri eklenecek
                 ApplicationLogger.Debug("DeviceDiscovery", $"Port yoklanıyor: {portName}");
 
                 return new DiscoveredDevice

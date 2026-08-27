@@ -358,5 +358,14 @@ namespace HondaTuner.UI
             dgv.EnableHeadersVisualStyles = false;
             return dgv;
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _trafficTimer?.Stop();
+                _trafficTimer?.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

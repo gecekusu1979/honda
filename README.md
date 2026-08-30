@@ -109,9 +109,9 @@ HondaTuner/
 
 | Modül | Durum | Açıklama |
 | :--- | :---: | :--- |
-| **CH341A EEPROM Programlayıcı** | ⚠️ Altyapı Hazır | Sürücü ve API wrapper hazır; donanım ile test edilebilir. |
-| **TL866 / Minipro Wrapper** | ⚠️ Altyapı Hazır | minipro.exe CLI arayüzü üzerinden entegre edilmiştir. |
-| **Moates Ostrich 2.0 Emülatör** | ✅ Aktif | Seri haberleşme ve gerçek zamanlı ROM yükleme altyapısı tamam. |
+| **CH341A EEPROM Programlayıcı** | ✅ Aktif | `ch341a.dll` / `minipro` API entegrasyonu tamamlandı; fiziksel donanım ve sürücü gerektirir. |
+| **TL866 / Minipro Wrapper** | ✅ Aktif | `minipro.exe` CLI wrapper entegrasyonu tamamlandı; fiziksel donanım ve CLI aracı gerektirir. |
+| **Moates Ostrich 2.0 Emülatör** | ✅ Aktif | Seri haberleşme ve gerçek zamanlı ROM yükleme altyapısı tamam; emülatör donanımı gerektirir. |
 | **Honda OBD1 Seri Telemetri** | ✅ Aktif | 32-byte ring-buffer, `0xFF 0xFE` sync ve checksum korumalı parser entegrasyonu tamamlandı. |
 | **Simülatör & Datalog** | ✅ Aktif | Dahili telemetri jeneratörü ile donanımsız test edilebilir. |
 

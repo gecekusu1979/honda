@@ -14,10 +14,11 @@ HondaTuner V2, Honda OBD1 ECU ROM dosyalarını incelemek, düzenlemek, doğrula
 * **Bütünlük & Güvenlik:** Otomatik Honda Checksum doğrulama ve güncelleme motoru.
 * **Patch Motoru:** Patch tanımları, preview, validation ve rollback altyapısı.
 * **AutoTune Motoru:** Gerçek zamanlı VE düzeltme kararları, güvenlik kontrolleri, snapshot ve recovery servisleri.
-* **Canlı Telemetri:** Datalog manager, seri port tabanlı Honda OBD1 bağlantısı ve DTC (Arıza Kodu) okuma/temizleme katmanı.
-* **Donanım Desteği:** CH341A / TL866 (minipro) EEPROM programlayıcı wrapper sınıfları ve Moates Ostrich emülatör entegrasyonu.
-* **Motor Güvenliği:** Engine Protection, Diagnostics A2L, VTEC/Boost, Advanced Fuel ve Gelişmiş Ateşleme simülatörleri.
-* **Dahili Test Altyapısı:** Dahili test harness ve sentetik ROM doğrulama suite'i (115+ unit test).
+* **Canlı Telemetri & Koruma Barı:** OBD1 akışı sırasında tetiklenen motor koruma limitlerini (`LeanCut`, `OverboostCut`, `ECTRetard`, `KnockRetard`) üst barda gösteren **Canlı Koruma Uyarı Banneri**.
+* **AutoTune Öneri Tablosu:** Sürüş esnasında AutoTune motoru tarafından üretilen düzeltmeleri gösteren, UI blokajını engellemek için 50 satırla sınırlı **Öneri Tablosu (Suggestions Grid)**.
+* **Gelişmiş OBD1 Protokol Parser'ı:** Parazitli/hatalı seri port paketlerini filtrelemek için `0xFF 0xFE` sync baytları ve checksum kontrolünü barındıran 32-byte ring-buffer tabanlı parser.
+* **Multi-Language (TR/EN) Desteği:** `Database/` klasöründeki `.resx` XML dosyaları üzerinden çalışan, menü barından anında dil değiştirmeyi sağlayan Türkçe ve İngilizce arayüz desteği.
+* **Dahili Test Altyapısı:** Dahili test harness ve sentetik ROM doğrulama suite'i (8 yeni koruma testi dahil **123 unit test**).
 
 ---
 
@@ -57,6 +58,8 @@ HondaTuner/
 ├── Core/
 │   ├── AutoTune/              AutoTune karar, güvenlik, snapshot ve recovery servisleri
 │   ├── Calibration/           Yakıt, ateşleme, diagnostics, dyno/log ve koruma tabloları
+│   ├── Localization/          XML .resx tabanlı TR/EN dil çeviri yardımcısı (L.cs)
+│   ├── Protocol/              Ring-buffer tabanlı Honda OBD1 Serial Frame Parser
 │   ├── Rom/                   ROM servisleri, checksum, patch engine ve backup yönetimi
 │   ├── ReverseEngineering/    ROM analiz, map search ve axis extraction yardımcıları
 │   ├── Rtp/                   RTP kalibrasyon motoru ve event modelleri
@@ -65,7 +68,7 @@ HondaTuner/
 │   ├── EcuConstants.cs        Ortak ROM boyutu ve OBD1 baud rate sabitleri
 │   └── RomParser.cs           ROM buffer okuma/yazma ve temel parser işlemleri
 ├── UI/
-│   ├── MainForm.cs            Ana Windows Forms arayüzü
+│   ├── MainForm.cs            Ana Windows Forms arayüzü ve dil ayarları
 │   ├── MapGridControl.cs      Harita düzenleme grid bileşeni
 │   ├── TelemetryDashboard.cs  Canlı telemetri ekranı
 │   ├── ReverseControl.cs      ROM inceleme ekranı
@@ -102,14 +105,14 @@ HondaTuner/
 
 ---
 
-## Donanım Entegrasyon Durumu
+## Donanım Kontrol Durumu
 
 | Modül | Durum | Açıklama |
 | :--- | :---: | :--- |
 | **CH341A EEPROM Programlayıcı** | ⚠️ Altyapı Hazır | Sürücü ve API wrapper hazır; donanım ile test edilebilir. |
 | **TL866 / Minipro Wrapper** | ⚠️ Altyapı Hazır | minipro.exe CLI arayüzü üzerinden entegre edilmiştir. |
-| **Moates Ostrich 2.0 Emülatör** | ⚠️ Altyapı Hazır | Seri haberleşme ve gerçek zamanlı ROM yükleme altyapısı tamam. |
-| **Honda OBD1 Seri Telemetri** | ⚠️ Altyapı Hazır | CN2 portu üzerinden 9600 baud k-line protokol desteği. |
+| **Moates Ostrich 2.0 Emülatör** | ✅ Aktif | Seri haberleşme ve gerçek zamanlı ROM yükleme altyapısı tamam. |
+| **Honda OBD1 Seri Telemetri** | ✅ Aktif | 32-byte ring-buffer, `0xFF 0xFE` sync ve checksum korumalı parser entegrasyonu tamamlandı. |
 | **Simülatör & Datalog** | ✅ Aktif | Dahili telemetri jeneratörü ile donanımsız test edilebilir. |
 
 ---

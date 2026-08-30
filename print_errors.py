@@ -2,7 +2,7 @@ import subprocess
 import os
 import re
 
-cwd = r"c:\Users\ayhan\OneDrive\Desktop\Canlı OBD2 Araç Telemetri Ekranı\HondaTuner"
+cwd = os.path.dirname(os.path.abspath(__file__)) if __file__ else "."
 res = subprocess.run(["dotnet", "build"], cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="ignore")
 
 lines = res.stdout.split("\n")

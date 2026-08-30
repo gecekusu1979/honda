@@ -1,6 +1,0 @@
-[DIAG] tab: Size={Width=1084, Height=703}, Visible=True
-[DIAG] hdr: Bounds={X=0,Y=0,Width=1084,Height=34}, Visible=True, Dock=Top
-[DIAG] hint: Bounds={X=0,Y=685,Width=1084,Height=18}, Visible=True, Dock=Bottom
-[DIAG] noteLabel: Bounds={X=0,Y=653,Width=1084,Height=32}, Visible=True, Dock=Bottom
-[DIAG] _partViewer: Bounds={X=0,Y=0,Width=1084,Height=703}, Visible=True, Dock=Fill
-

@@ -29,5 +29,33 @@ namespace HondaTuner.Calibration.EngineProtection
 
         // 7. Limp Mod Limitleri
         public double ThermalLimpModeRpm { get; set; } = 3000.0; // RPM
+
+        // ── YENİ: Lean Cut Eşikleri ──────────────────────────────
+        /// <summary>RPM eşiği: Bu değerin üzerinde ve yüksek yükte lean cut devreye girer.</summary>
+        public double LeanCutRpmThreshold { get; set; } = 4000.0;
+        /// <summary>MAP eşiği (kPa): Bu değerin üzerinde lean AFR tehlikeli kabul edilir.</summary>
+        public double LeanCutMapThreshold { get; set; } = 120.0;
+        /// <summary>AFR eşiği: Bu değerin üzerinde fakir yanma koruması devreye girer.</summary>
+        public double LeanCutAfrThreshold { get; set; } = 12.8;
+
+        // ── YENİ: Overboost Cut Eşikleri ─────────────────────────
+        /// <summary>Hedef boost basıncı (kPa). Buna OverboostMarginKpa eklenerek kesme limiti hesaplanır.</summary>
+        public double TargetBoostKpa { get; set; } = 150.0;
+        /// <summary>Overboost marjı (kPa): Hedef boost üzerinde bu kadar tolerans tanınır.</summary>
+        public double OverboostMarginKpa { get; set; } = 25.0;
+
+        // ── YENİ: ECT Dinamik Timing Retard Eşikleri ─────────────
+        /// <summary>ECT bu sıcaklığı aşarsa dinamik avans geri çekmesi başlar (°C).</summary>
+        public double EctCriticalRetardThreshold { get; set; } = 102.0;
+        /// <summary>ECT retardının minimum değeri (102°C'de -2.0°).</summary>
+        public double EctTimingRetardMin { get; set; } = 2.0;
+        /// <summary>ECT retardının maksimum değeri (110°C'de -4.0°).</summary>
+        public double EctTimingRetardMax { get; set; } = 4.0;
+
+        // ── YENİ: Knock Timing Retard Parametreleri ──────────────
+        /// <summary>Vuruntu algılandığında anlık avans geri çekme derecesi.</summary>
+        public double KnockTimingRetard { get; set; } = 3.0;
+        /// <summary>Vuruntu kesildikten sonra her saniyede kaç derece toparlama yapılır.</summary>
+        public double KnockRecoveryRate { get; set; } = 0.5; // °/saniye
     }
 }

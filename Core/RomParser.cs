@@ -22,6 +22,9 @@ namespace HondaTuner.Core
 
             byte[] data = File.ReadAllBytes(path);
 
+            if (data == null || (data.Length != 32768 && data.Length != 65536))
+                throw new InvalidDataException("Geçersiz ROM dosya boyutu. Sadece 32KB ve 64KB OBD1 ROM dosyaları desteklenir.");
+
             if (data.Length != _profile.RomSize)
                 throw new InvalidDataException(
                     $"Hatalı ROM boyutu: {data.Length} byte. " +
@@ -77,6 +80,8 @@ namespace HondaTuner.Core
             AssertLoaded();
             if (!_profile.HasVtec)
                 return 0;
+            if (_profile.VtecRpmOffset < 0 || _profile.VtecRpmOffset + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(_profile.VtecRpmOffset), "Kritik offset okuma sınır dışı.");
             return (_rom[_profile.VtecRpmOffset] << 8)
                   | _rom[_profile.VtecRpmOffset + 1];
         }
@@ -91,6 +96,9 @@ namespace HondaTuner.Core
                     nameof(rpm),
                     $"VTEC RPM {_profile.VtecRpmMin}-{_profile.VtecRpmMax} arasında olmalı.");
 
+            if (_profile.VtecRpmOffset < 0 || _profile.VtecRpmOffset + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(_profile.VtecRpmOffset), "Kritik offset yazma sınır dışı.");
+
             _rom[_profile.VtecRpmOffset] = (byte)(rpm >> 8);
             _rom[_profile.VtecRpmOffset + 1] = (byte)(rpm & 0xFF);
             UpdateChecksum();
@@ -101,6 +109,8 @@ namespace HondaTuner.Core
         public int ReadRevLimit()
         {
             AssertLoaded();
+            if (_profile.RevLimitOffset < 0 || _profile.RevLimitOffset + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(_profile.RevLimitOffset), "Kritik offset okuma sınır dışı.");
             return (_rom[_profile.RevLimitOffset] << 8)
                   | _rom[_profile.RevLimitOffset + 1];
         }
@@ -112,6 +122,9 @@ namespace HondaTuner.Core
                 throw new ArgumentOutOfRangeException(
                     nameof(rpm),
                     $"Rev limit {_profile.RevLimitMin}-{_profile.RevLimitMax} arasında olmalı.");
+
+            if (_profile.RevLimitOffset < 0 || _profile.RevLimitOffset + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(_profile.RevLimitOffset), "Kritik offset yazma sınır dışı.");
 
             _rom[_profile.RevLimitOffset] = (byte)(rpm >> 8);
             _rom[_profile.RevLimitOffset + 1] = (byte)(rpm & 0xFF);
@@ -125,7 +138,7 @@ namespace HondaTuner.Core
         {
             AssertLoaded();
             int offset = 0x1FAC;
-            if (offset + 1 >= _rom.Length) return 180;
+            if (offset < 0 || offset + 1 >= _rom.Length) return 180;
             return (_rom[offset] << 8) | _rom[offset + 1];
         }
 
@@ -136,6 +149,8 @@ namespace HondaTuner.Core
             if (kmh < 50 || kmh > 300)
                 throw new ArgumentOutOfRangeException(nameof(kmh), "Hız sınırı 50-300 km/h arasında olmalı.");
             int offset = 0x1FAC;
+            if (offset < 0 || offset + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset yazma sınır dışı.");
             _rom[offset] = (byte)(kmh >> 8);
             _rom[offset + 1] = (byte)(kmh & 0xFF);
             UpdateChecksum();
@@ -149,7 +164,7 @@ namespace HondaTuner.Core
             AssertLoaded();
             if (!_profile.HasVtec) return 0;
             int offset = 0x1F42;
-            if (offset + 1 >= _rom.Length) return 60;
+            if (offset < 0 || offset + 1 >= _rom.Length) return 60;
             return (_rom[offset] << 8) | _rom[offset + 1];
         }
 
@@ -161,6 +176,8 @@ namespace HondaTuner.Core
             if (kpa < 10 || kpa > 150)
                 throw new ArgumentOutOfRangeException(nameof(kpa), "VTEC yük eşiği 10-150 kPa arasında olmalı.");
             int offset = 0x1F42;
+            if (offset < 0 || offset + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset yazma sınır dışı.");
             _rom[offset] = (byte)(kpa >> 8);
             _rom[offset + 1] = (byte)(kpa & 0xFF);
             UpdateChecksum();
@@ -172,7 +189,10 @@ namespace HondaTuner.Core
         public double ReadInjectorDeadTime()
         {
             AssertLoaded();
-            return _rom[0x1D80] * 0.05;
+            int offset = 0x1D80;
+            if (offset < 0 || offset >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset okuma sınır dışı.");
+            return _rom[offset] * 0.05;
         }
 
         /// <summary>Enjektör ölü süresini ms olarak yazar (0.05ms adım çözünürlüğü).</summary>
@@ -182,7 +202,10 @@ namespace HondaTuner.Core
             int rawVal = (int)Math.Round(ms / 0.05);
             if (rawVal < 0 || rawVal > 255)
                 throw new ArgumentOutOfRangeException(nameof(ms), "Enjektör ölü süresi 0-12.75 ms arasında olmalı.");
-            _rom[0x1D80] = (byte)rawVal;
+            int offset = 0x1D80;
+            if (offset < 0 || offset >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset yazma sınır dışı.");
+            _rom[offset] = (byte)rawVal;
             UpdateChecksum();
         }
 
@@ -205,17 +228,30 @@ namespace HondaTuner.Core
 
         // ── Ham Erişim (ileri seviye) ────────────────────────────
 
-        public byte ReadByte(int offset) => _rom[offset];
+        public byte ReadByte(int offset)
+        {
+            AssertLoaded();
+            if (offset < 0 || offset >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Okuma sınır dışı.");
+            return _rom[offset];
+        }
+
         public void WriteByte(int offset, byte value)
         {
+            AssertLoaded();
+            if (offset < 0 || offset >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Yazma sınır dışı.");
             _rom[offset] = value;
             UpdateChecksum();
         }
 
         public byte[] GetRomBuffer() => _rom != null ? (byte[])_rom.Clone() : null;
+
         public void SetRomBuffer(byte[] buffer)
         {
             if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (buffer.Length != 32768 && buffer.Length != 65536)
+                throw new InvalidDataException("Geçersiz ROM dosya boyutu. Sadece 32KB ve 64KB OBD1 ROM dosyaları desteklenir.");
             _rom = (byte[])buffer.Clone();
             if (_profile == null)
             {
@@ -291,6 +327,9 @@ namespace HondaTuner.Core
 
         private byte[,] ReadMap(int offset, int rows, int cols)
         {
+            if (offset < 0 || offset + (rows * cols) > _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Okuma sınır dışı.");
+
             var map = new byte[rows, cols];
             for (int r = 0; r < rows; r++)
                 for (int c = 0; c < cols; c++)
@@ -302,6 +341,9 @@ namespace HondaTuner.Core
         {
             int rows = map.GetLength(0);
             int cols = map.GetLength(1);
+            if (offset < 0 || offset + (rows * cols) > _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Yazma sınır dışı.");
+
             for (int r = 0; r < rows; r++)
                 for (int c = 0; c < cols; c++)
                     _rom[offset + (r * cols) + c] = map[r, c];
@@ -311,12 +353,15 @@ namespace HondaTuner.Core
         public bool ReadLaunchControlActive()
         {
             AssertLoaded();
-            if (0x1FB0 >= _rom.Length) return false;
+            if (0x1FB0 < 0 || 0x1FB0 >= _rom.Length) return false;
             return _rom[0x1FB0] == 1;
         }
+
         public void WriteLaunchControlActive(bool active)
         {
             AssertLoaded();
+            if (0x1FB0 < 0 || 0x1FB0 >= _rom.Length)
+                throw new ArgumentOutOfRangeException("LaunchControlActive", "Kritik offset yazma sınır dışı.");
             _rom[0x1FB0] = (byte)(active ? 1 : 0);
             UpdateChecksum();
         }
@@ -324,13 +369,16 @@ namespace HondaTuner.Core
         public int ReadLaunchControlRpm()
         {
             AssertLoaded();
-            if (0x1FB2 + 1 >= _rom.Length) return 3500;
+            if (0x1FB2 < 0 || 0x1FB2 + 1 >= _rom.Length) return 3500;
             int v = (_rom[0x1FB2] << 8) | _rom[0x1FB2 + 1];
             return v == 0 ? 3500 : v;
         }
+
         public void WriteLaunchControlRpm(int rpm)
         {
             AssertLoaded();
+            if (0x1FB2 < 0 || 0x1FB2 + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException("LaunchControlRpm", "Kritik offset yazma sınır dışı.");
             _rom[0x1FB2] = (byte)(rpm >> 8);
             _rom[0x1FB2 + 1] = (byte)(rpm & 0xFF);
             UpdateChecksum();
@@ -339,12 +387,15 @@ namespace HondaTuner.Core
         public int ReadLaunchControlSpeed()
         {
             AssertLoaded();
-            if (0x1FB4 + 1 >= _rom.Length) return 8;
+            if (0x1FB4 < 0 || 0x1FB4 + 1 >= _rom.Length) return 8;
             return (_rom[0x1FB4] << 8) | _rom[0x1FB4 + 1];
         }
+
         public void WriteLaunchControlSpeed(int speed)
         {
             AssertLoaded();
+            if (0x1FB4 < 0 || 0x1FB4 + 1 >= _rom.Length)
+                throw new ArgumentOutOfRangeException("LaunchControlSpeed", "Kritik offset yazma sınır dışı.");
             _rom[0x1FB4] = (byte)(speed >> 8);
             _rom[0x1FB4 + 1] = (byte)(speed & 0xFF);
             UpdateChecksum();
@@ -354,12 +405,15 @@ namespace HondaTuner.Core
         public bool ReadDtcBypass(int offset)
         {
             AssertLoaded();
-            if (offset >= _rom.Length) return false;
+            if (offset < 0 || offset >= _rom.Length) return false;
             return _rom[offset] == 1;
         }
+
         public void WriteDtcBypass(int offset, bool bypass)
         {
             AssertLoaded();
+            if (offset < 0 || offset >= _rom.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset yazma sınır dışı.");
             _rom[offset] = (byte)(bypass ? 1 : 0);
             UpdateChecksum();
         }

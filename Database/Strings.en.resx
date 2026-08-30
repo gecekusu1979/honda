@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="safety_banner_lean" xml:space="preserve">
+    <value>🚨 LEAN CONDITION DETECTED! RISK OF FLAME-OUT / ENGINE HAS BEEN SAFETY SHIELDED!</value>
+  </data>
+  <data name="safety_banner_overboost" xml:space="preserve">
+    <value>🚨 OVERBOOST DETECTED! RISK OF ENGINE DAMAGE / BOOST CUT ACTIVE!</value>
+  </data>
+  <data name="safety_banner_oil_temp" xml:space="preserve">
+    <value>🚨 HIGH OIL TEMPERATURE DETECTED! MOTOR LIMP MODE ACTIVE!</value>
+  </data>
+  <data name="safety_banner_low_oil_press" xml:space="preserve">
+    <value>🚨 CRITICAL LOW OIL PRESSURE DETECTED! ENGINE PROTECTION CUT!</value>
+  </data>
+  <data name="safety_banner_limits" xml:space="preserve">
+    <value>🚨 EMERGENCY ENGINE PROTECTION: LIMIT VALUES EXCEEDED!</value>
+  </data>
+  <data name="slow_safety_banner_retard" xml:space="preserve">
+    <value>⚠️ DELAYED PROTECTION: RETARDING IGNITION DUE TO THERMAL/KNOCK BOUNDS (-{0:F1}°)</value>
+  </data>
+  <data name="menu_telemetry" xml:space="preserve">
+    <value>Live Telemetry</value>
+  </data>
+  <data name="menu_autotune" xml:space="preserve">
+    <value>AutoTune Results</value>
+  </data>
+  <data name="btn_start" xml:space="preserve">
+    <value>Start Connection</value>
+  </data>
+  <data name="btn_stop" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+</root>

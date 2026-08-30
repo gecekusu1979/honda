@@ -3916,28 +3916,114 @@ namespace HondaTuner.UI
 
         private void UpdateLocalizedUI()
         {
-            if (_lblAtStatus != null)
+            try
             {
-                if (HondaTuner.Core.Localization.L.CurrentLanguage == "en")
+                // Menus Translation
+                if (MainMenuStrip != null && MainMenuStrip.Items.Count >= 3)
                 {
-                    _lblAtStatus.Text = _lblAtStatus.Text.Replace("Durum:", "Status:");
-                    _lblAtSafety.Text = _lblAtSafety.Text.Replace("Güvenlik Durumu:", "Safety Status:");
-                    _lblAtUser.Text = _lblAtUser.Text.Replace("Kullanıcı Rolü:", "User Role:");
-                    _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Bağlantısı:", "ECU Connection:");
-                    _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Kalite Skoru:", "Tuning Quality Score:");
+                    MainMenuStrip.Items[0].Text = HondaTuner.Core.Localization.L.Get("menu_file");
+                    MainMenuStrip.Items[1].Text = HondaTuner.Core.Localization.L.Get("menu_tools");
+                    MainMenuStrip.Items[2].Text = HondaTuner.Core.Localization.L.Get("menu_language");
+
+                    var fileMenu = (ToolStripMenuItem)MainMenuStrip.Items[0];
+                    if (fileMenu.DropDownItems.Count >= 6)
+                    {
+                        fileMenu.DropDownItems[0].Text = HondaTuner.Core.Localization.L.Get("menu_open");
+                        fileMenu.DropDownItems[1].Text = HondaTuner.Core.Localization.L.Get("menu_save");
+                        fileMenu.DropDownItems[2].Text = HondaTuner.Core.Localization.L.Get("menu_save_as");
+                        fileMenu.DropDownItems[3].Text = HondaTuner.Core.Localization.L.Get("menu_undo");
+                        fileMenu.DropDownItems[5].Text = HondaTuner.Core.Localization.L.Get("menu_exit");
+                    }
+
+                    var toolMenu = (ToolStripMenuItem)MainMenuStrip.Items[1];
+                    if (toolMenu.DropDownItems.Count >= 9)
+                    {
+                        toolMenu.DropDownItems[0].Text = HondaTuner.Core.Localization.L.Get("menu_select_vehicle");
+                        toolMenu.DropDownItems[2].Text = HondaTuner.Core.Localization.L.Get("menu_apply_basemap");
+                        toolMenu.DropDownItems[3].Text = HondaTuner.Core.Localization.L.Get("menu_wideband_corr");
+                        toolMenu.DropDownItems[5].Text = HondaTuner.Core.Localization.L.Get("menu_verify_checksum");
+                        toolMenu.DropDownItems[6].Text = HondaTuner.Core.Localization.L.Get("menu_reset_stock");
+                        toolMenu.DropDownItems[8].Text = HondaTuner.Core.Localization.L.Get("menu_ecu_profile");
+                    }
                 }
-                else
+
+                // Tabs Translation
+                if (_tabButtons != null)
                 {
-                    _lblAtStatus.Text = _lblAtStatus.Text.Replace("Status:", "Durum:");
-                    _lblAtSafety.Text = _lblAtSafety.Text.Replace("Safety Status:", "Güvenlik Durumu:");
-                    _lblAtUser.Text = _lblAtUser.Text.Replace("User Role:", "Kullanıcı Rolü:");
-                    _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Connection:", "ECU Bağlantısı:");
-                    _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Quality Score:", "Tuning Kalite Skoru:");
+                    string[] tabKeys = new[]
+                    {
+                        "tab_fuel", "tab_ignition", "tab_tuning_assistant", "tab_diff", "tab_telemetry",
+                        "tab_part_viewer", "tab_autotune", "tab_project_pinout", "tab_analysis_decompiler",
+                        "tab_adv_fuel", "tab_adv_ignition", "tab_vtec_boost", "tab_engine_protection",
+                        "tab_diagnostics_a2l", "tab_dyno_logs", "tab_hardware_control"
+                    };
+                    for (int i = 0; i < _tabButtons.Length && i < tabKeys.Length; i++)
+                    {
+                        if (_tabButtons[i] != null)
+                            _tabButtons[i].Text = HondaTuner.Core.Localization.L.Get(tabKeys[i]);
+                    }
+                }
+
+                // Telemetry Buttons Translation
+                if (_btnConnect != null) _btnConnect.Text = HondaTuner.Core.Localization.L.Get("btn_start");
+                if (_btnDisconnect != null) _btnDisconnect.Text = HondaTuner.Core.Localization.L.Get("btn_stop");
+                if (_btnSimulate != null) _btnSimulate.Text = HondaTuner.Core.Localization.L.Get("btn_simulate");
+                if (_btnLoadCsv != null) _btnLoadCsv.Text = HondaTuner.Core.Localization.L.Get("btn_load_csv");
+
+                // Playback Buttons
+                if (_btnPlayback != null) _btnPlayback.Text = HondaTuner.Core.Localization.L.Get("btn_playback");
+                if (_btnPausePlayback != null)
+                {
+                    if (_btnPausePlayback.Text == "▶ Devam Et" || _btnPausePlayback.Text == "▶ Resume")
+                    {
+                        _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_resume");
+                    }
+                    else
+                    {
+                        _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_pause");
+                    }
+                }
+
+                // AutoTune Buttons Translation
+                if (_btnAtStart != null) _btnAtStart.Text = HondaTuner.Core.Localization.L.Get("btn_at_start");
+                if (_btnAtStop != null) _btnAtStop.Text = HondaTuner.Core.Localization.L.Get("btn_at_stop");
+                if (_btnAtPause != null)
+                {
+                    if (_btnAtPause.Text == "▶ Devam Et" || _btnAtPause.Text == "▶ Resume")
+                    {
+                        _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_resume");
+                    }
+                    else
+                    {
+                        _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_pause");
+                    }
+                }
+
+                // AutoTune Status Panel Text Replacements
+                if (_lblAtStatus != null)
+                {
+                    if (HondaTuner.Core.Localization.L.CurrentLanguage == "en")
+                    {
+                        _lblAtStatus.Text = _lblAtStatus.Text.Replace("Durum:", "Status:");
+                        _lblAtSafety.Text = _lblAtSafety.Text.Replace("Güvenlik Durumu:", "Safety Status:");
+                        _lblAtUser.Text = _lblAtUser.Text.Replace("Kullanıcı Rolü:", "User Role:");
+                        _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Bağlantısı:", "ECU Connection:");
+                        _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Kalite Skoru:", "Tuning Quality Score:");
+                    }
+                    else
+                    {
+                        _lblAtStatus.Text = _lblAtStatus.Text.Replace("Status:", "Durum:");
+                        _lblAtSafety.Text = _lblAtSafety.Text.Replace("Safety Status:", "Güvenlik Durumu:");
+                        _lblAtUser.Text = _lblAtUser.Text.Replace("User Role:", "Kullanıcı Rolü:");
+                        _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Connection:", "ECU Bağlantısı:");
+                        _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Quality Score:", "Tuning Kalite Skoru:");
+                    }
                 }
             }
-
-            if (_btnConnect != null) _btnConnect.Text = HondaTuner.Core.Localization.L.Get("btn_start");
-            if (_btnDisconnect != null) _btnDisconnect.Text = HondaTuner.Core.Localization.L.Get("btn_stop");
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MainForm] UpdateLocalizedUI hatası: {ex.Message}");
+            }
         }
 
         private static int Clamp(int v, int min, int max) => v < min ? min : v > max ? max : v;

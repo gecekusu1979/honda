@@ -9,6 +9,7 @@ using HondaTuner.Core;
 using HondaTuner.Core.Config;
 using HondaTuner.Core.Rom;
 using HondaTuner.Core.Algorithms;
+using HondaTuner.Calibration.EngineProtection;
 
 namespace HondaTuner.UI
 {
@@ -60,6 +61,11 @@ namespace HondaTuner.UI
         private Label _headerVehicleLabel;
         private bool _isDirty;
 
+        // Motor Koruma Servisi & Banner UI
+        private EngineProtectionService _engineProtSvc;
+        private Label _lblSafetyBanner;
+        private System.Windows.Forms.Timer _bannerHideTimer;
+
         // Stock haritalar
         private byte[,] _stockFuelMap;
         private byte[,] _stockIgnMap;
@@ -72,6 +78,12 @@ namespace HondaTuner.UI
         private Button _btnSimulate;
         private Button _btnDisconnect;
         private ToolStripStatusLabel _datalogStatusLabel;
+        // Playback UI
+        private Button _btnLoadCsv;
+        private Button _btnPlayback;
+        private Button _btnPausePlayback;
+        private TrackBar _pbSeek;
+        private Label _lblPlaybackPos;
 
         // M4 — 3D Grafikler
         private SurfaceChart3D _fuelChart3D;
@@ -116,6 +128,7 @@ namespace HondaTuner.UI
         private Label _lblAtSafety;
         private Label _lblAtKnock;
         private Label _lblAtEct;
+        private DataGridView _dgvAutoTuneSuggestions;
         private Label _lblAtQuality;
         private ListView _atDecisionsListView;
         private long _telemetrySequence = 0;
@@ -160,6 +173,8 @@ namespace HondaTuner.UI
         private HondaTuner.Hardware.Emulator.OstrichEmulator _ostrich;
         private ToolStripStatusLabel _progStatusLabel;
         private ToolStripStatusLabel _emuStatusLabel;
+        // Anti-Brick Guard: anlık telemetri akü voltajını takip eder
+        private double _lastBatteryVolts = 99.0; // 99 = bilinmiyor (kısıtlama yok)
 
         // Hardware Kontrol UI bileşenleri
         private ComboBox _chipTypeCombo;
@@ -192,6 +207,17 @@ namespace HondaTuner.UI
 
             _datalogMgr = new DatalogManager();
             _datalogMgr.DataReceived += OnTelemetryDataReceived;
+            _engineProtSvc = new EngineProtectionService();
+
+            _bannerHideTimer = new System.Windows.Forms.Timer { Interval = 3000 };
+            _bannerHideTimer.Tick += (s, e) =>
+            {
+                _bannerHideTimer.Stop();
+                if (_lblSafetyBanner != null)
+                {
+                    _lblSafetyBanner.Visible = false;
+                }
+            };
 
             // Resolve AutoTune Closed-Loop Engine
             _autoTuneEngine = Core.Container.ServiceContainer.Resolve<HondaTuner.Core.AutoTune.IAutoTuneEngine>();
@@ -233,6 +259,9 @@ namespace HondaTuner.UI
             SetStatus("ROM yüklenmedi.  Dosya → Aç ile başlayın.");
             UpdateProfileUI();
             UpdateAssistantDefaults();
+
+            HondaTuner.Core.Localization.L.SetLanguage("tr");
+            UpdateLocalizedUI();
         }
 
         // ── Gradient Header ──────────────────────────────────────
@@ -366,6 +395,30 @@ namespace HondaTuner.UI
 
             menu.Items.Add(fileMenu);
             menu.Items.Add(toolMenu);
+
+            var langMenu = new ToolStripMenuItem("🌐 Dil") { ForeColor = TextPrimary };
+            var trItem = new ToolStripMenuItem("Türkçe (TR)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "tr" };
+            var enItem = new ToolStripMenuItem("English (EN)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "en" };
+
+            trItem.Click += (s, ev) =>
+            {
+                HondaTuner.Core.Localization.L.SetLanguage("tr");
+                trItem.Checked = true;
+                enItem.Checked = false;
+                UpdateLocalizedUI();
+            };
+            enItem.Click += (s, ev) =>
+            {
+                HondaTuner.Core.Localization.L.SetLanguage("en");
+                trItem.Checked = false;
+                enItem.Checked = true;
+                UpdateLocalizedUI();
+            };
+
+            langMenu.DropDownItems.Add(trItem);
+            langMenu.DropDownItems.Add(enItem);
+            menu.Items.Add(langMenu);
+
             Controls.Add(menu);
             MainMenuStrip = menu;
         }
@@ -989,6 +1042,21 @@ namespace HondaTuner.UI
         private void OnProgWriteChip(object sender, EventArgs e)
         {
             if (!_parser.IsLoaded) { NoRomWarning(); return; }
+
+            // ── Anti-Brick Voltaj Kilidi ──────────────────────────────────────────
+            // Telemetri bağlıysa ve voltaj < 11.8V ise yazma işlemini engelle.
+            // _lastBatteryVolts == 99.0 → telemetri bağlı değil, kontrolü atla.
+            if (_lastBatteryVolts < 99.0 && _lastBatteryVolts < 11.8)
+            {
+                string msg = $"⚠️ Yetersiz Akü Voltajı — Flash yazma iptal edildi!\n\n" +
+                             $"Anlık voltaj: {_lastBatteryVolts:0.00} V\n" +
+                             $"Minimum gerekli: 11.8 V\n\n" +
+                             "Motoru çalıştırın veya şarj cihazına bağlayınız.";
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ❌ YAZMA ENGELLENDİ: Voltaj {_lastBatteryVolts:0.00} V < 11.8 V.");
+                MessageBox.Show(msg, "Yetersiz Akü Voltajı", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
             if (MessageBox.Show("Aktif ROM dosyası çipe yazılacak. Yedek otomatik alınacak. Devam?",
                 "Çipe Yaz", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             try
@@ -1648,11 +1716,152 @@ namespace HondaTuner.UI
             connPanel.Controls.AddRange(new Control[]
             { portLabel, _comPortCombo, _btnConnect, _btnSimulate, _btnDisconnect });
 
+            // ── Playback Kontrol Paneli (Datalog Geri Oynatıcı) ─────────
+            var playPanel = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 44,
+                BackColor = Color.FromArgb(15, 20, 28),
+                Padding = new Padding(0),
+            };
+            playPanel.Paint += (s, e) =>
+            {
+                using var pen = new Pen(Border, 1);
+                e.Graphics.DrawLine(pen, 0, playPanel.Height - 1, playPanel.Width, playPanel.Height - 1);
+            };
+
+            _btnLoadCsv = MakeButton("📂 CSV Yükle", new Point(8, 9), 110, TextMuted);
+            _btnPlayback = MakeButton("▶ Oynat", new Point(126, 9), 80, VtecGreen);
+            _btnPausePlayback = MakeButton("⏸ Duraklat", new Point(214, 9), 90, AccentBlue);
+            _btnPlayback.Enabled = false;
+            _btnPausePlayback.Enabled = false;
+
+            _pbSeek = new TrackBar
+            {
+                Location = new Point(314, 8),
+                Width = 400,
+                Height = 30,
+                Minimum = 0,
+                Maximum = 100,
+                Value = 0,
+                TickFrequency = 10,
+                Enabled = false,
+                BackColor = Color.FromArgb(15, 20, 28),
+            };
+
+            _lblPlaybackPos = MakeLabel("00:00 / 00:00", new Font("Segoe UI", 8.5f), TextMuted, new Point(724, 15));
+
+            // ── CSV yükleme
+            _btnLoadCsv.Click += (s, e) =>
+            {
+                using var dlg = new OpenFileDialog
+                {
+                    Title = "Datalog CSV Seç",
+                    Filter = "CSV Telemetri|*.csv|Tüm Dosyalar|*.*",
+                };
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+                bool ok = _datalogMgr.LoadCsv(dlg.FileName);
+                if (ok)
+                {
+                    _pbSeek.Maximum = Math.Max(1, _datalogMgr.PlaybackFrameCount - 1);
+                    _pbSeek.Value = 0;
+                    _pbSeek.Enabled = true;
+                    _btnPlayback.Enabled = true;
+                    _btnPausePlayback.Enabled = false;
+                    UpdatePlaybackLabel(0, _datalogMgr.PlaybackFrameCount);
+                    SetStatus($"CSV yüklendi: {System.IO.Path.GetFileName(dlg.FileName)} — {_datalogMgr.PlaybackFrameCount} frame");
+                }
+                else
+                {
+                    MessageBox.Show("CSV dosyası yüklenemedi. Format kontrolü yapınız.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            // ── Play
+            _btnPlayback.Click += (s, e) =>
+            {
+                _datalogMgr.Play();
+                _btnPlayback.Enabled = false;
+                _btnPausePlayback.Enabled = true;
+            };
+
+            // ── Pause
+            _btnPausePlayback.Click += (s, e) =>
+            {
+                _datalogMgr.Pause();
+                _btnPlayback.Enabled = true;
+                _btnPausePlayback.Enabled = false;
+            };
+
+            // ── Seek (TrackBar kaydırma)
+            bool _seekDragging = false;
+            _pbSeek.MouseDown += (s, e) => _seekDragging = true;
+            _pbSeek.MouseUp += (s, e) =>
+            {
+                _seekDragging = false;
+                _datalogMgr.SeekTo(_pbSeek.Value);
+            };
+
+            // ── DatalogManager PlaybackPositionChanged → TrackBar sync (cross-thread safe)
+            _datalogMgr.PlaybackPositionChanged += (pos) =>
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke((Action)(() =>
+                    {
+                        if (!_seekDragging && _pbSeek.Maximum > 0)
+                            _pbSeek.Value = Math.Min(pos, _pbSeek.Maximum);
+                        UpdatePlaybackLabel(pos, _datalogMgr.PlaybackFrameCount);
+
+                        // Oynatma sona erdi mi?
+                        if (_datalogMgr.State == DatalogManager.PlaybackState.Paused &&
+                            pos >= _datalogMgr.PlaybackFrameCount - 1)
+                        {
+                            _btnPlayback.Enabled = true;
+                            _btnPausePlayback.Enabled = false;
+                        }
+                    }));
+                }
+                else
+                {
+                    if (!_seekDragging && _pbSeek.Maximum > 0)
+                        _pbSeek.Value = Math.Min(pos, _pbSeek.Maximum);
+                    UpdatePlaybackLabel(pos, _datalogMgr.PlaybackFrameCount);
+                }
+            };
+
+            playPanel.Controls.AddRange(new Control[]
+            { _btnLoadCsv, _btnPlayback, _btnPausePlayback, _pbSeek, _lblPlaybackPos });
+
+            _lblSafetyBanner = new Label
+            {
+                Dock = DockStyle.Top,
+                Height = 35,
+                BackColor = Color.FromArgb(233, 69, 96), // AccentRed
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Text = "MOTOR KORUMA AKTİF!",
+                Visible = false
+            };
+
             _telemetryDash = new TelemetryDashboard { Dock = DockStyle.Fill };
 
             tab.Controls.Add(_telemetryDash);
+            tab.Controls.Add(playPanel);   // playPanel is BELOW connPanel (added second means top-down, since Dock=Top)
             tab.Controls.Add(connPanel);
+            tab.Controls.Add(_lblSafetyBanner);
         }
+
+        private void UpdatePlaybackLabel(int pos, int total)
+        {
+            if (_lblPlaybackPos == null) return;
+            // Frame'i saniyeye çevir (80ms/frame esas alınarak)
+            double posSec = pos * 0.08;
+            double totalSec = total * 0.08;
+            _lblPlaybackPos.Text = $"{TimeSpan.FromSeconds(posSec):mm\\:ss} / {TimeSpan.FromSeconds(totalSec):mm\\:ss}  ({pos}/{total})";
+        }
+
 
         private void BuildAssistantPage(Panel tab)
         {
@@ -2517,6 +2726,66 @@ namespace HondaTuner.UI
             {
                 BeginInvoke((Action)(() => OnTelemetryDataReceived(frame)));
                 return;
+            }
+
+            // Anti-Brick Guard: anlık voltajı güncelle
+            _lastBatteryVolts = frame.BatteryVolts;
+
+            // Motor Koruma Mantığı Değerlendirmesi
+            if (_engineProtSvc != null)
+            {
+                _engineProtSvc.EvaluateSafety(
+                    rpm: frame.Rpm,
+                    ect: frame.Ect,
+                    iat: frame.Iat,
+                    oilTemp: 95.0,
+                    oilPress: 4.5,
+                    fuelPress: 3.5,
+                    actualBoost: frame.Map,
+                    egt: 650.0,
+                    dt: 0.1,
+                    afr: frame.Afr,
+                    knock: false
+                );
+
+                bool isTriggered = _engineProtSvc.IsLeanCutTriggered ||
+                                   _engineProtSvc.IsOverboostCutTriggered ||
+                                   _engineProtSvc.IsFuelCutActive ||
+                                   _engineProtSvc.IsPowerReductionActive ||
+                                   _engineProtSvc.IsThermalLimpModeActive;
+
+                if (isTriggered)
+                {
+                    if (_lblSafetyBanner != null)
+                    {
+                        string reason = HondaTuner.Core.Localization.L.Get("safety_banner_limits");
+                        if (_engineProtSvc.IsLeanCutTriggered) reason = HondaTuner.Core.Localization.L.Get("safety_banner_lean");
+                        else if (_engineProtSvc.IsOverboostCutTriggered) reason = HondaTuner.Core.Localization.L.Get("safety_banner_overboost");
+                        else if (_engineProtSvc.IsFuelCutActive) reason = HondaTuner.Core.Localization.L.Get("safety_banner_low_oil_press");
+                        else if (_engineProtSvc.IsThermalLimpModeActive) reason = HondaTuner.Core.Localization.L.Get("safety_banner_oil_temp");
+
+                        _lblSafetyBanner.Text = reason;
+                        _lblSafetyBanner.Visible = true;
+                    }
+                    _bannerHideTimer?.Stop();
+                }
+                else if (_engineProtSvc.ActiveTimingPull > 0)
+                {
+                    if (_lblSafetyBanner != null)
+                    {
+                        _lblSafetyBanner.Text = string.Format(HondaTuner.Core.Localization.L.Get("slow_safety_banner_retard"), _engineProtSvc.ActiveTimingPull);
+                        _lblSafetyBanner.Visible = true;
+                    }
+                    _bannerHideTimer?.Stop();
+                    _bannerHideTimer?.Start();
+                }
+                else
+                {
+                    if (_lblSafetyBanner != null && _lblSafetyBanner.Visible && _bannerHideTimer != null && !_bannerHideTimer.Enabled)
+                    {
+                        _bannerHideTimer.Start();
+                    }
+                }
             }
 
             _telemetryDash?.UpdateValues(
@@ -3464,7 +3733,49 @@ namespace HondaTuner.UI
             _atDecisionsListView.Columns.Add("Güven Skoru", 90);
             _atDecisionsListView.Columns.Add("Durum", 100);
 
+            var lblSuggestions = new Label
+            {
+                Text = "Canlı AutoTune Düzeltme Önerileri (Son 50 Öneri)",
+                Font = new Font("Segoe UI", 10f, FontStyle.Bold),
+                ForeColor = TextPrimary,
+                Dock = DockStyle.Bottom,
+                Height = 24
+            };
+
+            _dgvAutoTuneSuggestions = new DataGridView
+            {
+                Dock = DockStyle.Bottom,
+                Height = 200,
+                BackgroundColor = BgPanel,
+                ForeColor = TextPrimary,
+                GridColor = Border,
+                BorderStyle = BorderStyle.None,
+                ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
+                EnableHeadersVisualStyles = false,
+                AllowUserToAddRows = false,
+                ReadOnly = true,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                RowHeadersVisible = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            };
+
+            _dgvAutoTuneSuggestions.ColumnHeadersDefaultCellStyle.BackColor = BgCard;
+            _dgvAutoTuneSuggestions.ColumnHeadersDefaultCellStyle.ForeColor = TextPrimary;
+            _dgvAutoTuneSuggestions.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold);
+            _dgvAutoTuneSuggestions.DefaultCellStyle.BackColor = BgDark;
+            _dgvAutoTuneSuggestions.DefaultCellStyle.ForeColor = TextPrimary;
+            _dgvAutoTuneSuggestions.DefaultCellStyle.SelectionBackColor = AccentBlue;
+
+            _dgvAutoTuneSuggestions.Columns.Add("Rpm", "RPM");
+            _dgvAutoTuneSuggestions.Columns.Add("Load", "Yük (kPa)");
+            _dgvAutoTuneSuggestions.Columns.Add("TargetAfr", "Hedef AFR");
+            _dgvAutoTuneSuggestions.Columns.Add("MeasuredAfr", "Ölçülen AFR");
+            _dgvAutoTuneSuggestions.Columns.Add("Action", "Öneri");
+            _dgvAutoTuneSuggestions.Columns.Add("Correction", "Düzeltme %");
+
             rightPanel.Controls.Add(_atDecisionsListView);
+            rightPanel.Controls.Add(lblSuggestions);
+            rightPanel.Controls.Add(_dgvAutoTuneSuggestions);
             mainLayout.Controls.Add(rightPanel, 1, 0);
 
             tab.Controls.Add(mainLayout);
@@ -3505,6 +3816,8 @@ namespace HondaTuner.UI
                     _lblAtEcu.Text = $"ECU Bağlantısı: {ev.EcuIdentifier}";
                     _lblAtSafety.Text = "Güvenlik Durumu: SAFE";
                     _lblAtSafety.ForeColor = VtecGreen;
+
+                    _dgvAutoTuneSuggestions?.Rows.Clear();
                 }
                 else if (ev.EventType == "SessionStopped")
                 {
@@ -3553,10 +3866,78 @@ namespace HondaTuner.UI
                         double qualScore = qualityAnalyzer.CalculateQualityScore(_autoTuneEngine.Memory);
                         if (_lblAtQuality != null)
                             _lblAtQuality.Text = $"Tuning Kalite Skoru: {qualScore:0.0}%";
+
+                        // Update dgvAutoTuneSuggestions on DecisionCreated
+                        if (ev.EventType == "DecisionCreated")
+                        {
+                            var decisionsList = _autoTuneEngine.ActiveSession.Decisions;
+                            var decision = decisionsList.Count > 0 ? decisionsList[decisionsList.Count - 1] : null;
+                            if (decision != null && _dgvAutoTuneSuggestions != null)
+                            {
+                                int rpm = 0;
+                                if (_autoTuneEngine.TargetMapProvider?.RpmBins != null &&
+                                    decision.CellRow >= 0 && decision.CellRow < _autoTuneEngine.TargetMapProvider.RpmBins.Count)
+                                {
+                                    rpm = _autoTuneEngine.TargetMapProvider.RpmBins[decision.CellRow];
+                                }
+
+                                int map = 0;
+                                if (_autoTuneEngine.TargetMapProvider?.LoadBins != null &&
+                                    decision.CellCol >= 0 && decision.CellCol < _autoTuneEngine.TargetMapProvider.LoadBins.Count)
+                                {
+                                    map = _autoTuneEngine.TargetMapProvider.LoadBins[decision.CellCol];
+                                }
+
+                                double targetAfr = decision.OldValue;
+                                double errorPct = decision.ChangePercent;
+                                double measuredAfr = targetAfr * (1.0 + (errorPct / 100.0));
+                                string actionStr = errorPct > 0 ? "Zenginleştir" : "Fakirleştir";
+
+                                _dgvAutoTuneSuggestions.Rows.Insert(0,
+                                    rpm.ToString(),
+                                    map.ToString(),
+                                    targetAfr.ToString("F2"),
+                                    measuredAfr.ToString("F2"),
+                                    actionStr,
+                                    errorPct.ToString("+0.0;-0.0;0.0") + "%"
+                                );
+
+                                while (_dgvAutoTuneSuggestions.Rows.Count > 50)
+                                {
+                                    _dgvAutoTuneSuggestions.Rows.RemoveAt(_dgvAutoTuneSuggestions.Rows.Count - 1);
+                                }
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnAutoTuneDomainEvent UI güncelleme hatası: {ex.Message}"); }
+        }
+
+        private void UpdateLocalizedUI()
+        {
+            if (_lblAtStatus != null)
+            {
+                if (HondaTuner.Core.Localization.L.CurrentLanguage == "en")
+                {
+                    _lblAtStatus.Text = _lblAtStatus.Text.Replace("Durum:", "Status:");
+                    _lblAtSafety.Text = _lblAtSafety.Text.Replace("Güvenlik Durumu:", "Safety Status:");
+                    _lblAtUser.Text = _lblAtUser.Text.Replace("Kullanıcı Rolü:", "User Role:");
+                    _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Bağlantısı:", "ECU Connection:");
+                    _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Kalite Skoru:", "Tuning Quality Score:");
+                }
+                else
+                {
+                    _lblAtStatus.Text = _lblAtStatus.Text.Replace("Status:", "Durum:");
+                    _lblAtSafety.Text = _lblAtSafety.Text.Replace("Safety Status:", "Güvenlik Durumu:");
+                    _lblAtUser.Text = _lblAtUser.Text.Replace("User Role:", "Kullanıcı Rolü:");
+                    _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Connection:", "ECU Bağlantısı:");
+                    _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Quality Score:", "Tuning Kalite Skoru:");
+                }
+            }
+
+            if (_btnConnect != null) _btnConnect.Text = HondaTuner.Core.Localization.L.Get("btn_start");
+            if (_btnDisconnect != null) _btnDisconnect.Text = HondaTuner.Core.Localization.L.Get("btn_stop");
         }
 
         private static int Clamp(int v, int min, int max) => v < min ? min : v > max ? max : v;

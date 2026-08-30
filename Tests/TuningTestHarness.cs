@@ -118,6 +118,17 @@ namespace HondaTuner.Tests
             // Phase 6: Engine Protection & Thermal Management Testleri
             results.Add(TestEngineProtection_SafetiesAndAlarms());
 
+            // Faz 3: Unit Test Genişletme (8 Yeni Emniyet Testi)
+            results.Add("\n── Faz 3: Yeni Emniyet Sınırları Testleri ──");
+            results.Add(TestLeanCut_TriggersAtThreshold());
+            results.Add(TestLeanCut_NotTriggeredBelowRpm());
+            results.Add(TestLeanCut_NotTriggeredBelowMap());
+            results.Add(TestOverboostCut_TriggersAboveLimit());
+            results.Add(TestOverboostCut_SafeZone());
+            results.Add(TestEctRetard_LinearInterpolation());
+            results.Add(TestKnockRetard_ImmediatePull());
+            results.Add(TestKnockRetard_GradualRecovery());
+
             // Phase 7: Diagnostics, Protocols & Standards Testleri
             results.Add(TestDiagnosticsAndProtocols_A2LAndFreezeFrames());
 
@@ -3710,9 +3721,129 @@ namespace HondaTuner.Tests
             }
         }
 
+        private static string TestLeanCut_TriggersAtThreshold()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 4500, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 130, egt: 600, dt: 0.1, afr: 13.5, knock: false);
+                return Assert("TestLeanCut_TriggersAtThreshold", service.IsLeanCutTriggered);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestLeanCut_TriggersAtThreshold: Hata - {ex.Message}";
+            }
+        }
 
+        private static string TestLeanCut_NotTriggeredBelowRpm()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 3500, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 130, egt: 600, dt: 0.1, afr: 13.5, knock: false);
+                return Assert("TestLeanCut_NotTriggeredBelowRpm", !service.IsLeanCutTriggered);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestLeanCut_NotTriggeredBelowRpm: Hata - {ex.Message}";
+            }
+        }
 
+        private static string TestLeanCut_NotTriggeredBelowMap()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 4500, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 110, egt: 600, dt: 0.1, afr: 13.5, knock: false);
+                return Assert("TestLeanCut_NotTriggeredBelowMap", !service.IsLeanCutTriggered);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestLeanCut_NotTriggeredBelowMap: Hata - {ex.Message}";
+            }
+        }
 
+        private static string TestOverboostCut_TriggersAboveLimit()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 3000, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 180, egt: 600, dt: 0.1, afr: 12.0, knock: false);
+                return Assert("TestOverboostCut_TriggersAboveLimit", service.IsOverboostCutTriggered);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestOverboostCut_TriggersAboveLimit: Hata - {ex.Message}";
+            }
+        }
+
+        private static string TestOverboostCut_SafeZone()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 3000, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 170, egt: 600, dt: 0.1, afr: 12.0, knock: false);
+                return Assert("TestOverboostCut_SafeZone", !service.IsOverboostCutTriggered);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestOverboostCut_SafeZone: Hata - {ex.Message}";
+            }
+        }
+
+        private static string TestEctRetard_LinearInterpolation()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 3000, ect: 106, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 100, egt: 600, dt: 0.1, afr: 12.0, knock: false);
+                bool ok = Math.Abs(service.ActiveTimingPull - 3.0) < 0.01;
+                return Assert("TestEctRetard_LinearInterpolation", ok);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestEctRetard_LinearInterpolation: Hata - {ex.Message}";
+            }
+        }
+
+        private static string TestKnockRetard_ImmediatePull()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 3000, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 100, egt: 600, dt: 0.1, afr: 12.0, knock: true);
+                bool ok = Math.Abs(service.ActiveTimingPull - 3.0) < 0.01;
+                return Assert("TestKnockRetard_ImmediatePull", ok);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestKnockRetard_ImmediatePull: Hata - {ex.Message}";
+            }
+        }
+
+        private static string TestKnockRetard_GradualRecovery()
+        {
+            try
+            {
+                var service = new HondaTuner.Calibration.EngineProtection.EngineProtectionService();
+                service.EvaluateSafety(rpm: 3000, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 100, egt: 600, dt: 0.1, afr: 12.0, knock: true);
+                service.EvaluateSafety(rpm: 3000, ect: 90, iat: 30, oilTemp: 90, oilPress: 4.0, fuelPress: 3.0, actualBoost: 100, egt: 600, dt: 2.0, afr: 12.0, knock: false);
+                bool ok = Math.Abs(service.ActiveTimingPull - 2.0) < 0.01;
+                return Assert("TestKnockRetard_GradualRecovery", ok);
+            }
+            catch (Exception ex)
+            {
+                _failed++;
+                return $"  ❌ TestKnockRetard_GradualRecovery: Hata - {ex.Message}";
+            }
+        }
 
         private static string Assert(string testName, bool condition)
         {

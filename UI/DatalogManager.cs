@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +9,7 @@ using HondaTuner.Core;
 namespace HondaTuner.UI
 {
     /// <summary>
-    /// Datalog yöneticisi: gerçek SerialPort veya simülasyon modu.
+    /// Datalog yöneticisi: gerçek SerialPort, simülasyon ve CSV Playback modu.
     /// Olay: DataReceived — telemetri verisi hazır.
     /// </summary>
     public class DatalogManager : IDisposable
@@ -15,6 +17,38 @@ namespace HondaTuner.UI
         public event Action<TelemetryFrame> DataReceived;
 
         private SerialPort _port;
+        private readonly HondaTuner.Core.Protocol.Obd1FrameParser _obd1Parser;
+
+        public DatalogManager()
+        {
+            _obd1Parser = new HondaTuner.Core.Protocol.Obd1FrameParser();
+            _obd1Parser.OnFrameParsed += HandleObd1Frame;
+        }
+
+        private void HandleObd1Frame(byte[] buf)
+        {
+            var frame = new TelemetryFrame
+            {
+                Rpm = (buf[2] << 8 | buf[3]) * 0.25,
+                Map = buf[4] * 0.78,   // 200 kPa max
+                Speed = buf[5],
+                Afr = 9.0 + buf[6] * 0.043,  // 9..20 aralığı
+                Ect = buf[7] - 40,
+                Iat = buf[8] - 40,
+                Tps = buf[9] * 0.392,        // 255 -> 100%
+                BatteryVolts = buf[10] * 0.07, // 255 -> 17.85V
+                InjDuty = buf[11] * 0.392,     // 255 -> 100%
+                IgnAdvance = buf[12] * 0.25,  // 255 -> 63.75 deg
+                VtecStatus = ((buf[2] << 8 | buf[3]) * 0.25) >= 4800
+            };
+
+            if (IsRecording && _csvWriter != null)
+            {
+                _csvWriter.WriteLine($"{frame.Rpm:0},{frame.Map:0.0},{frame.Speed:0},{frame.Afr:0.00},{frame.Ect:0},{frame.Iat:0},{frame.Tps:0},{frame.BatteryVolts:0.00},{frame.InjDuty:0.0},{frame.IgnAdvance:0.0},{(frame.VtecStatus ? 1 : 0)}");
+            }
+
+            DataReceived?.Invoke(frame);
+        }
         private CancellationTokenSource _simCts;
         private readonly Random _rng = new Random();
 
@@ -48,13 +82,13 @@ namespace HondaTuner.UI
         }
 
         public bool IsRecording { get; private set; }
-        private System.IO.StreamWriter _csvWriter;
+        private StreamWriter _csvWriter;
 
         public void StartRecording(string filePath)
         {
             try
             {
-                _csvWriter = new System.IO.StreamWriter(filePath, false, System.Text.Encoding.UTF8);
+                _csvWriter = new StreamWriter(filePath, false, System.Text.Encoding.UTF8);
                 _csvWriter.WriteLine("Rpm,Map,Speed,Afr,Ect,Iat,Tps,BatteryVolts,InjDuty,IgnAdvance,VtecStatus");
                 IsRecording = true;
             }
@@ -82,33 +116,12 @@ namespace HondaTuner.UI
         {
             try
             {
-                // Basit OBDI seri protokol parser (gerçek donanım için)
-                // Format: RPM(2B) MAP(1B) SPEED(1B) AFR(1B) ECT(1B) IAT(1B) TPS(1B) BATT(1B) INJ(1B) IGN(1B)
-                if (_port?.BytesToRead >= 11)
+                if (_port != null && _port.BytesToRead > 0)
                 {
-                    var buf = new byte[11];
-                    _port.Read(buf, 0, 11);
-                    var frame = new TelemetryFrame
-                    {
-                        Rpm = (buf[0] << 8 | buf[1]) * 0.25,
-                        Map = buf[2] * 0.78,   // 200 kPa max
-                        Speed = buf[3],
-                        Afr = 9.0 + buf[4] * 0.043,  // 9..20 aralığı
-                        Ect = buf[5] - 40,
-                        Iat = buf[6] - 40,
-                        Tps = buf[7] * 0.392,        // 255 -> 100%
-                        BatteryVolts = buf[8] * 0.07, // 255 -> 17.85V
-                        InjDuty = buf[9] * 0.392,     // 255 -> 100%
-                        IgnAdvance = buf[10] * 0.25,  // 255 -> 63.75 deg
-                        VtecStatus = ((buf[0] << 8 | buf[1]) * 0.25) >= 4800
-                    };
-
-                    if (IsRecording && _csvWriter != null)
-                    {
-                        _csvWriter.WriteLine($"{frame.Rpm:0},{frame.Map:0.0},{frame.Speed:0},{frame.Afr:0.00},{frame.Ect:0},{frame.Iat:0},{frame.Tps:0},{frame.BatteryVolts:0.00},{frame.InjDuty:0.0},{frame.IgnAdvance:0.0},{(frame.VtecStatus ? 1 : 0)}");
-                    }
-
-                    DataReceived?.Invoke(frame);
+                    int bytesToRead = _port.BytesToRead;
+                    byte[] buffer = new byte[bytesToRead];
+                    _port.Read(buffer, 0, bytesToRead);
+                    _obd1Parser.Write(buffer);
                 }
             }
             catch { /* port hatası yoksay */ }
@@ -206,6 +219,7 @@ namespace HondaTuner.UI
 
         public void Disconnect()
         {
+            StopPlayback();
             IsRunning = false;
             _simCts?.Cancel();
             _simCts = null;
@@ -217,6 +231,143 @@ namespace HondaTuner.UI
                 _port.Dispose();
                 _port = null;
             }
+        }
+
+        // ── CSV Playback (Datalog Geri Oynatma) ─────────────────
+
+        /// <summary>Oynatma state'i: None, Playing, Paused.</summary>
+        public enum PlaybackState { None, Playing, Paused }
+
+        /// <summary>Oynatma yüklü CSV satırları listesi.</summary>
+        private List<TelemetryFrame> _playbackFrames = new List<TelemetryFrame>();
+
+        /// <summary>Geçerli oynatma pozisyonu (frame index).</summary>
+        private int _playbackPosition = 0;
+
+        /// <summary>Oynatma arka plan görevi için iptal tokeni.</summary>
+        private CancellationTokenSource _playbackCts;
+
+        /// <summary>Geçerli oynatma durumu.</summary>
+        public PlaybackState State { get; private set; } = PlaybackState.None;
+
+        /// <summary>Toplam yüklü frame sayısı.</summary>
+        public int PlaybackFrameCount => _playbackFrames.Count;
+
+        /// <summary>Geçerli oynatma pozisyonu.</summary>
+        public int PlaybackPosition => _playbackPosition;
+
+        /// <summary>Oynatma pozisyonu değiştiğinde GUI'ye bildirir.</summary>
+        public event Action<int> PlaybackPositionChanged;
+
+        /// <summary>CSV telemetri dosyasını playback listesine yükler.</summary>
+        public bool LoadCsv(string filePath)
+        {
+            try
+            {
+                var frames = new List<TelemetryFrame>();
+                string[] lines = File.ReadAllLines(filePath, System.Text.Encoding.UTF8);
+                for (int i = 1; i < lines.Length; i++) // satır 0 = başlık
+                {
+                    string line = lines[i].Trim();
+                    if (string.IsNullOrEmpty(line)) continue;
+                    string[] parts = line.Split(',');
+                    if (parts.Length < 11) continue;
+                    frames.Add(new TelemetryFrame
+                    {
+                        Rpm = ParseD(parts[0]),
+                        Map = ParseD(parts[1]),
+                        Speed = ParseD(parts[2]),
+                        Afr = ParseD(parts[3]),
+                        Ect = ParseD(parts[4]),
+                        Iat = ParseD(parts[5]),
+                        Tps = ParseD(parts[6]),
+                        BatteryVolts = ParseD(parts[7]),
+                        InjDuty = ParseD(parts[8]),
+                        IgnAdvance = ParseD(parts[9]),
+                        VtecStatus = parts[10].Trim() == "1"
+                    });
+                }
+                _playbackFrames = frames;
+                _playbackPosition = 0;
+                State = PlaybackState.Paused;
+                PlaybackPositionChanged?.Invoke(_playbackPosition);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ERR] CSV yükleme hatası: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>Oynatmayı başlatır veya duraklatılmış oynatmayı devam ettirir.</summary>
+        public void Play()
+        {
+            if (_playbackFrames.Count == 0) return;
+            if (State == PlaybackState.Playing) return;
+            State = PlaybackState.Playing;
+            _playbackCts?.Cancel();
+            _playbackCts = new CancellationTokenSource();
+            var token = _playbackCts.Token;
+
+            Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested && _playbackPosition < _playbackFrames.Count)
+                {
+                    TelemetryFrame frame = _playbackFrames[_playbackPosition];
+                    DataReceived?.Invoke(frame);
+                    PlaybackPositionChanged?.Invoke(_playbackPosition);
+                    _playbackPosition++;
+
+                    if (_playbackPosition >= _playbackFrames.Count)
+                    {
+                        // Oynatma sonu — otomatik dur
+                        State = PlaybackState.Paused;
+                        _playbackPosition = _playbackFrames.Count - 1;
+                        PlaybackPositionChanged?.Invoke(_playbackPosition);
+                        break;
+                    }
+
+                    await Task.Delay(80, token).ContinueWith(_ => { });
+                }
+            }, token);
+        }
+
+        /// <summary>Oynatmayı duraklatır (pozisyon korunur).</summary>
+        public void Pause()
+        {
+            if (State != PlaybackState.Playing) return;
+            State = PlaybackState.Paused;
+            _playbackCts?.Cancel();
+            _playbackCts = null;
+        }
+
+        /// <summary>Oynatmayı belirli bir frame'e konumlandırır (Seek).</summary>
+        public void SeekTo(int frameIndex)
+        {
+            if (_playbackFrames.Count == 0) return;
+            _playbackPosition = Math.Max(0, Math.Min(frameIndex, _playbackFrames.Count - 1));
+            // Anlık frame'i DataReceived üzerinden yayınla (geçmişi canlı gibi gösterir)
+            DataReceived?.Invoke(_playbackFrames[_playbackPosition]);
+            PlaybackPositionChanged?.Invoke(_playbackPosition);
+        }
+
+        /// <summary>Playback altyapısını durdurur ve sıfırlar.</summary>
+        public void StopPlayback()
+        {
+            _playbackCts?.Cancel();
+            _playbackCts = null;
+            State = PlaybackState.None;
+            _playbackPosition = 0;
+            _playbackFrames.Clear();
+        }
+
+        private static double ParseD(string s)
+        {
+            if (double.TryParse(s.Trim(), System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out double v))
+                return v;
+            return 0.0;
         }
 
         public void Dispose() => Disconnect();

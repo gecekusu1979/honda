@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="safety_banner_lean" xml:space="preserve">
+    <value>🚨 FAKİR KARIŞIM ALGILANDI! AŞIRI HARARET / MOTOR KORUMAYA ALINDI!</value>
+  </data>
+  <data name="safety_banner_overboost" xml:space="preserve">
+    <value>🚨 YÜKSEK BOOST ALGILANDI! MOTOR HASARI RİSKİ / BOOST KESİLDİ!</value>
+  </data>
+  <data name="safety_banner_oil_temp" xml:space="preserve">
+    <value>🚨 YÜKSEK YAĞ SICAKLIĞI ALGILANDI! MOTOR LİMP MODUNA ALINDI!</value>
+  </data>
+  <data name="safety_banner_low_oil_press" xml:space="preserve">
+    <value>🚨 KRİTİK DÜŞÜK YAĞ BASINCI ALGILANDI! MOTOR KORUMAYA ALINDI!</value>
+  </data>
+  <data name="safety_banner_limits" xml:space="preserve">
+    <value>🚨 ACİL MOTOR KORUMA: LİMİTLER AŞILDI!</value>
+  </data>
+  <data name="slow_safety_banner_retard" xml:space="preserve">
+    <value>⚠️ GECİKMELİ KORUMA: SICAKLIK/VURUNTU NEDENİYLE AVANS KISILIYOR (-{0:F1}°)</value>
+  </data>
+  <data name="menu_telemetry" xml:space="preserve">
+    <value>Canlı Telemetri</value>
+  </data>
+  <data name="menu_autotune" xml:space="preserve">
+    <value>AutoTune Sonuçları</value>
+  </data>
+  <data name="btn_start" xml:space="preserve">
+    <value>Bağlantıyı Başlat</value>
+  </data>
+  <data name="btn_stop" xml:space="preserve">
+    <value>Bağlantıyı Kes</value>
+  </data>
+</root>

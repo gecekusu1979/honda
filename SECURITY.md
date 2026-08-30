@@ -3,7 +3,7 @@
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability or critical issue in HondaTuner V2, please do NOT create a public issue. Instead, report it through the following channels:
-1. Contact the maintainers or email: `ayhan43huseyin@gmail.com`
+1. Open a private security advisory on GitHub under the **Security** tab of this repository.
 2. Provide details, reproduction steps, and potential exploit vectors. We will respond promptly and draft a fix.
 
 ## Verification of Release Integrity

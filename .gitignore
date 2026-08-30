@@ -35,3 +35,6 @@ build_output.txt
 build_result.txt
 build_errors.txt
 msbuild.log
+diag.txt
+stderr.txt
+stdout.txt

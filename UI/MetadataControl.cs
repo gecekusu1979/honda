@@ -11,8 +11,12 @@ using HondaTuner.Core.Rom;
 
 namespace HondaTuner.UI
 {
-    public class MetadataControl : UserControl
+    public class MetadataControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+        }
         private IRomService _romService;
         private EcuMetadata _metadata;
 

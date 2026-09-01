@@ -21,7 +21,7 @@ namespace HondaTuner.UI
         private byte[,] _data;
         private int _rows;
         private int _cols;
-        private string _title = "3D Harita";
+        private string _title = HondaTuner.Core.Localization.L.Get("chart_3d_title");
 
         // ── Kamera Parametreleri ──────────────────────────────────
         private float _rotX = 35f;   // dikey tilt (derece)
@@ -99,7 +99,7 @@ namespace HondaTuner.UI
             {
                 using var mFont = new Font("Segoe UI", 9f);
                 using var mBrush = new SolidBrush(TextMuted);
-                g.DrawString("Harita verisi bekleniyor…",
+                g.DrawString(HondaTuner.Core.Localization.L.Get("chart_waiting_data"),
                     mFont, mBrush,
                     new RectangleF(0, 0, Width, Height),
                     new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
@@ -117,7 +117,7 @@ namespace HondaTuner.UI
             using (var hFont = new Font("Segoe UI", 7f))
             using (var hBrush = new SolidBrush(Color.FromArgb(80, 139, 148, 158)))
             {
-                g.DrawString("⟳ Sürükle: döndür", hFont, hBrush,
+                g.DrawString(HondaTuner.Core.Localization.L.Get("chart_drag_rotate"), hFont, hBrush,
                     new PointF(Width - 85, 4));
             }
 

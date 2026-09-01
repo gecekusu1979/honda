@@ -5,8 +5,12 @@ using HondaTuner.Calibration.EngineProtection;
 
 namespace HondaTuner.UI
 {
-    public class EngineProtectionControl : UserControl
+    public class EngineProtectionControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+        }
         private EngineProtectionService _service;
         private Timer _simTimer;
 
@@ -202,7 +206,7 @@ namespace HondaTuner.UI
 
             _lblSafetyStatus = new Label
             {
-                Text = "✅ SYSTEM SAFE",
+                Text = HondaTuner.Core.Localization.L.Get("ep_system_safe"),
                 Location = new Point(12, 40),
                 Size = new Size(240, 36),
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -425,31 +429,33 @@ namespace HondaTuner.UI
             _lblRpmLimit.Text = $"{_service.ActiveRpmLimit} RPM";
             _lblTimingPull.Text = $"-{_service.ActiveTimingPull.ToString("F1")}°";
             _lblEnrichment.Text = $"%{_service.ActiveFuelEnrichmentPct.ToString("F0")}";
-            _lblFanState.Text = _service.FanRelayState ? "🔥 ETKİN (Röle ON)" : "PASİF (Röle OFF)";
+            _lblFanState.Text = _service.FanRelayState
+                ? HondaTuner.Core.Localization.L.Get("fan_relay_on")
+                : HondaTuner.Core.Localization.L.Get("fan_relay_off");
             _lblFanState.ForeColor = _service.FanRelayState ? AccentGreen : TextMuted;
 
             // Renkli Durum Bildirimi
             if (_service.IsFuelCutActive)
             {
-                _lblSafetyStatus.Text = "🚨 FUEL CUT / EMERGENCY ALERT!";
+                _lblSafetyStatus.Text = HondaTuner.Core.Localization.L.Get("ep_fuel_cut");
                 _lblSafetyStatus.ForeColor = Color.White;
                 _lblSafetyStatus.BackColor = AccentRed;
             }
             else if (_service.IsThermalLimpModeActive)
             {
-                _lblSafetyStatus.Text = "⚠️ ENGINE LIMP MODE ACTIVE";
+                _lblSafetyStatus.Text = HondaTuner.Core.Localization.L.Get("ep_limp_mode");
                 _lblSafetyStatus.ForeColor = Color.Black;
                 _lblSafetyStatus.BackColor = Color.Orange;
             }
             else if (_service.IsPowerReductionActive)
             {
-                _lblSafetyStatus.Text = "⚠️ POWER REDUCTION ACTIVE";
+                _lblSafetyStatus.Text = HondaTuner.Core.Localization.L.Get("ep_power_reduction");
                 _lblSafetyStatus.ForeColor = Color.Black;
                 _lblSafetyStatus.BackColor = Color.Yellow;
             }
             else
             {
-                _lblSafetyStatus.Text = "✅ SYSTEM SAFE";
+                _lblSafetyStatus.Text = HondaTuner.Core.Localization.L.Get("ep_system_safe");
                 _lblSafetyStatus.ForeColor = AccentGreen;
                 _lblSafetyStatus.BackColor = Color.FromArgb(16, 40, 25);
             }

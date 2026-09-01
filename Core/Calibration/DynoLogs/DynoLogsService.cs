@@ -104,18 +104,18 @@ namespace HondaTuner.Calibration.DynoLogs
         public void CreateBranch(string name)
         {
             ActiveBranch = name;
-            GitMergeHistory.Add($"[{DateTime.Now:HH:mm:ss}] \"{name}\" dalı oluşturuldu ve bu dala geçildi.");
+            GitMergeHistory.Add($"[{DateTime.Now:HH:mm:ss}] " + string.Format(HondaTuner.Core.Localization.L.Get("branch_created"), name));
         }
 
         public void CommitChange(string msg)
         {
             string hash = _rand.Next(0x100000, 0xFFFFFF).ToString("X6");
-            GitMergeHistory.Add($"[{DateTime.Now:HH:mm:ss}] [Commit: {hash}] on branch \"{ActiveBranch}\": {msg}");
+            GitMergeHistory.Add($"[{DateTime.Now:HH:mm:ss}] " + string.Format(HondaTuner.Core.Localization.L.Get("commit_msg"), hash, ActiveBranch, msg));
         }
 
         public void MergeBranch(string source, string target)
         {
-            GitMergeHistory.Add($"[{DateTime.Now:HH:mm:ss}] \"{source}\" dalı \"{target}\" dalıyla BİRLEŞTİRİLDİ (MERGE).");
+            GitMergeHistory.Add($"[{DateTime.Now:HH:mm:ss}] " + string.Format(HondaTuner.Core.Localization.L.Get("branch_merged"), source, target));
             ActiveBranch = target;
         }
 
@@ -133,7 +133,7 @@ namespace HondaTuner.Calibration.DynoLogs
             double map = 101.3 + Math.Abs(Math.Sin(simTime)) * 60;
             double ect = 89.0 + Math.Sin(simTime * 0.1) * 2.0;
 
-            res.Add("VTEC_ACTIVE", vtec ? "1 (AKTİF)" : "0 (PASİF)");
+            res.Add("VTEC_ACTIVE", vtec ? HondaTuner.Core.Localization.L.Get("1 (AKTİF)") : HondaTuner.Core.Localization.L.Get("0 (PASİF)"));
             res.Add("AFR_TARGET", afr.ToString("F2"));
             res.Add("IGN_ADVANCE", $"{advance.ToString("F1")}° BTDC");
             res.Add("MANIFOLD_KPA", $"{map.ToString("F0")} kPa");

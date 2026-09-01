@@ -1,3 +1,5 @@
+using HondaTuner.Core.Localization;
+
 namespace HondaTuner.Core
 {
     /// <summary>
@@ -65,118 +67,119 @@ namespace HondaTuner.Core
     /// </summary>
     public static class EcuDatabase
     {
-        public static readonly EcuRecord[] Records =
+        public static EcuRecord[] Records => new[]
         {
             // ───────────────────────── P05 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P05,
                 category: "Civic",
-                vtecType: "VTEC-E (Ekonomi)",
-                shortDescription: "Düşük emisyon / yakıt tasarrufu odaklı VTEC-E motor. Performans odaklı değil.",
+                vtecType: L.Get("ecu_vtece"),
+                shortDescription: L.Get("ecu_p05_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Honda","Civic","CX HF","1992-1995","D15Z1",1.5f,70,"Manuel","USDM",
-                        "VTEC-E: düşük devirde tek supap çalışır — yakıt tasarrufu"),
+                    new VehicleEntry("Honda","Civic","CX HF","1992-1995","D15Z1",1.5f,70,
+                        L.Get("trans_mt"),"USDM",
+                        L.Get("ecu_p05_note1")),
                 }),
 
             // ───────────────────────── P06 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P06,
                 category: "Civic",
-                vtecType: "Non-VTEC",
-                shortDescription: "Standart 1.5L motor. VTEC devresi yok. Chipleme ile B-serisi swap'larda popüler.",
+                vtecType: L.Get("ecu_nonvtec"),
+                shortDescription: L.Get("ecu_p06_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Honda","Civic","DX","1992-1995","D15B7",1.5f,102,"Manuel/Otomatik","USDM"),
-                    new VehicleEntry("Honda","Civic","LX","1992-1995","D15B7",1.5f,102,"Manuel/Otomatik","USDM"),
-                    new VehicleEntry("Honda","Civic","DX","1992-1995","D15B8",1.5f,70,"Otomatik","USDM",
-                        "Otomatik vites versiyonu"),
+                    new VehicleEntry("Honda","Civic","DX","1992-1995","D15B7",1.5f,102,L.Get("trans_mt_at"),"USDM"),
+                    new VehicleEntry("Honda","Civic","LX","1992-1995","D15B7",1.5f,102,L.Get("trans_mt_at"),"USDM"),
+                    new VehicleEntry("Honda","Civic","DX","1992-1995","D15B8",1.5f,70,L.Get("trans_at"),"USDM",
+                        L.Get("ecu_p06_note_auto")),
                 }),
 
             // ───────────────────────── P28 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P28,
                 category: "Civic",
-                vtecType: "SOHC VTEC",
-                shortDescription: "En popüler OBD1 ECU. D16Z6 motor. Swap ve tuning için referans platform.",
+                vtecType: L.Get("ecu_sohcvtec"),
+                shortDescription: L.Get("ecu_p28_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Honda","Civic","EX","1992-1995","D16Z6",1.6f,125,"Manuel/Otomatik","USDM"),
-                    new VehicleEntry("Honda","Civic","Si","1992-1995","D16Z6",1.6f,125,"Manuel","USDM"),
-                    new VehicleEntry("Honda","Del Sol","Si","1993-1995","D16Z6",1.6f,125,"Manuel","USDM",
-                        "Del Sol çatısız 2 kişilik"),
-                    new VehicleEntry("Honda","Civic","1.6 iES","1996-2000","D16Z6",1.6f,125,"Manuel","EK/Türkiye",
-                        "EK kasa iES — P28 OBD1 dönüşümü ile tuning"),
-                    new VehicleEntry("Honda","Civic","1.6 iES Yumurta Kasa","1996-2000","D16Y8/D16Y6",1.6f,120,"Manuel/Otomatik","TR/EK",
-                        "Yumurta kasa iES: OBD1 P28/P06 dönüşümüyle basemap ve sokak ayarı"),
-                    new VehicleEntry("Honda","Civic","1.6 VTEC Swap","1996-2000","D16Z6/D16Y8",1.6f,125,"Manuel","TR/EK",
-                        "iES kasaya SOHC VTEC swap veya mini-me kurulumları için"),
+                    new VehicleEntry("Honda","Civic","EX","1992-1995","D16Z6",1.6f,125,L.Get("trans_mt_at"),"USDM"),
+                    new VehicleEntry("Honda","Civic","Si","1992-1995","D16Z6",1.6f,125,L.Get("trans_mt"),"USDM"),
+                    new VehicleEntry("Honda","Del Sol","Si","1993-1995","D16Z6",1.6f,125,L.Get("trans_mt"),"USDM",
+                        L.Get("ecu_p28_delsol")),
+                    new VehicleEntry("Honda","Civic","1.6 iES","1996-2000","D16Z6",1.6f,125,L.Get("trans_mt"),"EK/Türkiye",
+                        L.Get("ecu_p28_ies_ek")),
+                    new VehicleEntry("Honda","Civic","1.6 iES Yumurta Kasa","1996-2000","D16Y8/D16Y6",1.6f,120,L.Get("trans_mt_at"),"TR/EK",
+                        L.Get("ecu_p28_ies_tr")),
+                    new VehicleEntry("Honda","Civic","1.6 VTEC Swap","1996-2000","D16Z6/D16Y8",1.6f,125,L.Get("trans_mt"),"TR/EK",
+                        L.Get("ecu_p28_swap")),
                 }),
 
             // ───────────────────────── P30 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P30,
                 category: "Civic",
-                vtecType: "Non-VTEC",
-                shortDescription: "EG kasa 1.5i. Non-VTEC D15B2. Düşük maliyetli chip platform.",
+                vtecType: L.Get("ecu_nonvtec"),
+                shortDescription: L.Get("ecu_p30_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Honda","Civic","1.5i","1992-1995","D15B2",1.5f,90,"Manuel/Otomatik","EG/EK"),
-                    new VehicleEntry("Honda","Civic","DX","1992-1993","D15B2",1.5f,90,"Manuel","USDM"),
+                    new VehicleEntry("Honda","Civic","1.5i","1992-1995","D15B2",1.5f,90,L.Get("trans_mt_at"),"EG/EK"),
+                    new VehicleEntry("Honda","Civic","DX","1992-1993","D15B2",1.5f,90,L.Get("trans_mt"),"USDM"),
                 }),
 
             // ───────────────────────── P61 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P61,
                 category: "Integra",
-                vtecType: "DOHC VTEC",
-                shortDescription: "1.7L B17A1 DOHC VTEC. İlk Integra GS-R nesli. 8200 RPM sınır.",
+                vtecType: L.Get("ecu_dohcvtec"),
+                shortDescription: L.Get("ecu_p61_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Acura","Integra","GS-R","1992-1993","B17A1",1.7f,160,"Manuel","USDM",
-                        "İlk DOHC VTEC Integra — B17A1"),
+                    new VehicleEntry("Acura","Integra","GS-R","1992-1993","B17A1",1.7f,160,L.Get("trans_mt"),"USDM",
+                        L.Get("ecu_p61_note")),
                 }),
 
             // ───────────────────────── P72 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P72,
                 category: "Integra",
-                vtecType: "DOHC VTEC + IAB",
-                shortDescription: "B18C1 DOHC VTEC + Intake Air Bypass. 170HP stock. Efsanevi tuning platformu.",
+                vtecType: L.Get("ecu_dohciab"),
+                shortDescription: L.Get("ecu_p72_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Acura","Integra","GSR","1994-1995","B18C1",1.8f,170,"Manuel","USDM",
-                        "IAB (Intake Air Bypass) solenoidi mevcut — P72'ye özel"),
-                    new VehicleEntry("Honda","Integra","Type-R","1995-2001","B18C5",1.8f,195,"Manuel","JDM",
-                        "ITR — P73 ECU; P72 swap'la uyumlu"),
+                    new VehicleEntry("Acura","Integra","GSR","1994-1995","B18C1",1.8f,170,L.Get("trans_mt"),"USDM",
+                        L.Get("ecu_p72_iab")),
+                    new VehicleEntry("Honda","Integra","Type-R","1995-2001","B18C5",1.8f,195,L.Get("trans_mt"),"JDM",
+                        L.Get("ecu_p72_itr")),
                 }),
 
             // ───────────────────────── P74 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P74,
                 category: "Integra",
-                vtecType: "Non-VTEC",
-                shortDescription: "B18B1 DOHC Non-VTEC. LS Vtec swap için temel ECU.",
+                vtecType: L.Get("ecu_nonvtec"),
+                shortDescription: L.Get("ecu_p74_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Acura","Integra","LS","1992-1995","B18B1",1.8f,142,"Manuel/Otomatik","USDM"),
-                    new VehicleEntry("Acura","Integra","GS","1992-1995","B18B1",1.8f,142,"Manuel/Otomatik","USDM"),
-                    new VehicleEntry("Acura","Integra","RS","1992-1995","B18B1",1.8f,142,"Otomatik","USDM"),
+                    new VehicleEntry("Acura","Integra","LS","1992-1995","B18B1",1.8f,142,L.Get("trans_mt_at"),"USDM"),
+                    new VehicleEntry("Acura","Integra","GS","1992-1995","B18B1",1.8f,142,L.Get("trans_mt_at"),"USDM"),
+                    new VehicleEntry("Acura","Integra","RS","1992-1995","B18B1",1.8f,142,L.Get("trans_at"),"USDM"),
                 }),
 
             // ───────────────────────── P13 ──────────────────────────
             new EcuRecord(
                 EcuProfiles.P13,
                 category: "Prelude",
-                vtecType: "DOHC VTEC",
-                shortDescription: "H22A 2.2L DOHC VTEC. Prelude serisinin güçlü kalbi. 190HP JDM.",
+                vtecType: L.Get("ecu_dohcvtec"),
+                shortDescription: L.Get("ecu_p13_desc"),
                 vehicles: new[]
                 {
-                    new VehicleEntry("Honda","Prelude","VTEC","1993-1996","H22A",2.2f,160,"Manuel/Otomatik","USDM"),
-                    new VehicleEntry("Honda","Prelude","Si VTEC","1993-1996","H22A",2.2f,190,"Manuel","JDM",
-                        "JDM versiyonu 190HP"),
-                    new VehicleEntry("Honda","Accord","VTEC","1994-1997","H22A",2.2f,190,"Manuel","JDM/EDM",
-                        "JDM/EDM Accord SiR — aynı motor, farklı kamera"),
+                    new VehicleEntry("Honda","Prelude","VTEC","1993-1996","H22A",2.2f,160,L.Get("trans_mt_at"),"USDM"),
+                    new VehicleEntry("Honda","Prelude","Si VTEC","1993-1996","H22A",2.2f,190,L.Get("trans_mt"),"JDM",
+                        L.Get("ecu_p13_jdm_190")),
+                    new VehicleEntry("Honda","Accord","VTEC","1994-1997","H22A",2.2f,190,L.Get("trans_mt"),"JDM/EDM",
+                        L.Get("ecu_p13_accord")),
                 }),
         };
 

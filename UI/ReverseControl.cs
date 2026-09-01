@@ -9,8 +9,13 @@ using HondaTuner.Core.ReverseEngineering;
 
 namespace HondaTuner.UI
 {
-    public class ReverseControl : UserControl
+    public class ReverseControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+            RefreshAxisLabels();
+        }
         private IRomService _romService;
         private List<MapCandidate> _candidates = new List<MapCandidate>();
         private MapCandidate _selectedCandidate;
@@ -58,8 +63,8 @@ namespace HondaTuner.UI
             _selectedAxes = null;
             _dgvCandidates.Rows.Clear();
             _rtbDecompiler.Clear();
-            _lblRpmAxis.Text = "RPM Ekseni: Seçilmedi";
-            _lblLoadAxis.Text = "Load Ekseni: Seçilmedi";
+            _lblRpmAxis.Text = HondaTuner.Core.Localization.L.Get("rc_rpm_axis_init");
+            _lblLoadAxis.Text = HondaTuner.Core.Localization.L.Get("rc_load_axis_init");
             _btnExtractAxes.Enabled = false;
             _btnAdopt.Enabled = false;
         }
@@ -91,7 +96,8 @@ namespace HondaTuner.UI
 
             _btnScan = new Button
             {
-                Text = "🔍 ROM'u Analiz Et & Tara",
+                Text = HondaTuner.Core.Localization.L.Get("rc_scan_btn"),
+                Tag = "rc_scan_btn",
                 Location = new Point(12, 10),
                 Size = new Size(180, 30),
                 FlatStyle = FlatStyle.Flat,
@@ -106,7 +112,8 @@ namespace HondaTuner.UI
 
             var lblSearch = new Label
             {
-                Text = "Filtrele:",
+                Text = HondaTuner.Core.Localization.L.Get("rc_filter_lbl"),
+                Tag = "rc_filter_lbl",
                 ForeColor = TextMuted,
                 Location = new Point(210, 16),
                 AutoSize = true,
@@ -158,11 +165,13 @@ namespace HondaTuner.UI
             _dgvCandidates.DefaultCellStyle.SelectionForeColor = Color.White;
             _dgvCandidates.EnableHeadersVisualStyles = false;
 
-            _dgvCandidates.Columns.Add("Offset", "Offset");
-            _dgvCandidates.Columns.Add("Type", "Harita Tipi");
-            _dgvCandidates.Columns.Add("Dims", "Boyutlar");
-            _dgvCandidates.Columns.Add("Confidence", "Güvenilirlik");
-            _dgvCandidates.Columns.Add("Desc", "Açıklama");
+            var colOffset = new DataGridViewTextBoxColumn { HeaderText = "Offset", DataPropertyName = "Offset", Tag = "Offset" };
+            var colType = new DataGridViewTextBoxColumn { HeaderText = HondaTuner.Core.Localization.L.Get("rc_col_maptype"), DataPropertyName = "Type", Tag = "rc_col_maptype" };
+            var colDims = new DataGridViewTextBoxColumn { HeaderText = HondaTuner.Core.Localization.L.Get("rc_col_dims"), DataPropertyName = "Dims", Tag = "rc_col_dims" };
+            var colConfidence = new DataGridViewTextBoxColumn { HeaderText = HondaTuner.Core.Localization.L.Get("rc_col_confidence"), DataPropertyName = "Confidence", Tag = "rc_col_confidence" };
+            var colDesc = new DataGridViewTextBoxColumn { HeaderText = HondaTuner.Core.Localization.L.Get("rc_col_desc"), DataPropertyName = "Desc", Tag = "rc_col_desc" };
+
+            _dgvCandidates.Columns.AddRange(colOffset, colType, colDims, colConfidence, colDesc);
 
             _dgvCandidates.Columns[0].Width = 70;
             _dgvCandidates.Columns[1].Width = 90;
@@ -204,7 +213,8 @@ namespace HondaTuner.UI
 
             var lblAxesTitle = new Label
             {
-                Text = "Eksen Analiz Motoru",
+                Text = HondaTuner.Core.Localization.L.Get("rc_axes_title"),
+                Tag = "rc_axes_title",
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = AccentBlue,
                 Location = new Point(8, 6),
@@ -214,7 +224,8 @@ namespace HondaTuner.UI
 
             _lblRpmAxis = new Label
             {
-                Text = "RPM Ekseni: Seçilmedi",
+                Text = HondaTuner.Core.Localization.L.Get("rc_rpm_axis_init"),
+                Tag = "dynamic",
                 ForeColor = TextPrimary,
                 Location = new Point(8, 28),
                 Width = 170,
@@ -224,7 +235,8 @@ namespace HondaTuner.UI
 
             _lblLoadAxis = new Label
             {
-                Text = "Load Ekseni: Seçilmedi",
+                Text = HondaTuner.Core.Localization.L.Get("rc_load_axis_init"),
+                Tag = "dynamic",
                 ForeColor = TextPrimary,
                 Location = new Point(8, 48),
                 Width = 170,
@@ -234,7 +246,8 @@ namespace HondaTuner.UI
 
             _btnExtractAxes = new Button
             {
-                Text = "Eksen Taraması Yap",
+                Text = HondaTuner.Core.Localization.L.Get("rc_axis_scan_btn"),
+                Tag = "rc_axis_scan_btn",
                 Location = new Point(310, 24),
                 Size = new Size(130, 26),
                 FlatStyle = FlatStyle.Flat,
@@ -261,7 +274,8 @@ namespace HondaTuner.UI
 
             var lblDecTitle = new Label
             {
-                Text = "Decompiler & Register Trace Akışı",
+                Text = HondaTuner.Core.Localization.L.Get("rc_decompiler_title"),
+                Tag = "rc_decompiler_title",
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = AccentBlue,
                 Location = new Point(8, 6),
@@ -271,7 +285,8 @@ namespace HondaTuner.UI
 
             var lblRoutSel = new Label
             {
-                Text = "Rutin:",
+                Text = HondaTuner.Core.Localization.L.Get("rc_routine_lbl"),
+                Tag = "rc_routine_lbl",
                 ForeColor = TextMuted,
                 Location = new Point(8, 30),
                 AutoSize = true
@@ -287,13 +302,19 @@ namespace HondaTuner.UI
                 ForeColor = TextPrimary,
                 FlatStyle = FlatStyle.Flat
             };
-            _cbRoutines.Items.AddRange(new object[] { "VTEC Yönetimi", "Devir Kesici", "Checksum Kontrolü" });
+            _cbRoutines.Items.AddRange(new object[]
+            {
+                HondaTuner.Core.Localization.L.Get("rc_routine_vtec"),
+                HondaTuner.Core.Localization.L.Get("rc_routine_revcut"),
+                HondaTuner.Core.Localization.L.Get("rc_routine_checksum")
+            });
             _cbRoutines.SelectedIndex = 0;
             pnlDecompileGroup.Controls.Add(_cbRoutines);
 
             var lblDecAddress = new Label
             {
-                Text = "Adres (Hex):",
+                Text = HondaTuner.Core.Localization.L.Get("rc_address_lbl"),
+                Tag = "rc_address_lbl",
                 ForeColor = TextMuted,
                 Location = new Point(8, 62),
                 AutoSize = true
@@ -314,7 +335,8 @@ namespace HondaTuner.UI
 
             _btnDecompile = new Button
             {
-                Text = "Decompile",
+                Text = HondaTuner.Core.Localization.L.Get("rc_decompile_btn") ?? "Decompile",
+                Tag = "rc_decompile_btn",
                 Location = new Point(160, 57),
                 Size = new Size(95, 25),
                 FlatStyle = FlatStyle.Flat,
@@ -352,7 +374,8 @@ namespace HondaTuner.UI
 
             _btnAdopt = new Button
             {
-                Text = "📥 Seçilen Haritayı ECU Profiline Entegre Et",
+                Text = HondaTuner.Core.Localization.L.Get("rc_adopt_btn"),
+                Tag = "rc_adopt_btn",
                 Dock = DockStyle.Fill,
                 FlatStyle = FlatStyle.Flat,
                 BackColor = AccentGreen,
@@ -372,7 +395,10 @@ namespace HondaTuner.UI
         {
             if (_romService == null || !_romService.IsLoaded)
             {
-                MessageBox.Show("Öncelikle bir ROM dosyası yüklemelisiniz!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    HondaTuner.Core.Localization.L.Get("rc_no_rom_msg"),
+                    HondaTuner.Core.Localization.L.Get("rc_no_rom_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -434,8 +460,8 @@ namespace HondaTuner.UI
 
             if (_selectedCandidate != null)
             {
-                _lblRpmAxis.Text = "RPM Ekseni: Aranmadı";
-                _lblLoadAxis.Text = "Load Ekseni: Aranmadı";
+                _lblRpmAxis.Text = HondaTuner.Core.Localization.L.Get("rc_rpm_axis_unsearched");
+                _lblLoadAxis.Text = HondaTuner.Core.Localization.L.Get("rc_load_axis_unsearched");
                 _selectedAxes = null;
                 _btnExtractAxes.Enabled = true;
                 _btnAdopt.Enabled = true;
@@ -465,9 +491,12 @@ namespace HondaTuner.UI
             }
             else
             {
-                _lblRpmAxis.Text = "RPM Ekseni: Bulunamadı";
-                _lblLoadAxis.Text = "Load Ekseni: Bulunamadı";
-                MessageBox.Show("Monoton olarak artış gösteren uygun eksen adresleri tespit edilemedi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _lblRpmAxis.Text = HondaTuner.Core.Localization.L.Get("rc_rpm_axis_notfound");
+                _lblLoadAxis.Text = HondaTuner.Core.Localization.L.Get("rc_load_axis_notfound");
+                MessageBox.Show(
+                    HondaTuner.Core.Localization.L.Get("rc_axis_notfound_msg"),
+                    HondaTuner.Core.Localization.L.Get("rc_axis_notfound_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -482,7 +511,10 @@ namespace HondaTuner.UI
             }
             catch
             {
-                MessageBox.Show("Adres geçersiz! Lütfen 16'lık (Hex) formatta girin (örn: 1FC0).", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    HondaTuner.Core.Localization.L.Get("rc_addr_invalid_msg"),
+                    HondaTuner.Core.Localization.L.Get("rc_addr_invalid_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -504,7 +536,10 @@ namespace HondaTuner.UI
             // Aynı harita daha önce eklenmiş mi kontrol et
             if (profile.Maps.Any(m => m.Offset == _selectedCandidate.Offset))
             {
-                MessageBox.Show("Bu adresteki harita zaten ECU profiline eklenmiş durumda!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    HondaTuner.Core.Localization.L.Get("rc_adopt_already_msg"),
+                    HondaTuner.Core.Localization.L.Get("rc_adopt_already_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -528,9 +563,30 @@ namespace HondaTuner.UI
                 $"Harita '{mapName}' başarıyla ECU profiline enjekte edildi!\n" +
                 $"Arama Adresi: 0x{_selectedCandidate.Offset:X4}\n\n" +
                 $"Artık harita sekmelerinden bu haritayı canlı olarak seçip düzenleyebilirsiniz.",
-                "Profil Entegrasyonu Başarılı",
+                HondaTuner.Core.Localization.L.Get("rc_adopt_success_title"),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void RefreshAxisLabels()
+        {
+            if (_selectedAxes != null && _selectedAxes.Success)
+            {
+                string rpmAxisText = HondaTuner.Core.Localization.L.Get("RPM Ekseni") ?? "RPM Ekseni";
+                string loadAxisText = HondaTuner.Core.Localization.L.Get("Load Ekseni") ?? "Load Ekseni";
+                _lblRpmAxis.Text = $"{rpmAxisText}: 0x{_selectedAxes.RpmAxisOffset:X4} [Min:{_selectedAxes.RpmAxisValues.Min()} Max:{_selectedAxes.RpmAxisValues.Max()}]";
+                _lblLoadAxis.Text = $"{loadAxisText}: 0x{_selectedAxes.LoadAxisOffset:X4} [Min:{_selectedAxes.LoadAxisValues.Min()} kPa Max:{_selectedAxes.LoadAxisValues.Max()} kPa]";
+            }
+            else if (_selectedCandidate != null)
+            {
+                _lblRpmAxis.Text = HondaTuner.Core.Localization.L.Get("rc_rpm_axis_unsearched");
+                _lblLoadAxis.Text = HondaTuner.Core.Localization.L.Get("rc_load_axis_unsearched");
+            }
+            else
+            {
+                _lblRpmAxis.Text = HondaTuner.Core.Localization.L.Get("rc_rpm_axis_init");
+                _lblLoadAxis.Text = HondaTuner.Core.Localization.L.Get("rc_load_axis_init");
+            }
         }
     }
 }

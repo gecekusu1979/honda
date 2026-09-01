@@ -6,8 +6,15 @@ using HondaTuner.Calibration.Ignition;
 
 namespace HondaTuner.UI
 {
-    public class AdvancedIgnitionControl : UserControl
+    public class AdvancedIgnitionControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+            RunSensorSimulation();
+            RunCanSimulation();
+            RunMbtSimulation();
+        }
         private AdvancedIgnitionTables _tables;
         private MbtOptimizer _mbtOptimizer;
         private SensorCalibration _activeSensor;
@@ -410,7 +417,7 @@ namespace HondaTuner.UI
             var lblDiff = new Label { Text = "Sapma (Current - MBT):", ForeColor = TextMuted, Location = new Point(12, outY + 55), Size = new Size(200, 20) };
             pnlRight.Controls.Add(lblDiff);
 
-            _lblMbtDiff = new Label { Text = "-4.0° (Gecikmeli)", Font = new Font("Segoe UI", 12f, FontStyle.Bold), ForeColor = Color.Yellow, Location = new Point(12, outY + 75), Size = new Size(200, 22) };
+            _lblMbtDiff = new Label { Text = "-4.0°", Font = new Font("Segoe UI", 12f, FontStyle.Bold), ForeColor = Color.Yellow, Location = new Point(12, outY + 75), Size = new Size(200, 22), Tag = "dynamic" };
             pnlRight.Controls.Add(_lblMbtDiff);
 
             _lblMbtAdvice = new Label
@@ -491,8 +498,8 @@ namespace HondaTuner.UI
         {
             _dgvSensorCurve.CellValueChanged -= DgvSensorCurve_CellValueChanged;
             _dgvSensorCurve.Columns.Clear();
-            _dgvSensorCurve.Columns.Add("Volt", "Sensör Sinyali (Volt)");
-            _dgvSensorCurve.Columns.Add("Phys", $"Fiziksel Değer ({_activeSensor.Unit})");
+            _dgvSensorCurve.Columns.Add("Volt", HondaTuner.Core.Localization.L.Get("Sensör Sinyali (Volt)"));
+            _dgvSensorCurve.Columns.Add("Phys", $"{HondaTuner.Core.Localization.L.Get("Okunan Fiziksel Değer:")} ({_activeSensor.Unit})");
             _dgvSensorCurve.Columns[0].Width = 180;
             _dgvSensorCurve.Columns[1].Width = 180;
 
@@ -607,7 +614,7 @@ namespace HondaTuner.UI
             }
             catch
             {
-                _lblCanOutput.Text = "Hata (Geçersiz veri)";
+                _lblCanOutput.Text = HondaTuner.Core.Localization.L.Get("diag_can_error");
             }
         }
 
@@ -632,12 +639,12 @@ namespace HondaTuner.UI
 
             if (diff > 0)
             {
-                _lblMbtDiff.Text = $"+{diff.ToString("F1")}° (MBT Üzeri)";
+                _lblMbtDiff.Text = string.Format(HondaTuner.Core.Localization.L.Get("mbt_above"), diff);
                 _lblMbtDiff.ForeColor = AccentRed;
             }
             else
             {
-                _lblMbtDiff.Text = $"{diff.ToString("F1")}° (Gecikmeli)";
+                _lblMbtDiff.Text = string.Format(HondaTuner.Core.Localization.L.Get("mbt_retarded"), diff);
                 _lblMbtDiff.ForeColor = Color.Yellow;
             }
 
@@ -652,7 +659,10 @@ namespace HondaTuner.UI
             double mbt = _mbtOptimizer.EstimateMbt(rpm, load, octane);
 
             _txtMbtCurrentAdvance.Text = mbt.ToString("F1");
-            MessageBox.Show($"Zamanlama Başarıyla Kararlaştırıldı: {mbt.ToString("F1")}° avans aktif tabloya referans atandı ve patch edildi.", "Flaş Avans Düzeltmesi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(
+                string.Format(HondaTuner.Core.Localization.L.Get("mbt_apply_msg_fmt"), mbt),
+                HondaTuner.Core.Localization.L.Get("mbt_apply_title"),
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private double GetDouble(string text)

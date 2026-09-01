@@ -5,8 +5,12 @@ using HondaTuner.Calibration.Diagnostics;
 
 namespace HondaTuner.UI
 {
-    public class DiagnosticsControl : UserControl
+    public class DiagnosticsControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+        }
         private DiagnosticsService _service;
         private Timer _trafficTimer;
 
@@ -231,7 +235,7 @@ namespace HondaTuner.UI
         private void ProtocolChanged(object sender, EventArgs e)
         {
             _service.Tables.SelectedProtocol = _cbProtocol.SelectedItem.ToString();
-            AppendConsoleLog($"[SYSTEM] İletişim protokolü değiştirildi: {_service.Tables.SelectedProtocol}");
+            AppendConsoleLog(HondaTuner.Core.Localization.L.Get("diag_protocol_changed") + _service.Tables.SelectedProtocol);
         }
 
         private void ConfigChanged(object sender, EventArgs e)
@@ -273,7 +277,10 @@ namespace HondaTuner.UI
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     System.IO.File.WriteAllText(sfd.FileName, a2l);
-                    MessageBox.Show("A2L dosyası başarıyla kaydedildi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        HondaTuner.Core.Localization.L.Get("diag_a2l_saved"),
+                        HondaTuner.Core.Localization.L.Get("diag_a2l_saved_title"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace HondaTuner.UI
     /// Profil bağımlı eksen değerleri kullanır.
     /// Sol = Stock | Orta = Delta | Sağ = Modified
     /// </summary>
-    public class DiffView : UserControl
+    public class DiffView : UserControl, ILocalizable
     {
         private byte[,] _stock;
         private byte[,] _modified;
@@ -39,6 +39,29 @@ namespace HondaTuner.UI
             BuildLayout();
         }
 
+        public void ApplyLocalization()
+        {
+            if (_stock == null)
+            {
+                _lblTitle.Text = HondaTuner.Core.Localization.L.Get("Diff görünümü — önce bir ROM yükleyin");
+            }
+            else
+            {
+                _lblTitle.Text = $"📊 Diff: {_mapName}  —  {HondaTuner.Core.Localization.L.Get("Stock vs Modified")}";
+            }
+            if (_stock == null)
+            {
+                _lblChanged.Text = $"{HondaTuner.Core.Localization.L.Get("Değişen")}: —";
+                _lblAvg.Text = $"{HondaTuner.Core.Localization.L.Get("Ort. Δ")}: —";
+                _lblMax.Text = $"{HondaTuner.Core.Localization.L.Get("Maks. Δ")}: —";
+            }
+            else
+            {
+                UpdateSummary();
+            }
+            MainForm.ApplyRecursiveLocalization(this);
+        }
+
         // ── Veri ────────────────────────────────────────────────────
 
         public void Compare(byte[,] stock, byte[,] modified,
@@ -56,7 +79,7 @@ namespace HondaTuner.UI
             RebuildGridStructure();
             PopulateAll();
             UpdateSummary();
-            _lblTitle.Text = $"📊 Diff: {mapName}  —  Stock vs Modified";
+            _lblTitle.Text = $"📊 Diff: {mapName}  —  {HondaTuner.Core.Localization.L.Get("Stock vs Modified")}";
         }
 
         // ── Layout ──────────────────────────────────────────────────
@@ -71,7 +94,8 @@ namespace HondaTuner.UI
                 BackColor = Color.FromArgb(28, 35, 50),
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = "Diff görünümü — önce bir ROM yükleyin",
+                Text = HondaTuner.Core.Localization.L.Get("Diff görünümü — önce bir ROM yükleyin"),
+                Tag = "Diff görünümü — önce bir ROM yükleyin",
             };
 
             _layout = new TableLayoutPanel
@@ -99,9 +123,9 @@ namespace HondaTuner.UI
                 Height = 36,
                 BackColor = Color.FromArgb(18, 22, 30),
             };
-            _lblChanged = SumLabel("Değişen: —", 10);
-            _lblAvg = SumLabel("Ort. Δ: —", 200);
-            _lblMax = SumLabel("Maks. Δ: —", 360);
+            _lblChanged = SumLabel($"{HondaTuner.Core.Localization.L.Get("Değişen")}: —", 10);
+            _lblAvg = SumLabel($"{HondaTuner.Core.Localization.L.Get("Ort. Δ")}: —", 200);
+            _lblMax = SumLabel($"{HondaTuner.Core.Localization.L.Get("Maks. Δ")}: —", 360);
             _summaryPanel.Controls.AddRange(new Control[] { _lblChanged, _lblAvg, _lblMax });
 
             Controls.Add(_layout);
@@ -116,7 +140,8 @@ namespace HondaTuner.UI
             {
                 Dock = DockStyle.Top,
                 Height = 22,
-                Text = title,
+                Text = HondaTuner.Core.Localization.L.Get(title),
+                Tag = title,
                 ForeColor = Color.White,
                 BackColor = hdrColor,
                 Font = new Font("Segoe UI", 8f, FontStyle.Bold),
@@ -269,9 +294,9 @@ namespace HondaTuner.UI
                 }
             int cells = _rows * _cols;
             double avg = n > 0 ? (double)total / n : 0;
-            _lblChanged.Text = $"Değişen: {n} / {cells}";
-            _lblAvg.Text = $"Ort. Δ: {avg:F1}";
-            _lblMax.Text = $"Maks. Δ: {max}";
+            _lblChanged.Text = $"{HondaTuner.Core.Localization.L.Get("Değişen")}: {n} / {cells}";
+            _lblAvg.Text = $"{HondaTuner.Core.Localization.L.Get("Ort. Δ")}: {avg:F1}";
+            _lblMax.Text = $"{HondaTuner.Core.Localization.L.Get("Maks. Δ")}: {max}";
             _lblChanged.ForeColor = n > 80 ? Color.OrangeRed : n > 25 ? Color.Yellow : Color.LightGreen;
         }
 
@@ -299,6 +324,7 @@ namespace HondaTuner.UI
         private static Label SumLabel(string text, int x) => new Label
         {
             Text = text,
+            Tag = "dynamic",
             ForeColor = Color.LightGray,
             AutoSize = true,
             Location = new Point(x, 10),

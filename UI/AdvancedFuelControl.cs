@@ -6,8 +6,12 @@ using HondaTuner.Calibration.Fuel;
 
 namespace HondaTuner.UI
 {
-    public class AdvancedFuelControl : UserControl
+    public class AdvancedFuelControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+        }
         private AdvancedFuelService _fuelService;
         private double _transientFuelAccumulator = 0.0;
         private Timer _transientTimer;
@@ -195,7 +199,7 @@ namespace HondaTuner.UI
 
             _lblAlarmStatus = new Label
             {
-                Text = "✅ Görev Döngüsü Güvenli Limit Aralığında",
+                Text = HondaTuner.Core.Localization.L.Get("duty_cycle_safe"),
                 Location = new Point(12, outY + 95),
                 Size = new Size(330, 24),
                 ForeColor = AccentGreen,
@@ -438,7 +442,7 @@ namespace HondaTuner.UI
 
         private void FuelService_InjectorSaturationAlarm(object sender, double dutyCycle)
         {
-            _lblAlarmStatus.Text = $"🚨 KRİTİK: ENJEKTÖR DOYUMA ULAŞTI (%{Math.Round(dutyCycle, 1)})!";
+            _lblAlarmStatus.Text = string.Format(HondaTuner.Core.Localization.L.Get("alarm_injector_saturation"), Math.Round(dutyCycle, 1));
             _lblAlarmStatus.BackColor = Color.FromArgb(60, 20, 20);
             _lblAlarmStatus.ForeColor = AccentRed;
             _lblFinalDutyCycle.ForeColor = AccentRed;
@@ -455,7 +459,7 @@ namespace HondaTuner.UI
             bool useAlphaN = _chkSimAlphaN.Checked;
 
             // Alarm arayüzünü başlangıçta güvenli sıfırla
-            _lblAlarmStatus.Text = "✅ Görev Döngüsü Güvenli Limit Aralığında";
+            _lblAlarmStatus.Text = HondaTuner.Core.Localization.L.Get("duty_cycle_safe");
             _lblAlarmStatus.BackColor = Color.FromArgb(16, 40, 25);
             _lblAlarmStatus.ForeColor = AccentGreen;
             _lblFinalDutyCycle.ForeColor = AccentGreen;

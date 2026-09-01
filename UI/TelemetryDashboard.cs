@@ -9,8 +9,12 @@ namespace HondaTuner.UI
     /// Canlı telemetri gösterge paneli: RPM, MAP, Speed, AFR, ECT/IAT.
     /// GDI+ destekli koyu tema kadranlar.
     /// </summary>
-    public class TelemetryDashboard : UserControl
+    public class TelemetryDashboard : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+        }
         // ── Renk Paleti ──────────────────────────────────────────
         private static readonly Color BgDark = Color.FromArgb(13, 17, 23);
         private static readonly Color BgPanel = Color.FromArgb(22, 27, 34);

@@ -128,3 +128,68 @@ HondaTuner/
 ## Lisans
 
 Bu proje MIT Lisansı altında açık kaynak olarak lisanslanmıştır.
+
+<br/><hr/><br/>
+
+# HondaTuner V2 (Global 🌎)
+
+HondaTuner V2 is a modern, Windows Forms-based tuning laboratory designed for analyzing, editing, validating, and testing Honda OBD1 ECU ROM files. While originally focused on the P28 architecture, the current codebase has an extensible layout natively supporting ECU profiles such as P05, P06, P28, P30, P61, P72, P74, and P13.
+
+> **Legal Disclaimer:** This software is strictly for research, educational, and closed-circuit/racing development purposes only. You must always back up your original ROM and seek expert review before making physical edits to your vehicle's engine management system.
+
+---
+
+## ⚡ Core Features
+
+* **Multi-Language Support (EN/TR):** Fully dynamic bilingual UI utilizing `.resx` localization caching. Toggle instantly between English and Turkish via the overhead menu without restarting the application!
+* **ROM Management:** Comprehensive workflow for opening, saving, taking automatic backups, and conducting binary differential comparisons (Diff).
+* **Map Tuning:** 2D/3D visual interpolation and editing across Fuel (VE) and Ignition (Spark) tables.
+* **Calibration Limits:** Dedicated editors for manipulating VTEC crossover RPM, Rev Limiters, and Speed limiters. 
+* **Integrity & Checksums:** Honda Checksum automatic update and verification engine.
+* **Live Telemetry & Safety:** Dynamic **Live Protection Banner** that alerts you against runtime limits (`LeanCut`, `OverboostCut`, `ECTRetard`, `KnockRetard`) through the OBD1 data stream.
+* **AutoTune Engine:** Real-time VE (Volumetric Efficiency) correction decisions tracking AFR constraints via the Suggestions Grid.
+* **Advanced OBD1 Datastream Parser:** Integrated ring-buffer handling `0xFF 0xFE` sync bytes and checksum validation to filter parity errors on live serial links.
+* **Robust Test Infrastructure:** Contains a full internal testing harness ensuring system integrity, including **123 unit tests** spanning ROM validation and backpressure modeling.
+
+---
+
+## 💻 Requirements
+
+* **OS:** Windows 10 / 11 (x64)
+* **Runtime / SDK:** .NET 8.0 SDK (LTS)
+* **Development:** Visual Studio 2022 or VS Code (with C# Dev Kit)
+* **Hardware Drivers:** Must have up-to-date Windows drivers for hardware control components (FTDI / Serial Port / CH341A / TL866).
+
+---
+
+## 🚀 Setup & Execution
+
+```bash
+# Clone the repository
+git clone https://github.com/gecekusu1979/honda.git
+cd honda
+
+# Restore dependencies and build the app
+dotnet restore
+dotnet build --nologo
+
+# Launch Application
+dotnet run
+```
+
+---
+
+## 🔌 Hardware Control Status
+
+| Module | Status | Description |
+| :--- | :---: | :--- |
+| **CH341A EEPROM Programmer** | ✅ Active | Native `ch341a.dll` / `minipro` API integration; requires physical hardware. |
+| **TL866 / Minipro Wrapper** | ✅ Active | CLI wrapper support implemented. |
+| **Moates Ostrich 2.0 Emulator** | ✅ Active | Real-time RAM emulation via serial block pushes; requires hardware. |
+| **Honda OBD1 Serial Datalogging** | ✅ Active | Checksum verified, packet loss resilient sync parser. |
+| **Simulator & Datalog Playback** | ✅ Active | Test application logic via offline synthetic trace generation. |
+
+---
+
+## ⚖️ License
+This project is open-sourced under the **MIT License**.

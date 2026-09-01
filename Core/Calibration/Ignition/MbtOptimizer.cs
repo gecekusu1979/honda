@@ -40,13 +40,13 @@ namespace HondaTuner.Calibration.Ignition
             double diff = currentAdvance - mbtAdvance;
             if (diff > 2.0)
             {
-                return "⚠️ RISK: Mevcut Avans MBT Üzerinde! Vuruntu (Knock) Tehlikesi Var.";
+                return HondaTuner.Core.Localization.L.Get("mbt_risk");
             }
             if (diff < -5.0)
             {
-                return "ℹ️ OPTİMİZASYON: Avans MBT'nin Çok Gerisinde. Güç Kazanmak İçin Avansı Artırın.";
+                return HondaTuner.Core.Localization.L.Get("mbt_opt");
             }
-            return "✅ GÜVENLİ: Ateşleme Zamanlaması MBT Noktasına Çok Yakın.";
+            return HondaTuner.Core.Localization.L.Get("mbt_safe");
         }
     }
 }

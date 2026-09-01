@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using HondaTuner.Core;
+using HondaTuner.Core.Localization;
 
 namespace HondaTuner.UI
 {
@@ -43,7 +44,7 @@ namespace HondaTuner.UI
 
         public VehicleSelectDialog()
         {
-            Text = "Honda Tuner — Araç / ECU Seç";
+            Text = L.Get("veh_dialog_title");
             Size = new Size(1020, 640);
             MinimumSize = new Size(860, 520);
             StartPosition = FormStartPosition.CenterParent;
@@ -83,7 +84,7 @@ namespace HondaTuner.UI
             };
             var title = new Label
             {
-                Text = "Araç & ECU Seçimi",
+                Text = L.Get("veh_dialog_label_title"),
                 Font = new Font("Segoe UI", 15f, FontStyle.Bold),
                 ForeColor = C_TextPrim,
                 BackColor = Color.Transparent,
@@ -92,7 +93,7 @@ namespace HondaTuner.UI
             };
             var sub = new Label
             {
-                Text = "Honda Community Verified ECU Database — pgmfi.org  |  8 ECU  ·  14 araç modeli",
+                Text = L.Get("veh_dialog_label_sub"),
                 Font = new Font("Segoe UI", 8.5f),
                 ForeColor = C_TextMuted,
                 BackColor = Color.Transparent,
@@ -116,7 +117,7 @@ namespace HondaTuner.UI
 
             _countLabel = new Label
             {
-                Text = "Bir ECU seçin →",
+                Text = L.Get("veh_dialog_count"),
                 Font = new Font("Segoe UI", 8.5f),
                 ForeColor = C_TextMuted,
                 BackColor = Color.Transparent,
@@ -126,7 +127,7 @@ namespace HondaTuner.UI
 
             _btnCancel = new Button
             {
-                Text = "İptal",
+                Text = L.Get("veh_dialog_cancel"),
                 Size = new Size(90, 36),
                 FlatStyle = FlatStyle.Flat,
                 Cursor = Cursors.Hand,
@@ -140,7 +141,7 @@ namespace HondaTuner.UI
 
             _btnOk = new Button
             {
-                Text = "✓  Bu Araç ile Devam Et",
+                Text = L.Get("veh_dialog_ok"),
                 Size = new Size(200, 36),
                 FlatStyle = FlatStyle.Flat,
                 Cursor = Cursors.Hand,
@@ -263,14 +264,14 @@ namespace HondaTuner.UI
             _vehicleGrid.ColumnHeadersHeight = 30;
             _vehicleGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            AddCol(_vehicleGrid, "col_make", "Marka", 80, false);
-            AddCol(_vehicleGrid, "col_model", "Model", 80, false);
-            AddCol(_vehicleGrid, "col_trim", "Donanım", 90, false);
-            AddCol(_vehicleGrid, "col_engine", "Motor", 75, false);
-            AddCol(_vehicleGrid, "col_year", "Yıl", 80, false);
-            AddCol(_vehicleGrid, "col_hp", "HP", 50, false);
-            AddCol(_vehicleGrid, "col_trans", "Şanzıman", 120, true);
-            AddCol(_vehicleGrid, "col_region", "Bölge", 60, false);
+            AddCol(_vehicleGrid, "col_make", L.Get("veh_dialog_make"), 80, false);
+            AddCol(_vehicleGrid, "col_model", L.Get("veh_dialog_model"), 80, false);
+            AddCol(_vehicleGrid, "col_trim", L.Get("veh_dialog_trim"), 90, false);
+            AddCol(_vehicleGrid, "col_engine", L.Get("veh_dialog_engine"), 75, false);
+            AddCol(_vehicleGrid, "col_year", L.Get("veh_dialog_year"), 80, false);
+            AddCol(_vehicleGrid, "col_hp", L.Get("veh_dialog_hp"), 50, false);
+            AddCol(_vehicleGrid, "col_trans", L.Get("veh_dialog_trans"), 120, true);
+            AddCol(_vehicleGrid, "col_region", L.Get("veh_dialog_region"), 60, false);
 
             _vehicleGrid.SelectionChanged += OnVehicleGridSelectionChanged;
             _vehicleGrid.CellDoubleClick += (s, e) => { if (e.RowIndex >= 0) AcceptSelection(); };
@@ -351,16 +352,16 @@ namespace HondaTuner.UI
                 _vehicleGrid.Rows[row].Tag = v;
             }
 
-            string iab = rec.Profile.HasIab ? "  IAB" : "";
-            string vtec = rec.Profile.HasVtec ? "⚡ VTEC" : "○ Non-VTEC";
+            string iab = rec.Profile.HasIab ? L.Get("veh_dialog_iab") : "";
+            string vtec = rec.Profile.HasVtec ? L.Get("veh_dialog_vtec") : L.Get("veh_dialog_nonvtec");
             _lblEcuName.Text = rec.Profile.Name;
             _lblBadges.Text = $"{vtec}{iab}   ·   {rec.Profile.EngineCode}   ·   {rec.VtecType}";
             _lblBadges.ForeColor = rec.Profile.HasVtec ? C_Green : C_TextMuted;
             _lblDesc.Text = rec.ShortDescription;
-            _lblVehicle.Text = "① Listeden bir araç seçin, ardından \"Bu Araç ile Devam Et\" butonuna tıklayın.";
+            _lblVehicle.Text = L.Get("veh_dialog_desc_select");
             _lblVehicle.ForeColor = C_TextMuted;
 
-            _countLabel.Text = $"{rec.Vehicles.Length} araç modeli  |  {rec.Profile.EcuCode}";
+            _countLabel.Text = string.Format(L.Get("veh_dialog_ecu_count"), rec.Vehicles.Length, rec.Profile.EcuCode);
         }
 
         // ── Olay: Grid satır seçimi ───────────────────────────────────

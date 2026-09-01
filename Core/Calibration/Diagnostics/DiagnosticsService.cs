@@ -160,7 +160,7 @@ namespace HondaTuner.Calibration.Diagnostics
                 var conn = Core.Container.ServiceContainer.Resolve<IObdConnection>();
                 if (conn != null && conn.State == ConnectionState.Connected)
                 {
-                    return $"[VERİ AKIŞI] 9600 bps OBD1 Aktif -> Son Okuma: BAŞARILI (Durum: {conn.State})";
+                    return string.Format(Core.Localization.L.Get("diag_live_stream_ok"), conn.State);
                 }
             }
             catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[DiagnosticsService] OBD bağlantı erişim hatası: {ex.Message}"); }
@@ -168,15 +168,15 @@ namespace HondaTuner.Calibration.Diagnostics
             switch (Tables.SelectedProtocol)
             {
                 case "OBD1":
-                    return "TX: [0x82 0x11 0x01] -> RX: [0x02 0x3E 0x00 0xFF 0xAA] (OBD1 Live Headers OK) (Simülasyon Modu)";
+                    return "TX: [0x82 0x11 0x01] -> RX: [0x02 0x3E 0x00 0xFF 0xAA] (OBD1 Live Headers OK) " + Core.Localization.L.Get("diag_sim_mode");
                 case "ISO9141":
-                    return "TX: [0x68 0x6A 0xF1 0x01 0x0D] -> RX: [0x48 0x6B 0x10 0x41 0x0D 0x32] (ISO9141 Fast Init K-Line) (Simülasyon Modu)";
+                    return "TX: [0x68 0x6A 0xF1 0x01 0x0D] -> RX: [0x48 0x6B 0x10 0x41 0x0D 0x32] (ISO9141 Fast Init K-Line) " + Core.Localization.L.Get("diag_sim_mode");
                 case "CAN_BUS":
-                    return "TX: CAN ID: 0x18DB33F1 [0x02 0x01 0x0C 0x00 0x00 0x00 0x00 0x00] -> RX: 0x18DAF110 [0x04 0x41 0x0C 0x0B 0xC0] (SAE J1979 RPM Query) (Simülasyon Modu)";
+                    return "TX: CAN ID: 0x18DB33F1 [0x02 0x01 0x0C 0x00 0x00 0x00 0x00 0x00] -> RX: 0x18DAF110 [0x04 0x41 0x0C 0x0B 0xC0] (SAE J1979 RPM Query) " + Core.Localization.L.Get("diag_sim_mode");
                 case "J2534":
-                    return "PassThruConnect() -> ChannelID: 0x01. Protocol: ISO15765. Connection active. (Simülasyon Modu)";
+                    return "PassThruConnect() -> ChannelID: 0x01. Protocol: ISO15765. Connection active. " + Core.Localization.L.Get("diag_sim_mode");
                 default:
-                    return "Bağlantı Kapalı.";
+                    return Core.Localization.L.Get("Bağlantı Kapalı.");
             }
         }
 

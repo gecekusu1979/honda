@@ -13,8 +13,12 @@ using HondaTuner.Calibration.EngineProtection;
 
 namespace HondaTuner.UI
 {
-    public class MainForm : Form
+    public class MainForm : Form, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            UpdateLocalizedUI();
+        }
         // ── Renk Paleti ─────────────────────────────────────────
         private static readonly Color BgDark = Color.FromArgb(13, 17, 23);
         private static readonly Color BgPanel = Color.FromArgb(22, 27, 34);
@@ -93,6 +97,7 @@ namespace HondaTuner.UI
         private PartViewer3D _partViewer;
 
         // Tuning Asistani
+        private ComboBox _cmbView;
         private ComboBox _goalCombo;
         private NumericUpDown _injectorCcSpinner;
         private NumericUpDown _mapSensorSpinner;
@@ -196,6 +201,8 @@ namespace HondaTuner.UI
             Icon = SystemIcons.Application;
             BackColor = BgDark;
 
+            HondaTuner.Core.Localization.L.SetLanguage("tr");
+
             // V2 JSON profiles loading
             string exeDir = AppDomain.CurrentDomain.BaseDirectory;
             string dbPath = Path.Combine(exeDir, "Database");
@@ -260,7 +267,6 @@ namespace HondaTuner.UI
             UpdateProfileUI();
             UpdateAssistantDefaults();
 
-            HondaTuner.Core.Localization.L.SetLanguage("tr");
             UpdateLocalizedUI();
         }
 
@@ -303,7 +309,8 @@ namespace HondaTuner.UI
 
             _headerVehicleLabel = new Label
             {
-                Text = "Araç seçilmedi",
+                Text = HondaTuner.Core.Localization.L.Get("Araç seçilmedi"),
+                Tag = "dynamic",
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = AccentBlue,
                 BackColor = Color.Transparent,
@@ -364,29 +371,30 @@ namespace HondaTuner.UI
                 Renderer = new DarkMenuRenderer(),
             };
 
-            var fileMenu = new ToolStripMenuItem("Dosya") { ForeColor = TextPrimary };
-            fileMenu.DropDownItems.Add(MenuItem("Aç…", Keys.Control | Keys.O, OnOpen));
-            fileMenu.DropDownItems.Add(MenuItem("Kaydet", Keys.Control | Keys.S, OnSave));
-            fileMenu.DropDownItems.Add(MenuItem("Farklı Kaydet…", Keys.None, OnSaveAs));
-            fileMenu.DropDownItems.Add(MenuItem("Geri Al (Undo)", Keys.Control | Keys.Z, OnUndoEdit));
+            var fileMenu = new ToolStripMenuItem(HondaTuner.Core.Localization.L.Get("menu_file")) { ForeColor = TextPrimary, Tag = "menu_file" };
+            fileMenu.DropDownItems.Add(MenuItem("menu_open", Keys.Control | Keys.O, OnOpen));
+            fileMenu.DropDownItems.Add(MenuItem("menu_save", Keys.Control | Keys.S, OnSave));
+            fileMenu.DropDownItems.Add(MenuItem("menu_save_as", Keys.None, OnSaveAs));
+            fileMenu.DropDownItems.Add(MenuItem("menu_undo", Keys.Control | Keys.Z, OnUndoEdit));
             fileMenu.DropDownItems.Add(new ToolStripSeparator());
-            fileMenu.DropDownItems.Add(MenuItem("Çıkış", Keys.Alt | Keys.F4, (s, e) => Close()));
+            fileMenu.DropDownItems.Add(MenuItem("menu_exit", Keys.Alt | Keys.F4, (s, e) => Close()));
 
-            var toolMenu = new ToolStripMenuItem("Araçlar") { ForeColor = TextPrimary };
-            toolMenu.DropDownItems.Add(MenuItem("Araç / ECU Seç…", Keys.F2, OnSelectVehicle));
+            var toolMenu = new ToolStripMenuItem(HondaTuner.Core.Localization.L.Get("menu_tools")) { ForeColor = TextPrimary, Tag = "menu_tools" };
+            toolMenu.DropDownItems.Add(MenuItem("menu_select_vehicle", Keys.F2, OnSelectVehicle));
             toolMenu.DropDownItems.Add(new ToolStripSeparator());
-            toolMenu.DropDownItems.Add(MenuItem("Tuning Asistanı: Basemap Uygula", Keys.Control | Keys.B, OnApplyAssistantBasemap));
-            toolMenu.DropDownItems.Add(MenuItem("Wideband AFR Düzeltmesi", Keys.Control | Keys.W, OnApplyWidebandCorrection));
+            toolMenu.DropDownItems.Add(MenuItem("menu_apply_basemap", Keys.Control | Keys.B, OnApplyAssistantBasemap));
+            toolMenu.DropDownItems.Add(MenuItem("menu_wideband_corr", Keys.Control | Keys.W, OnApplyWidebandCorrection));
             toolMenu.DropDownItems.Add(new ToolStripSeparator());
-            toolMenu.DropDownItems.Add(MenuItem("Checksum Doğrula", Keys.F5, OnVerifyChecksum));
-            toolMenu.DropDownItems.Add(MenuItem("Stock'a Döndür", Keys.None, OnResetToStock));
+            toolMenu.DropDownItems.Add(MenuItem("menu_verify_checksum", Keys.F5, OnVerifyChecksum));
+            toolMenu.DropDownItems.Add(MenuItem("menu_reset_stock", Keys.None, OnResetToStock));
             toolMenu.DropDownItems.Add(new ToolStripSeparator());
 
-            var profileMenu = new ToolStripMenuItem("ECU Profili Seç") { ForeColor = TextPrimary };
+            var profileMenu = new ToolStripMenuItem(HondaTuner.Core.Localization.L.Get("menu_ecu_profile")) { ForeColor = TextPrimary, Tag = "menu_ecu_profile" };
             var listToUse = (_loadedProfiles != null && _loadedProfiles.Count > 0) ? _loadedProfiles : new List<EcuProfile>(EcuProfiles.All);
             foreach (var profile in listToUse)
             {
                 var p = profile;
+                // Tag is intentionally left null so the localizer never overwrites the profile name
                 var item = new ToolStripMenuItem(p.Name) { ForeColor = TextPrimary, Checked = p == _activeProfile };
                 item.Click += (s, e) => ApplyProfile(p, (ToolStripMenuItem)s);
                 profileMenu.DropDownItems.Add(item);
@@ -396,7 +404,8 @@ namespace HondaTuner.UI
             menu.Items.Add(fileMenu);
             menu.Items.Add(toolMenu);
 
-            var langMenu = new ToolStripMenuItem("🌐 Dil") { ForeColor = TextPrimary };
+            var langMenu = new ToolStripMenuItem(HondaTuner.Core.Localization.L.Get("menu_language")) { ForeColor = TextPrimary, Tag = "menu_language" };
+            // Language items are pinned to fixed display names — never translated by the localization pass
             var trItem = new ToolStripMenuItem("Türkçe (TR)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "tr" };
             var enItem = new ToolStripMenuItem("English (EN)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "en" };
 
@@ -423,9 +432,9 @@ namespace HondaTuner.UI
             MainMenuStrip = menu;
         }
 
-        private ToolStripMenuItem MenuItem(string text, Keys shortcut, EventHandler handler)
+        private ToolStripMenuItem MenuItem(string key, Keys shortcut, EventHandler handler)
         {
-            var item = new ToolStripMenuItem(text) { ForeColor = TextPrimary, ShortcutKeys = shortcut };
+            var item = new ToolStripMenuItem(HondaTuner.Core.Localization.L.Get(key)) { ForeColor = TextPrimary, ShortcutKeys = shortcut, Tag = key };
             item.Click += handler;
             return item;
         }
@@ -437,24 +446,24 @@ namespace HondaTuner.UI
             // ───────────────────────────────────────────────
             // 1. ÖZEL SEKME BARLARI
             // ───────────────────────────────────────────────
-            var tabLabels = new[]
+            var tabKeys = new[]
             {
-                "⛽ Yakıt",
-                "⚡ Ateşleme",
-                "🧠 Tuning Asistanı",
-                "🔍 Diff",
-                "📊 Telemetri",
-                "🔩 3D Parça",
-                "🚀 AutoTune",
-                "✏️ Proje & Pinout",
-                "🔍 Analiz & Decompiler",
-                "🚀 Advanced Fuel",
-                "⚡ Advanced Ignition",
-                "🏁 VTEC & Boost",
-                "🛡️ Engine Protection",
-                "📶 Diagnostics & A2L",
-                "📊 Dyno, Logs & Branching",
-                "🔌 Donanım Kontrol",
+                "tab_fuel",
+                "tab_ignition",
+                "tab_tuning_assistant",
+                "tab_diff",
+                "tab_telemetry",
+                "tab_part_viewer",
+                "tab_autotune",
+                "tab_project_pinout",
+                "tab_analysis_decompiler",
+                "tab_adv_fuel",
+                "tab_adv_ignition",
+                "tab_vtec_boost",
+                "tab_engine_protection",
+                "tab_diagnostics_a2l",
+                "tab_dyno_logs",
+                "tab_hardware_control",
             };
 
             _tabBar = new Panel
@@ -470,14 +479,15 @@ namespace HondaTuner.UI
                     _tabBar.Width, _tabBar.Height - 1);
             };
 
-            _tabButtons = new Button[tabLabels.Length];
+            _tabButtons = new Button[tabKeys.Length];
 
-            for (int i = 0; i < tabLabels.Length; i++)
+            for (int i = 0; i < tabKeys.Length; i++)
             {
                 int idx = i;
                 var btn = new Button
                 {
-                    Text = tabLabels[i],
+                    Text = HondaTuner.Core.Localization.L.Get(tabKeys[i]),
+                    Tag = tabKeys[i],
                     Height = 38,
                     Width = 148,
                     FlatStyle = FlatStyle.Flat,
@@ -500,9 +510,9 @@ namespace HondaTuner.UI
             // 2. İÇERİK ALANI
             // ───────────────────────────────────────────────
             _contentArea = new Panel { Dock = DockStyle.Fill, BackColor = BgDark };
-            _tabPages = new Panel[tabLabels.Length];
+            _tabPages = new Panel[tabKeys.Length];
 
-            for (int i = 0; i < tabLabels.Length; i++)
+            for (int i = 0; i < tabKeys.Length; i++)
             {
                 _tabPages[i] = new Panel
                 {
@@ -751,7 +761,7 @@ namespace HondaTuner.UI
                 Margin = new Padding(0, 0, 0, 0)
             };
             leftPanel.Controls.Add(_progLog);
-            AppendProgLog("CH341A Programlayıcı hazır. 'Bağlan' butonuna basın.");
+            AppendProgLog(HondaTuner.Core.Localization.L.Get("prog_init_ready"));
 
             // ── Sağ Panel: Canlı OBD1 DTC ───────────────────────
             var rightPanel = new FlowLayoutPanel
@@ -899,9 +909,9 @@ namespace HondaTuner.UI
             switch (e.NewState)
             {
                 case HondaTuner.Core.Interfaces.ConnectionState.Connected:
-                    _progStateLabel.Text = "● Bağlandı";
+                    _progStateLabel.Text = HondaTuner.Core.Localization.L.Get("status_connected");
                     _progStateLabel.ForeColor = VtecGreen;
-                    _progStatusLabel.Text = "🔌 PROG: ONLINE";
+                    _progStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_prog_online");
                     _progStatusLabel.ForeColor = VtecGreen;
                     _btnProgConnect.Enabled = false;
                     _btnProgDisconnect.Enabled = true;
@@ -909,15 +919,15 @@ namespace HondaTuner.UI
                         b.Enabled = true;
                     break;
                 case HondaTuner.Core.Interfaces.ConnectionState.Connecting:
-                    _progStateLabel.Text = "● Bağlanıyor...";
+                    _progStateLabel.Text = HondaTuner.Core.Localization.L.Get("status_connecting");
                     _progStateLabel.ForeColor = AccentBlue;
-                    _progStatusLabel.Text = "🔌 PROG: BAĞLANIYOR";
+                    _progStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_prog_connecting");
                     _progStatusLabel.ForeColor = AccentBlue;
                     break;
                 case HondaTuner.Core.Interfaces.ConnectionState.Error:
-                    _progStateLabel.Text = "● Hata";
+                    _progStateLabel.Text = HondaTuner.Core.Localization.L.Get("status_error");
                     _progStateLabel.ForeColor = AccentRed;
-                    _progStatusLabel.Text = "🔌 PROG: HATA";
+                    _progStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_prog_error");
                     _progStatusLabel.ForeColor = AccentRed;
                     _btnProgConnect.Enabled = true;
                     _btnProgDisconnect.Enabled = false;
@@ -925,9 +935,9 @@ namespace HondaTuner.UI
                         b.Enabled = false;
                     break;
                 default:  // Disconnected / TimedOut
-                    _progStateLabel.Text = "● Bağlı Değil";
+                    _progStateLabel.Text = HondaTuner.Core.Localization.L.Get("status_disconnected");
                     _progStateLabel.ForeColor = TextMuted;
-                    _progStatusLabel.Text = "🔌 PROG: OFFLINE";
+                    _progStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_prog_offline");
                     _progStatusLabel.ForeColor = TextMuted;
                     _btnProgConnect.Enabled = true;
                     _btnProgDisconnect.Enabled = false;
@@ -945,19 +955,19 @@ namespace HondaTuner.UI
             switch (e.NewState)
             {
                 case HondaTuner.Core.Interfaces.ConnectionState.Connected:
-                    _emuStatusLabel.Text = "🎮 EMU: ONLINE";
+                    _emuStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_emu_online");
                     _emuStatusLabel.ForeColor = VtecGreen;
                     break;
                 case HondaTuner.Core.Interfaces.ConnectionState.Connecting:
-                    _emuStatusLabel.Text = "🎮 EMU: BAĞLANIYOR";
+                    _emuStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_emu_connecting");
                     _emuStatusLabel.ForeColor = AccentBlue;
                     break;
                 case HondaTuner.Core.Interfaces.ConnectionState.Error:
-                    _emuStatusLabel.Text = "🎮 EMU: HATA";
+                    _emuStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_emu_error");
                     _emuStatusLabel.ForeColor = AccentRed;
                     break;
                 default:
-                    _emuStatusLabel.Text = "🎮 EMU: OFFLINE";
+                    _emuStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_emu_offline");
                     _emuStatusLabel.ForeColor = TextMuted;
                     break;
             }
@@ -1451,7 +1461,8 @@ namespace HondaTuner.UI
                 bool isEcuGroup = part != PartViewer3D.PartType.B16Engine;
 
                 // Dynamic back/selection breadcrumb text
-                btnEcu.Text = (part == PartViewer3D.PartType.B16Engine || part != PartViewer3D.PartType.EcuBoard) ? "🧠  ECU (Geri)" : "🧠  ECU Ana Kartı";
+                btnEcu.Tag = (part == PartViewer3D.PartType.B16Engine || part != PartViewer3D.PartType.EcuBoard) ? "🧠  ECU (Geri)" : "🧠  ECU Ana Kartı";
+                btnEcu.Text = HondaTuner.Core.Localization.L.Get((string)btnEcu.Tag);
 
                 // Style Ecu Board button
                 bool isEcuBoard = part == PartViewer3D.PartType.EcuBoard;
@@ -1688,6 +1699,7 @@ namespace HondaTuner.UI
             };
 
             var portLabel = MakeLabel("COM Port:", new Font("Segoe UI", 9f), TextMuted, new Point(12, 17));
+            portLabel.Tag = "COM Port:";
 
             _comPortCombo = new ComboBox
             {
@@ -1705,8 +1717,11 @@ namespace HondaTuner.UI
                 _comPortCombo.SelectedIndex = 0;
 
             _btnConnect = MakeButton("🔌 Canlı Bağlan", new Point(190, 11), 130, AccentBlue);
+            _btnConnect.Tag = "btn_start";
             _btnSimulate = MakeButton("🎮 Simülasyon Başlat", new Point(328, 11), 160, VtecGreen);
+            _btnSimulate.Tag = "btn_simulate";
             _btnDisconnect = MakeButton("⏹ Bağlantıyı Kes", new Point(496, 11), 140, AccentRed);
+            _btnDisconnect.Tag = "btn_stop";
             _btnDisconnect.Enabled = false;
 
             _btnConnect.Click += OnDatalogConnect;
@@ -1731,8 +1746,11 @@ namespace HondaTuner.UI
             };
 
             _btnLoadCsv = MakeButton("📂 CSV Yükle", new Point(8, 9), 110, TextMuted);
+            _btnLoadCsv.Tag = "btn_load_csv";
             _btnPlayback = MakeButton("▶ Oynat", new Point(126, 9), 80, VtecGreen);
+            _btnPlayback.Tag = "btn_playback";
             _btnPausePlayback = MakeButton("⏸ Duraklat", new Point(214, 9), 90, AccentBlue);
+            _btnPausePlayback.Tag = "btn_pause";
             _btnPlayback.Enabled = false;
             _btnPausePlayback.Enabled = false;
 
@@ -1783,6 +1801,8 @@ namespace HondaTuner.UI
                 _datalogMgr.Play();
                 _btnPlayback.Enabled = false;
                 _btnPausePlayback.Enabled = true;
+                _btnPausePlayback.Tag = "btn_pause";
+                _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_pause");
             };
 
             // ── Pause
@@ -1791,6 +1811,8 @@ namespace HondaTuner.UI
                 _datalogMgr.Pause();
                 _btnPlayback.Enabled = true;
                 _btnPausePlayback.Enabled = false;
+                _btnPausePlayback.Tag = "btn_resume";
+                _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_resume");
             };
 
             // ── Seek (TrackBar kaydırma)
@@ -1887,7 +1909,7 @@ namespace HondaTuner.UI
             AddAssistantLabel(left, "Gorunum Secenegi", y);
             y += 20;
 
-            var cmbView = new ComboBox
+            _cmbView = new ComboBox
             {
                 Location = new Point(14, y),
                 Width = 310,
@@ -1896,9 +1918,9 @@ namespace HondaTuner.UI
                 ForeColor = TextPrimary,
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold)
             };
-            cmbView.Items.AddRange(new object[] { "Asistan Kilavuzu", "Gelismis Ayarlar", "Sihirbazlar", "Gelismis Patch Merkezi" });
-            cmbView.SelectedIndex = 0;
-            left.Controls.Add(cmbView);
+            _cmbView.Items.AddRange(new object[] { "Asistan Kilavuzu", "Gelismis Ayarlar", "Sihirbazlar", "Gelismis Patch Merkezi" });
+            _cmbView.SelectedIndex = 0;
+            left.Controls.Add(_cmbView);
             y += 36;
 
             AddAssistantLabel(left, "Basemap hedefi", y);
@@ -2008,9 +2030,9 @@ namespace HondaTuner.UI
             // tab4: patches controls
             BuildPatchCenter(panelPatches);
 
-            cmbView.SelectedIndexChanged += (s, e) =>
+            _cmbView.SelectedIndexChanged += (s, e) =>
             {
-                int idx = cmbView.SelectedIndex;
+                int idx = _cmbView.SelectedIndex;
                 panelNotes.Visible = (idx == 0);
                 panelAdvanced.Visible = (idx == 1);
                 panelWizards.Visible = (idx == 2);
@@ -2196,7 +2218,7 @@ namespace HondaTuner.UI
             }
             else
             {
-                _patchDetailsBox.Text = "Bu ECU profili için kullanılabilir yama bulunamadı.";
+                _patchDetailsBox.Text = HondaTuner.Core.Localization.L.Get("pc_no_patches");
                 _btnApplyPatch.Enabled = false;
                 _btnRollbackPatch.Enabled = false;
             }
@@ -2627,6 +2649,7 @@ namespace HondaTuner.UI
                 Spring = true,
                 TextAlign = ContentAlignment.MiddleLeft,
                 ForeColor = TextPrimary,
+                Tag = "dynamic"
             };
             _checksumLabel = new ToolStripStatusLabel
             {
@@ -2642,21 +2665,24 @@ namespace HondaTuner.UI
             };
             _datalogStatusLabel = new ToolStripStatusLabel
             {
-                Text = "⬛ OFFLINE",
+                Text = HondaTuner.Core.Localization.L.Get("status_offline"),
                 BorderSides = ToolStripStatusLabelBorderSides.Left,
                 ForeColor = TextMuted,
+                Tag = "dynamic"
             };
             _progStatusLabel = new ToolStripStatusLabel
             {
-                Text = "🔌 PROG: OFFLINE",
+                Text = HondaTuner.Core.Localization.L.Get("status_prog_offline"),
                 BorderSides = ToolStripStatusLabelBorderSides.Left,
                 ForeColor = TextMuted,
+                Tag = "dynamic"
             };
             _emuStatusLabel = new ToolStripStatusLabel
             {
-                Text = "🎮 EMU: OFFLINE",
+                Text = HondaTuner.Core.Localization.L.Get("status_emu_offline"),
                 BorderSides = ToolStripStatusLabelBorderSides.Left,
                 ForeColor = TextMuted,
+                Tag = "dynamic"
             };
 
             _status.Items.Add(_statusLabel);
@@ -2712,9 +2738,9 @@ namespace HondaTuner.UI
             _comPortCombo.Enabled = !running;
 
             if (running)
-                _datalogStatusLabel.Text = sim ? "🟢 SİMÜLASYON" : "🔴 CANLI";
+                _datalogStatusLabel.Text = sim ? HondaTuner.Core.Localization.L.Get("status_simulation") : HondaTuner.Core.Localization.L.Get("status_live");
             else
-                _datalogStatusLabel.Text = "⬛ OFFLINE";
+                _datalogStatusLabel.Text = HondaTuner.Core.Localization.L.Get("status_offline");
 
             _datalogStatusLabel.ForeColor = running ? VtecGreen : TextMuted;
         }
@@ -2862,7 +2888,7 @@ namespace HondaTuner.UI
             string iabTag = _activeProfile.HasIab ? " + IAB" : "";
             string vehicle = _activeVehicle != null
                 ? $"{_activeVehicle.Make} {_activeVehicle.Model} {_activeVehicle.Trim} ({_activeVehicle.YearRange})"
-                : _activeProfile.CasaTag;
+                : HondaTuner.Core.Localization.L.Get(_activeProfile.CasaTag);
 
             Text = $"HondaTuner — {_activeProfile.EcuCode} / {_activeProfile.EngineCode}" +
                    (_isDirty ? "  ●" : "");
@@ -3254,18 +3280,14 @@ namespace HondaTuner.UI
             _widebandRpmSpinner.Value = Clamp(_activeProfile.HasVtec ? _activeProfile.VtecRpmDefault : 4500,
                 _widebandRpmSpinner.Minimum, _widebandRpmSpinner.Maximum);
 
-            string dbg = "";
-            if (_panelNotes != null)
-            {
-                dbg = $"[DBG] Notes: Loc={_panelNotes.Location}, Sz={_panelNotes.Size}, Dock={_panelNotes.Dock}, Vis={_panelNotes.Visible}, Parent={_panelNotes.Parent?.GetType().Name}\r\n" +
-                      $"[DBG] Text: Loc={_assistantNotes.Location}, Sz={_assistantNotes.Size}, Dock={_assistantNotes.Dock}, Parent={_assistantNotes.Parent?.GetType().Name}\r\n" +
-                      $"[DBG] Right: Loc={_rightPanel.Location}, Sz={_rightPanel.Size}, Dock={_rightPanel.Dock}\r\n\r\n";
-            }
+            string activeProfileText = HondaTuner.Core.Localization.L.Get("Aktif profil:");
+            string vehicleText = HondaTuner.Core.Localization.L.Get("Araç:");
+            string disclaimerText = HondaTuner.Core.Localization.L.Get("disclaimer_notes");
 
-            _assistantNotes.Text = dbg +
-                $"Aktif profil: {_activeProfile.Name}\r\n" +
-                $"Araç: {(_activeVehicle != null ? _activeVehicle.ToString() : _activeProfile.CasaTag)}\r\n\r\n" +
-                "ROM dosyası kullanıcıdan alınır. Uygulama telifli stock ROM indirmez veya dağıtmaz; test/basemap üretir ve kendi okuduğun ROM üzerinde çalışır.";
+            _assistantNotes.Text =
+                $"{activeProfileText} {_activeProfile.Name}\r\n" +
+                $"{vehicleText} {(_activeVehicle != null ? _activeVehicle.ToString() : _activeProfile.CasaTag)}\r\n\r\n" +
+                $"{disclaimerText}";
 
             _assistantNotes.SelectionStart = 0;
             _assistantNotes.SelectionLength = 0;
@@ -3341,22 +3363,70 @@ namespace HondaTuner.UI
             UpdateProfileUI();
         }
 
-        private void SetStatus(string msg) => _statusLabel.Text = msg;
-        private void SetChecksum(bool ok) => _checksumLabel.Text =
-            ok ? "✅ Checksum OK" : "❌ Checksum HATA";
+        private void SetStatus(string msg)
+        {
+            if (_statusLabel == null) return;
+            string key = msg;
+            if (string.IsNullOrEmpty(msg))
+            {
+                key = "status_empty";
+            }
+            else if (msg.StartsWith("ROM yüklenmedi"))
+            {
+                key = "rom_not_loaded_status";
+            }
+            else if (msg.StartsWith("CSV yüklendi:"))
+            {
+                key = "csv_loaded_status";
+            }
+            else if (msg.StartsWith("AutoTune Oturumu Başlatıldı"))
+            {
+                key = "autotune_session_started";
+            }
+            else if (msg.StartsWith("AutoTune Oturumu Duraklatıldı"))
+            {
+                key = "autotune_session_paused";
+            }
+            else if (msg.StartsWith("AutoTune Oturumu Devam Ettiriliyor"))
+            {
+                key = "autotune_session_resumed";
+            }
+            else if (msg.StartsWith("AutoTune Oturumu Durduruldu"))
+            {
+                key = "autotune_session_stopped";
+            }
+            else if (msg.StartsWith("Wideband AFR ölçümüne göre"))
+            {
+                key = "wideband_correction_applied";
+            }
+            else if (msg.StartsWith("↩"))
+            {
+                key = "stock_restored_status";
+            }
+            _statusLabel.Text = HondaTuner.Core.Localization.L.Get(key);
+        }
+
+        private void SetChecksum(bool ok)
+        {
+            if (_checksumLabel == null) return;
+            _checksumLabel.Text = ok ?
+                HondaTuner.Core.Localization.L.Get("checksum_ok") :
+                HondaTuner.Core.Localization.L.Get("checksum_error");
+        }
 
         private void NoRomWarning() =>
-            MessageBox.Show("Önce bir ROM dosyası yükleyin.",
-                "ROM Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(HondaTuner.Core.Localization.L.Get("rom_warn_msg"),
+                HondaTuner.Core.Localization.L.Get("rom_warn_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         private bool ConfirmDiscard() =>
-            MessageBox.Show("Kaydedilmemiş değişiklikler var. Devam et?",
-                "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+            MessageBox.Show(HondaTuner.Core.Localization.L.Get("discard_confirm_msg"),
+                HondaTuner.Core.Localization.L.Get("discard_confirm_title"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
 
         private static Label MakeLabel(string text, Font font, Color fore, Point loc) =>
             new Label
             {
-                Text = text,
+                Text = HondaTuner.Core.Localization.L.Get(text),
+                Tag = text,
                 Font = font,
                 ForeColor = fore,
                 BackColor = Color.Transparent,
@@ -3368,7 +3438,8 @@ namespace HondaTuner.UI
         {
             var b = new Button
             {
-                Text = text,
+                Text = HondaTuner.Core.Localization.L.Get(text),
+                Tag = text,
                 Location = loc,
                 Size = new Size(w, 28),
                 FlatStyle = FlatStyle.Flat,
@@ -3440,7 +3511,8 @@ namespace HondaTuner.UI
 
             var title = new Label
             {
-                Text = "Closed Loop AutoTune Kontrol Paneli",
+                Text = HondaTuner.Core.Localization.L.Get("Closed Loop AutoTune Kontrol Paneli"),
+                Tag = "Closed Loop AutoTune Kontrol Paneli",
                 Font = new Font("Segoe UI", 12f, FontStyle.Bold),
                 ForeColor = AccentRed,
                 AutoSize = true,
@@ -3450,7 +3522,8 @@ namespace HondaTuner.UI
 
             var gbConfig = new GroupBox
             {
-                Text = "Oturum Ayarları",
+                Text = HondaTuner.Core.Localization.L.Get("Oturum Ayarları"),
+                Tag = "Oturum Ayarları",
                 ForeColor = TextPrimary,
                 Size = new Size(350, 180),
                 Margin = new Padding(0, 0, 0, 16),
@@ -3494,6 +3567,8 @@ namespace HondaTuner.UI
                 FlatStyle = FlatStyle.Flat
             };
             comboUser.Items.AddRange(new object[] { "Professional", "Advanced", "Beginner" });
+            comboUser.Tag = new List<string> { "autotune_user_professional", "autotune_user_advanced", "autotune_user_beginner" };
+            TranslateComboBox(comboUser);
             comboUser.SelectedIndex = 0;
 
             gbConfig.Controls.Add(lblMode);
@@ -3507,8 +3582,9 @@ namespace HondaTuner.UI
             var actionPanel = new Panel { Size = new Size(350, 48), Margin = new Padding(0, 0, 0, 16) };
             _btnAtStart = MakeButton("▶ Başlat", 0, 0, 100, 36, (s, e) =>
             {
-                string userId = comboUser.SelectedItem.ToString() == "Advanced" ? "AdvancedUser" :
-                                (comboUser.SelectedItem.ToString() == "Beginner" ? "BeginnerUser" : "TunerUser");
+                int roleIdx = comboUser.SelectedIndex;
+                string userId = roleIdx == 1 ? "AdvancedUser" :
+                                (roleIdx == 2 ? "BeginnerUser" : "TunerUser");
                 var mode = (HondaTuner.Core.AutoTune.AutoTuneOperatingMode)Enum.Parse(typeof(HondaTuner.Core.AutoTune.AutoTuneOperatingMode), _atModeCombo.SelectedItem.ToString());
                 string profile = _atProfileCombo.SelectedItem.ToString();
 
@@ -3530,32 +3606,37 @@ namespace HondaTuner.UI
             });
             _btnAtStart.BackColor = VtecGreen;
             _btnAtStart.ForeColor = Color.White;
+            _btnAtStart.Tag = "btn_at_start";
 
             _btnAtPause = MakeButton("⏸ Duraklat", 110, 0, 100, 36, (s, e) =>
             {
                 if (_autoTuneEngine.IsRunning)
                 {
                     _autoTuneEngine.PauseSession();
-                    _btnAtPause.Text = "▶ Devam Et";
+                    _btnAtPause.Tag = "btn_at_resume";
+                    _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_resume");
                     SetStatus("AutoTune Oturumu Duraklatıldı");
                 }
                 else
                 {
                     _autoTuneEngine.ResumeSession();
-                    _btnAtPause.Text = "⏸ Duraklat";
+                    _btnAtPause.Tag = "btn_at_pause";
+                    _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_pause");
                     SetStatus("AutoTune Oturumu Devam Ettiriliyor");
                 }
             });
             _btnAtPause.Enabled = false;
             _btnAtPause.BackColor = AccentBlue;
             _btnAtPause.ForeColor = Color.White;
+            _btnAtPause.Tag = "btn_at_pause";
 
             _btnAtStop = MakeButton("⏹ Durdur", 220, 0, 100, 36, (s, e) =>
             {
                 _autoTuneEngine.StopSession();
                 _btnAtStart.Enabled = true;
                 _btnAtPause.Enabled = false;
-                _btnAtPause.Text = "⏸ Duraklat";
+                _btnAtPause.Tag = "btn_at_pause";
+                _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_pause");
                 _btnAtStop.Enabled = false;
                 _atModeCombo.Enabled = true;
                 _atProfileCombo.Enabled = true;
@@ -3565,6 +3646,7 @@ namespace HondaTuner.UI
             _btnAtStop.Enabled = false;
             _btnAtStop.BackColor = AccentRed;
             _btnAtStop.ForeColor = Color.White;
+            _btnAtStop.Tag = "btn_at_stop";
 
             actionPanel.Controls.Add(_btnAtStart);
             actionPanel.Controls.Add(_btnAtPause);
@@ -3573,23 +3655,24 @@ namespace HondaTuner.UI
 
             var gbStatus = new GroupBox
             {
-                Text = "Canlı Durum ve Güvenlik Limitleri",
+                Text = HondaTuner.Core.Localization.L.Get("autotune_live_status_title"),
+                Tag = "autotune_live_status_title",
                 ForeColor = TextPrimary,
                 Size = new Size(350, 240),
                 Margin = new Padding(0, 0, 0, 16),
                 Padding = new Padding(12)
             };
 
-            _lblAtStatus = MakeLabel("Durum: OFF", 12, 22);
-            _lblAtUser = MakeLabel("Kullanıcı Rolü: Professional", 12, 52);
-            _lblAtEcu = MakeLabel("ECU Bağlantısı: Yok", 12, 82);
-            _lblAtSafety = MakeLabel("Güvenlik Durumu: SAFE", 12, 112);
+            _lblAtStatus = MakeLabel("status_auto_tune_off", 12, 22);
+            _lblAtUser = MakeLabel("status_user_role_professional", 12, 52);
+            _lblAtEcu = MakeLabel("status_ecu_connection_none", 12, 82);
+            _lblAtSafety = MakeLabel("status_safety_safe", 12, 112);
             _lblAtSafety.ForeColor = VtecGreen;
             _lblAtSafety.Font = new Font(_lblAtSafety.Font, FontStyle.Bold);
 
-            _lblAtKnock = MakeLabel("Knock Sayacı: 0", 12, 142);
-            _lblAtEct = MakeLabel("ECT Sıcaklığı: 0 °C", 12, 172);
-            _lblAtQuality = MakeLabel("Tuning Kalite Skoru: --", 12, 202);
+            _lblAtKnock = MakeLabel("status_knock_count", 12, 142);
+            _lblAtEct = MakeLabel("status_ect_temp", 12, 172);
+            _lblAtQuality = MakeLabel("status_tuning_quality", 12, 202);
 
             gbStatus.Controls.Add(_lblAtStatus);
             gbStatus.Controls.Add(_lblAtUser);
@@ -3602,7 +3685,8 @@ namespace HondaTuner.UI
 
             var gbRtp = new GroupBox
             {
-                Text = "RTP Real-Time Calibration & Emulator",
+                Text = HondaTuner.Core.Localization.L.Get("RTP Real-Time Calibration & Emulator"),
+                Tag = "RTP Real-Time Calibration & Emulator",
                 ForeColor = TextPrimary,
                 Size = new Size(350, 240),
                 Margin = new Padding(0, 0, 0, 16),
@@ -3634,7 +3718,8 @@ namespace HondaTuner.UI
 
             _chkRtpSyncEnabled = new CheckBox
             {
-                Text = "Real-Time Calibration Sync Etkin",
+                Text = HondaTuner.Core.Localization.L.Get("Real-Time Calibration Sync Etkin"),
+                Tag = "Real-Time Calibration Sync Etkin",
                 Location = new Point(12, 55),
                 Size = new Size(300, 22),
                 ForeColor = TextPrimary
@@ -3705,7 +3790,8 @@ namespace HondaTuner.UI
 
             var lblDecisions = new Label
             {
-                Text = "Önerilen ve Uygulanan Kararlar",
+                Text = HondaTuner.Core.Localization.L.Get("Önerilen ve Uygulanan Kararlar"),
+                Tag = "Önerilen ve Uygulanan Kararlar",
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
                 ForeColor = TextPrimary,
                 Dock = DockStyle.Top,
@@ -3735,7 +3821,8 @@ namespace HondaTuner.UI
 
             var lblSuggestions = new Label
             {
-                Text = "Canlı AutoTune Düzeltme Önerileri (Son 50 Öneri)",
+                Text = HondaTuner.Core.Localization.L.Get("Canlı AutoTune Düzeltme Önerileri (Son 50 Öneri)"),
+                Tag = "Canlı AutoTune Düzeltme Önerileri (Son 50 Öneri)",
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
                 ForeColor = TextPrimary,
                 Dock = DockStyle.Bottom,
@@ -3811,44 +3898,44 @@ namespace HondaTuner.UI
 
                 if (ev.EventType == "SessionCreated")
                 {
-                    _lblAtStatus.Text = "Durum: Sürüyor";
-                    _lblAtUser.Text = $"Kullanıcı Rolü: {ev.User}";
-                    _lblAtEcu.Text = $"ECU Bağlantısı: {ev.EcuIdentifier}";
-                    _lblAtSafety.Text = "Güvenlik Durumu: SAFE";
+                    _lblAtStatus.Text = HondaTuner.Core.Localization.L.Get("status_auto_tune_running");
+                    _lblAtUser.Text = $"{HondaTuner.Core.Localization.L.Get("status_user_role")}: {ev.User}";
+                    _lblAtEcu.Text = $"{HondaTuner.Core.Localization.L.Get("status_ecu_connection")}: {ev.EcuIdentifier}";
+                    _lblAtSafety.Text = HondaTuner.Core.Localization.L.Get("status_safety_safe");
                     _lblAtSafety.ForeColor = VtecGreen;
 
                     _dgvAutoTuneSuggestions?.Rows.Clear();
                 }
                 else if (ev.EventType == "SessionStopped")
                 {
-                    _lblAtStatus.Text = "Durum: Durduruldu";
-                    _lblAtSafety.Text = "Güvenlik Durumu: --";
+                    _lblAtStatus.Text = HondaTuner.Core.Localization.L.Get("status_auto_tune_stopped");
+                    _lblAtSafety.Text = HondaTuner.Core.Localization.L.Get("status_safety_unknown");
                     _lblAtSafety.ForeColor = TextMuted;
                 }
                 else if (ev.EventType == "SessionPaused")
                 {
-                    _lblAtStatus.Text = "Durum: Askıda";
+                    _lblAtStatus.Text = HondaTuner.Core.Localization.L.Get("status_auto_tune_paused");
                 }
                 else if (ev.EventType == "SessionResumed")
                 {
-                    _lblAtStatus.Text = "Durum: Sürüyor";
+                    _lblAtStatus.Text = HondaTuner.Core.Localization.L.Get("status_auto_tune_running");
                 }
                 else if (ev.EventType == "SafetyViolation")
                 {
-                    _lblAtSafety.Text = "Güvenlik Durumu: VIOLATION";
+                    _lblAtSafety.Text = HondaTuner.Core.Localization.L.Get("status_safety_violation");
                     _lblAtSafety.ForeColor = AccentRed;
-                    SetStatus($"[WARN] Güvenlik İhlali: {ev.Payload}");
+                    SetStatus(string.Format(HondaTuner.Core.Localization.L.Get("warn_safety_violation"), ev.Payload));
                 }
                 else if (ev.EventType == "DecisionCreated" || ev.EventType == "SafetyValidated" || ev.EventType == "MapChangeApplied" || ev.EventType == "Committed")
                 {
                     string timeStr = DateTime.Now.ToString("HH:mm:ss");
                     var item = new ListViewItem(timeStr);
-                    item.SubItems.Add(ev.EventType == "Committed" ? "Commit" : "Tune");
-                    item.SubItems.Add("Map");
-                    item.SubItems.Add("[*,*]");
-                    item.SubItems.Add("--");
-                    item.SubItems.Add("--");
-                    item.SubItems.Add("100%");
+                    item.SubItems.Add(ev.EventType == "Committed" ? HondaTuner.Core.Localization.L.Get("autotune_commit") : HondaTuner.Core.Localization.L.Get("autotune_tune"));
+                    item.SubItems.Add(HondaTuner.Core.Localization.L.Get("autotune_map"));
+                    item.SubItems.Add(HondaTuner.Core.Localization.L.Get("autotune_wildcard"));
+                    item.SubItems.Add(HondaTuner.Core.Localization.L.Get("autotune_unknown"));
+                    item.SubItems.Add(HondaTuner.Core.Localization.L.Get("autotune_unknown"));
+                    item.SubItems.Add(HondaTuner.Core.Localization.L.Get("autotune_success_rate"));
                     item.SubItems.Add(ev.Payload);
 
                     if (_atDecisionsListView != null)
@@ -3865,7 +3952,7 @@ namespace HondaTuner.UI
                         var qualityAnalyzer = new HondaTuner.Core.AutoTune.CalibrationQualityAnalyzer();
                         double qualScore = qualityAnalyzer.CalculateQualityScore(_autoTuneEngine.Memory);
                         if (_lblAtQuality != null)
-                            _lblAtQuality.Text = $"Tuning Kalite Skoru: {qualScore:0.0}%";
+                            _lblAtQuality.Text = string.Format(HondaTuner.Core.Localization.L.Get("status_tuning_quality_value"), qualScore);
 
                         // Update dgvAutoTuneSuggestions on DecisionCreated
                         if (ev.EventType == "DecisionCreated")
@@ -3891,7 +3978,7 @@ namespace HondaTuner.UI
                                 double targetAfr = decision.OldValue;
                                 double errorPct = decision.ChangePercent;
                                 double measuredAfr = targetAfr * (1.0 + (errorPct / 100.0));
-                                string actionStr = errorPct > 0 ? "Zenginleştir" : "Fakirleştir";
+                                string actionStr = errorPct > 0 ? HondaTuner.Core.Localization.L.Get("autotune_richen") : HondaTuner.Core.Localization.L.Get("autotune_leanen");
 
                                 _dgvAutoTuneSuggestions.Rows.Insert(0,
                                     rpm.ToString(),
@@ -3918,63 +4005,26 @@ namespace HondaTuner.UI
         {
             try
             {
-                // Menus Translation
-                if (MainMenuStrip != null && MainMenuStrip.Items.Count >= 3)
-                {
-                    MainMenuStrip.Items[0].Text = HondaTuner.Core.Localization.L.Get("menu_file");
-                    MainMenuStrip.Items[1].Text = HondaTuner.Core.Localization.L.Get("menu_tools");
-                    MainMenuStrip.Items[2].Text = HondaTuner.Core.Localization.L.Get("menu_language");
 
-                    var fileMenu = (ToolStripMenuItem)MainMenuStrip.Items[0];
-                    if (fileMenu.DropDownItems.Count >= 6)
-                    {
-                        fileMenu.DropDownItems[0].Text = HondaTuner.Core.Localization.L.Get("menu_open");
-                        fileMenu.DropDownItems[1].Text = HondaTuner.Core.Localization.L.Get("menu_save");
-                        fileMenu.DropDownItems[2].Text = HondaTuner.Core.Localization.L.Get("menu_save_as");
-                        fileMenu.DropDownItems[3].Text = HondaTuner.Core.Localization.L.Get("menu_undo");
-                        fileMenu.DropDownItems[5].Text = HondaTuner.Core.Localization.L.Get("menu_exit");
-                    }
+                // Recursively translate all controls in the form layout
+                ApplyRecursiveLocalization(this);
 
-                    var toolMenu = (ToolStripMenuItem)MainMenuStrip.Items[1];
-                    if (toolMenu.DropDownItems.Count >= 9)
-                    {
-                        toolMenu.DropDownItems[0].Text = HondaTuner.Core.Localization.L.Get("menu_select_vehicle");
-                        toolMenu.DropDownItems[2].Text = HondaTuner.Core.Localization.L.Get("menu_apply_basemap");
-                        toolMenu.DropDownItems[3].Text = HondaTuner.Core.Localization.L.Get("menu_wideband_corr");
-                        toolMenu.DropDownItems[5].Text = HondaTuner.Core.Localization.L.Get("menu_verify_checksum");
-                        toolMenu.DropDownItems[6].Text = HondaTuner.Core.Localization.L.Get("menu_reset_stock");
-                        toolMenu.DropDownItems[8].Text = HondaTuner.Core.Localization.L.Get("menu_ecu_profile");
-                    }
-                }
-
-                // Tabs Translation
-                if (_tabButtons != null)
-                {
-                    string[] tabKeys = new[]
-                    {
-                        "tab_fuel", "tab_ignition", "tab_tuning_assistant", "tab_diff", "tab_telemetry",
-                        "tab_part_viewer", "tab_autotune", "tab_project_pinout", "tab_analysis_decompiler",
-                        "tab_adv_fuel", "tab_adv_ignition", "tab_vtec_boost", "tab_engine_protection",
-                        "tab_diagnostics_a2l", "tab_dyno_logs", "tab_hardware_control"
-                    };
-                    for (int i = 0; i < _tabButtons.Length && i < tabKeys.Length; i++)
-                    {
-                        if (_tabButtons[i] != null)
-                            _tabButtons[i].Text = HondaTuner.Core.Localization.L.Get(tabKeys[i]);
-                    }
-                }
-
-                // Telemetry Buttons Translation
-                if (_btnConnect != null) _btnConnect.Text = HondaTuner.Core.Localization.L.Get("btn_start");
-                if (_btnDisconnect != null) _btnDisconnect.Text = HondaTuner.Core.Localization.L.Get("btn_stop");
-                if (_btnSimulate != null) _btnSimulate.Text = HondaTuner.Core.Localization.L.Get("btn_simulate");
-                if (_btnLoadCsv != null) _btnLoadCsv.Text = HondaTuner.Core.Localization.L.Get("btn_load_csv");
+                // Explicitly refresh loaded sub-controls as well so hidden pages do not stay stale.
+                _advancedFuelControl?.ApplyLocalization();
+                _advancedIgnitionControl?.ApplyLocalization();
+                _vtecBoostControl?.ApplyLocalization();
+                _engineProtectionControl?.ApplyLocalization();
+                _diagnosticsControl?.ApplyLocalization();
+                _dynoLogsControl?.ApplyLocalization();
+                _reverseControl?.ApplyLocalization();
+                _metadataControl?.ApplyLocalization();
+                _partViewer?.ApplyLocalization();
+                _diffView?.ApplyLocalization();
 
                 // Playback Buttons
-                if (_btnPlayback != null) _btnPlayback.Text = HondaTuner.Core.Localization.L.Get("btn_playback");
                 if (_btnPausePlayback != null)
                 {
-                    if (_btnPausePlayback.Text == "▶ Devam Et" || _btnPausePlayback.Text == "▶ Resume")
+                    if (_btnPausePlayback.Tag as string == "btn_resume")
                     {
                         _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_resume");
                     }
@@ -3985,11 +4035,9 @@ namespace HondaTuner.UI
                 }
 
                 // AutoTune Buttons Translation
-                if (_btnAtStart != null) _btnAtStart.Text = HondaTuner.Core.Localization.L.Get("btn_at_start");
-                if (_btnAtStop != null) _btnAtStop.Text = HondaTuner.Core.Localization.L.Get("btn_at_stop");
                 if (_btnAtPause != null)
                 {
-                    if (_btnAtPause.Text == "▶ Devam Et" || _btnAtPause.Text == "▶ Resume")
+                    if (_btnAtPause.Tag as string == "btn_at_resume")
                     {
                         _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_resume");
                     }
@@ -4002,28 +4050,290 @@ namespace HondaTuner.UI
                 // AutoTune Status Panel Text Replacements
                 if (_lblAtStatus != null)
                 {
-                    if (HondaTuner.Core.Localization.L.CurrentLanguage == "en")
+                    _lblAtStatus.Text = _lblAtStatus.Tag as string == "status_auto_tune_running"
+                        ? HondaTuner.Core.Localization.L.Get("status_auto_tune_running")
+                        : _lblAtStatus.Text;
+                    _lblAtSafety.Text = _lblAtSafety.Tag as string == "status_safety_safe"
+                        ? HondaTuner.Core.Localization.L.Get("status_safety_safe")
+                        : _lblAtSafety.Text;
+                    _lblAtUser.Text = _lblAtUser.Tag as string == "status_user_role"
+                        ? HondaTuner.Core.Localization.L.Get("status_user_role")
+                        : _lblAtUser.Text;
+                    _lblAtEcu.Text = _lblAtEcu.Tag as string == "status_ecu_connection"
+                        ? HondaTuner.Core.Localization.L.Get("status_ecu_connection")
+                        : _lblAtEcu.Text;
+                    _lblAtQuality.Text = _lblAtQuality.Tag as string == "status_tuning_quality"
+                        ? HondaTuner.Core.Localization.L.Get("status_tuning_quality")
+                        : _lblAtQuality.Text;
+                }
+
+                // Rebuild _cmbView items in newly selected language
+                if (_cmbView != null)
+                {
+                    LocalizeComboBoxItems(_cmbView);
+                }
+
+                // Rebuild _goalCombo items in newly selected language
+                if (_goalCombo != null)
+                {
+                    LocalizeComboBoxItems(_goalCombo);
+                }
+
+                if (_comboNewMapSensor != null)
+                {
+                    LocalizeComboBoxItems(_comboNewMapSensor);
+                }
+
+                // Update assistant notes in newly selected language
+                UpdateAssistantDefaults();
+                UpdateProfileUI();
+
+                Core.Interfaces.IRomService romSvc = null;
+                try { romSvc = Core.Container.ServiceContainer.Resolve<Core.Interfaces.IRomService>(); } catch { }
+                if (romSvc == null || !romSvc.IsLoaded)
+                {
+                    SetStatus(HondaTuner.Core.Localization.L.Get("rom_not_loaded_status"));
+                }
+
+                if (_programmer == null || _programmer.State != HondaTuner.Core.Interfaces.ConnectionState.Connected)
+                {
+                    if (_progLog != null)
                     {
-                        _lblAtStatus.Text = _lblAtStatus.Text.Replace("Durum:", "Status:");
-                        _lblAtSafety.Text = _lblAtSafety.Text.Replace("Güvenlik Durumu:", "Safety Status:");
-                        _lblAtUser.Text = _lblAtUser.Text.Replace("Kullanıcı Rolü:", "User Role:");
-                        _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Bağlantısı:", "ECU Connection:");
-                        _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Kalite Skoru:", "Tuning Quality Score:");
+                        _progLog.Clear();
+                        AppendProgLog(HondaTuner.Core.Localization.L.Get("prog_init_ready"));
                     }
-                    else
-                    {
-                        _lblAtStatus.Text = _lblAtStatus.Text.Replace("Status:", "Durum:");
-                        _lblAtSafety.Text = _lblAtSafety.Text.Replace("Safety Status:", "Güvenlik Durumu:");
-                        _lblAtUser.Text = _lblAtUser.Text.Replace("User Role:", "Kullanıcı Rolü:");
-                        _lblAtEcu.Text = _lblAtEcu.Text.Replace("ECU Connection:", "ECU Bağlantısı:");
-                        _lblAtQuality.Text = _lblAtQuality.Text.Replace("Tuning Quality Score:", "Tuning Kalite Skoru:");
-                    }
+                }
+
+                if (_datalogStatusLabel != null)
+                {
+                    _datalogStatusLabel.Text = _obdConn?.State == HondaTuner.Core.Interfaces.ConnectionState.Connected ? HondaTuner.Core.Localization.L.Get("status_online") :
+                                               _obdConn?.State == HondaTuner.Core.Interfaces.ConnectionState.Error ? HondaTuner.Core.Localization.L.Get("status_error") :
+                                               HondaTuner.Core.Localization.L.Get("status_offline");
+                }
+                if (_emuStatusLabel != null)
+                {
+                    _emuStatusLabel.Text = _ostrich?.State == HondaTuner.Core.Interfaces.ConnectionState.Connected ? HondaTuner.Core.Localization.L.Get("status_emu_online") :
+                                           _ostrich?.State == HondaTuner.Core.Interfaces.ConnectionState.Connecting ? HondaTuner.Core.Localization.L.Get("status_emu_connecting") :
+                                           _ostrich?.State == HondaTuner.Core.Interfaces.ConnectionState.Error ? HondaTuner.Core.Localization.L.Get("status_emu_error") :
+                                           HondaTuner.Core.Localization.L.Get("status_emu_offline");
+                }
+                if (_progStatusLabel != null)
+                {
+                    _progStatusLabel.Text = _programmer?.State == HondaTuner.Core.Interfaces.ConnectionState.Connected ? HondaTuner.Core.Localization.L.Get("status_prog_online") :
+                                            _programmer?.State == HondaTuner.Core.Interfaces.ConnectionState.Connecting ? HondaTuner.Core.Localization.L.Get("status_prog_connecting") :
+                                            _programmer?.State == HondaTuner.Core.Interfaces.ConnectionState.Error ? HondaTuner.Core.Localization.L.Get("status_prog_error") :
+                                            HondaTuner.Core.Localization.L.Get("status_prog_offline");
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[MainForm] UpdateLocalizedUI hatası: {ex.Message}");
             }
+        }
+
+        public static void ApplyRecursiveLocalization(Control parentControl)
+        {
+            if (parentControl == null) return;
+
+            TranslateControl(parentControl);
+            TranslateComboBox(parentControl as ComboBox);
+            TranslateListBox(parentControl as ListBox);
+
+            if (parentControl.ContextMenuStrip != null)
+            {
+                TranslateToolStrip(parentControl.ContextMenuStrip);
+            }
+
+            // Handle TabControl pages
+            if (parentControl is TabControl tabControl)
+            {
+                foreach (TabPage tp in tabControl.TabPages)
+                {
+                    TranslateControl(tp);
+                    foreach (Control child in tp.Controls)
+                    {
+                        ApplyRecursiveLocalization(child);
+                    }
+                }
+            }
+            // Handle ToolStrip / StatusStrip / MenuStrip items
+            else if (parentControl is ToolStrip toolStrip)
+            {
+                TranslateToolStrip(toolStrip);
+            }
+            // Handle DataGridView headers
+            else if (parentControl is DataGridView dgv)
+            {
+                foreach (DataGridViewColumn col in dgv.Columns)
+                {
+                    if (col.Tag == null)
+                    {
+                        col.Tag = col.HeaderText;
+                    }
+                    string origText = col.Tag as string;
+                    if (!string.IsNullOrEmpty(origText))
+                    {
+                        col.HeaderText = HondaTuner.Core.Localization.L.Get(origText);
+                    }
+                }
+            }
+            // Handle ListView columns
+            else if (parentControl is ListView lv)
+            {
+                foreach (ColumnHeader col in lv.Columns)
+                {
+                    if (col.Tag == null)
+                    {
+                        col.Tag = col.Text;
+                    }
+                    string origText = col.Tag as string;
+                    if (!string.IsNullOrEmpty(origText))
+                    {
+                        col.Text = HondaTuner.Core.Localization.L.Get(origText);
+                    }
+                }
+            }
+
+            // Recurse into children
+            if (parentControl.Controls != null && parentControl.Controls.Count > 0 && !(parentControl is TabControl))
+            {
+                foreach (Control child in parentControl.Controls)
+                {
+                    ApplyRecursiveLocalization(child);
+                }
+            }
+        }
+
+        public static void TranslateComboBox(ComboBox comboBox)
+        {
+            if (comboBox == null || comboBox.Items.Count == 0) return;
+
+            var originals = comboBox.Tag as List<string>;
+            if (originals == null)
+            {
+                originals = new List<string>();
+                foreach (object item in comboBox.Items)
+                {
+                    originals.Add(item?.ToString() ?? string.Empty);
+                }
+                comboBox.Tag = originals;
+            }
+
+            int selectedIndex = comboBox.SelectedIndex;
+            comboBox.BeginUpdate();
+            try
+            {
+                comboBox.Items.Clear();
+                foreach (string original in originals)
+                {
+                    comboBox.Items.Add(HondaTuner.Core.Localization.L.Get(original));
+                }
+
+                if (selectedIndex >= 0 && selectedIndex < comboBox.Items.Count)
+                {
+                    comboBox.SelectedIndex = selectedIndex;
+                }
+                else if (comboBox.Items.Count > 0)
+                {
+                    comboBox.SelectedIndex = 0;
+                }
+            }
+            finally
+            {
+                comboBox.EndUpdate();
+            }
+        }
+
+        public static void TranslateListBox(ListBox listBox)
+        {
+            if (listBox == null || listBox.Items.Count == 0) return;
+
+            var originals = listBox.Tag as List<string>;
+            if (originals == null)
+            {
+                originals = new List<string>();
+                foreach (object item in listBox.Items)
+                {
+                    originals.Add(item?.ToString() ?? string.Empty);
+                }
+                listBox.Tag = originals;
+            }
+
+            int selectedIndex = listBox.SelectedIndex;
+            listBox.BeginUpdate();
+            try
+            {
+                listBox.Items.Clear();
+                foreach (string original in originals)
+                {
+                    listBox.Items.Add(HondaTuner.Core.Localization.L.Get(original));
+                }
+
+                if (selectedIndex >= 0 && selectedIndex < listBox.Items.Count)
+                {
+                    listBox.SelectedIndex = selectedIndex;
+                }
+            }
+            finally
+            {
+                listBox.EndUpdate();
+            }
+        }
+
+        public static void TranslateToolStrip(ToolStrip toolStrip)
+        {
+            if (toolStrip == null) return;
+            foreach (ToolStripItem item in toolStrip.Items)
+            {
+                TranslateToolStripItem(item);
+            }
+        }
+
+        public static void TranslateControl(Control ctrl)
+        {
+            if (ctrl is Label || ctrl is Button || ctrl is GroupBox || ctrl is CheckBox || ctrl is RadioButton || ctrl is TabPage)
+            {
+                if (ctrl.Tag == null)
+                {
+                    ctrl.Tag = ctrl.Text;
+                }
+                string origText = ctrl.Tag as string;
+                if (!string.IsNullOrEmpty(origText) && origText != "dynamic")
+                {
+                    ctrl.Text = HondaTuner.Core.Localization.L.Get(origText);
+                }
+            }
+        }
+
+        public static void TranslateToolStripItem(ToolStripItem item)
+        {
+            // Items tagged "dynamic" have runtime-generated text (e.g. profile names)
+            // and must never be overwritten by the localization pass.
+            if (item.Tag is string existingTag && existingTag == "dynamic")
+                return;
+
+            if (item.Tag == null)
+            {
+                item.Tag = item.Text;
+            }
+            string origText = item.Tag as string;
+            if (!string.IsNullOrEmpty(origText))
+            {
+                item.Text = HondaTuner.Core.Localization.L.Get(origText);
+            }
+
+            if (item is ToolStripDropDownItem dropDownItem)
+            {
+                foreach (ToolStripItem subItem in dropDownItem.DropDownItems)
+                {
+                    TranslateToolStripItem(subItem);
+                }
+            }
+        }
+
+        private void LocalizeComboBoxItems(ComboBox comboBox)
+        {
+            TranslateComboBox(comboBox);
         }
 
         private static int Clamp(int v, int min, int max) => v < min ? min : v > max ? max : v;
@@ -4082,7 +4392,7 @@ namespace HondaTuner.UI
         {
             if (_rtpEngine == null) return;
 
-            _lblRtpState.Text = $"Bağlantı Durumu: {_rtpEngine.ConnectionState}";
+            _lblRtpState.Text = $"{HondaTuner.Core.Localization.L.Get("status_connection_state")}: {HondaTuner.Core.Localization.L.Get(_rtpEngine.ConnectionState.ToString())}";
             switch (_rtpEngine.ConnectionState)
             {
                 case Core.Rtp.RtpConnectionState.Disconnected:
@@ -4134,10 +4444,10 @@ namespace HondaTuner.UI
                     break;
             }
 
-            _lblRtpQueueDepth.Text = $"Kuyruk Derinliği: {_rtpEngine.QueueDepth} eleman";
-            _lblRtpAvgLatency.Text = $"Ortalama Gecikme: {_rtpEngine.AvgSyncLatencyMs:0.0} ms";
-            _lblRtpFailureCount.Text = $"Hata / Yeniden Deneme: {_rtpEngine.FailureCount} / {_rtpEngine.RetryCount}";
-            _lblRtpDroppedWrites.Text = $"Düşen Yazmalar: {_rtpEngine.DroppedWritesCount}";
+            _lblRtpQueueDepth.Text = $"{HondaTuner.Core.Localization.L.Get("status_queue_depth")}: {_rtpEngine.QueueDepth} {HondaTuner.Core.Localization.L.Get("eleman")}";
+            _lblRtpAvgLatency.Text = $"{HondaTuner.Core.Localization.L.Get("status_average_latency")}: {_rtpEngine.AvgSyncLatencyMs:0.0} ms";
+            _lblRtpFailureCount.Text = $"{HondaTuner.Core.Localization.L.Get("status_error_retry")}: {_rtpEngine.FailureCount} / {_rtpEngine.RetryCount}";
+            _lblRtpDroppedWrites.Text = $"{HondaTuner.Core.Localization.L.Get("status_dropped_writes")}: {_rtpEngine.DroppedWritesCount}";
         }
     }
 

@@ -5,8 +5,43 @@ using HondaTuner.Calibration.DynoLogs;
 
 namespace HondaTuner.UI
 {
-    public class DynoLogsControl : UserControl
+    public class DynoLogsControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+
+            if (_service != null && _service.GitMergeHistory.Count > 0)
+            {
+                // Force translation overwrite for historical init commit on language switch
+                _service.GitMergeHistory[0] = $"[{DateTime.Now:HH:mm:ss}] [Commit: 580F6A] \"main\" " + HondaTuner.Core.Localization.L.Get("commit_msg_on_branch") + ": " + HondaTuner.Core.Localization.L.Get("commit_msg_init_base");
+                RefreshCommitHistoryLog();
+            }
+
+            if (_service != null && _service.CurrentDynoPoints != null && _service.CurrentDynoPoints.Count > 0)
+            {
+                double boost = _tbBoost.Value;
+                var perf = _service.EstimatePerformanceTimes(boost);
+                if (_lbl0to100 != null) _lbl0to100.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_time_seconds"), perf.Time0To100);
+                if (_lbl100to200 != null) _lbl100to200.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_time_seconds"), perf.Time100To200);
+                if (_lblShiftMs != null) _lblShiftMs.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_shift_delay"), perf.ShiftGapMs);
+
+                double maxHp = 0, maxHpRpm = 0, maxTorque = 0;
+                foreach (var p in _service.CurrentDynoPoints)
+                {
+                    if (p.EngineHp > maxHp) { maxHp = p.EngineHp; maxHpRpm = p.Rpm; }
+                    if (p.TorqueNm > maxTorque) maxTorque = p.TorqueNm;
+                }
+                if (_lblMaxPower != null) _lblMaxPower.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_max_power_fmt"), maxHp.ToString("F1"), maxHpRpm.ToString("F0"), maxTorque.ToString("F1"));
+            }
+            else
+            {
+                if (_lbl0to100 != null) _lbl0to100.Text = HondaTuner.Core.Localization.L.Get("perf_default_sec");
+                if (_lbl100to200 != null) _lbl100to200.Text = HondaTuner.Core.Localization.L.Get("perf_default_sec");
+                if (_lblShiftMs != null) _lblShiftMs.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_shift_delay"), "--");
+                if (_lblMaxPower != null) _lblMaxPower.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_max_power_fmt"), "--", "--", "--");
+            }
+        }
         private DynoLogsService _service;
         private Timer _watchdogTimer;
         private double _simTime = 0.0;
@@ -144,7 +179,8 @@ namespace HondaTuner.UI
 
             _lblMaxPower = new Label
             {
-                Text = "Azami Güç: -- HP @ -- RPM | Azami Tork: -- Nm",
+                Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_max_power_fmt"), "--", "--", "--"),
+                Tag = "dynamic",
                 Location = new Point(20, startY + 6 * step + 30),
                 Size = new Size(270, 45),
                 ForeColor = Color.Yellow,
@@ -193,17 +229,17 @@ namespace HondaTuner.UI
 
             var lblT1 = new Label { Text = "🚀 0 - 100 km/h Hızlanma:", ForeColor = TextMuted, Location = new Point(15, 20), Size = new Size(180, 20) };
             pnlStats.Controls.Add(lblT1);
-            _lbl0to100 = new Label { Text = "-- saniye", ForeColor = AccentGreen, Location = new Point(200, 20), Size = new Size(150, 20), Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+            _lbl0to100 = new Label { Text = HondaTuner.Core.Localization.L.Get("perf_default_sec"), ForeColor = AccentGreen, Location = new Point(200, 20), Size = new Size(150, 20), Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Tag = "dynamic" };
             pnlStats.Controls.Add(_lbl0to100);
 
             var lblT2 = new Label { Text = "✈️ 100 - 200 km/h Hızlanma:", ForeColor = TextMuted, Location = new Point(15, 50), Size = new Size(180, 20) };
             pnlStats.Controls.Add(lblT2);
-            _lbl100to200 = new Label { Text = "-- saniye", ForeColor = AccentGreen, Location = new Point(200, 50), Size = new Size(150, 20), Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+            _lbl100to200 = new Label { Text = HondaTuner.Core.Localization.L.Get("perf_default_sec"), ForeColor = AccentGreen, Location = new Point(200, 50), Size = new Size(150, 20), Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Tag = "dynamic" };
             pnlStats.Controls.Add(_lbl100to200);
 
             var lblT3 = new Label { Text = "🔌 Vites Geçiş Yavaşlaması:", ForeColor = TextMuted, Location = new Point(15, 80), Size = new Size(180, 20) };
             pnlStats.Controls.Add(lblT3);
-            _lblShiftMs = new Label { Text = "-- ms (Clutch drop delay)", ForeColor = AccentRed, Location = new Point(200, 80), Size = new Size(180, 20), Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+            _lblShiftMs = new Label { Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_shift_delay"), "--"), ForeColor = AccentRed, Location = new Point(200, 80), Size = new Size(180, 20), Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Tag = "dynamic" };
             pnlStats.Controls.Add(_lblShiftMs);
         }
 
@@ -350,12 +386,12 @@ namespace HondaTuner.UI
                 }
             }
 
-            _lblMaxPower.Text = $"Azami Krank Gücü: {maxHp} HP @ {maxHpRpm} RPM\nAzami Krank Torku: {maxTorque} Nm";
+            _lblMaxPower.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_max_power_fmt"), maxHp.ToString("F1"), maxHpRpm.ToString("F0"), maxTorque.ToString("F1"));
 
             // Performans yol sürelerini de yansıt
             var perf = _service.EstimatePerformanceTimes(boost);
-            _lbl0to100.Text = $"{perf.Time0To100} saniye";
-            _lbl100to200.Text = $"{perf.Time100To200} saniye";
+            _lbl0to100.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_time_seconds"), perf.Time0To100);
+            _lbl100to200.Text = string.Format(HondaTuner.Core.Localization.L.Get("dyno_time_seconds"), perf.Time100To200);
             _lblShiftMs.Text = $"{perf.ShiftGapMs} ms (Clutch drop delay)";
         }
 
@@ -405,7 +441,7 @@ namespace HondaTuner.UI
             BtnRunDyno_Click(null, null);
 
             // Başlangıç commit logu
-            _service.CommitChange("Initial base calibration setup stock");
+            _service.CommitChange(HondaTuner.Core.Localization.L.Get("commit_msg_init_base"));
             RefreshCommitHistoryLog();
         }
 

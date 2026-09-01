@@ -6,8 +6,12 @@ using HondaTuner.Calibration.VtecBoost;
 
 namespace HondaTuner.UI
 {
-    public class VtecBoostControl : UserControl
+    public class VtecBoostControl : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            MainForm.ApplyRecursiveLocalization(this);
+        }
         private BoostControlService _service;
         private Timer _simTimer;
         private double _simTargetBoost = 100.0;
@@ -229,7 +233,7 @@ namespace HondaTuner.UI
 
             _lblVtecState = new Label
             {
-                Text = "⚡ PASİF (VTEC LOCK)",
+                Text = HondaTuner.Core.Localization.L.Get("vtec_inactive"),
                 Location = new Point(180, outY + 3 * outStep),
                 Size = new Size(160, 20),
                 ForeColor = TextMuted,
@@ -239,7 +243,7 @@ namespace HondaTuner.UI
 
             _lblAlarmStatus = new Label
             {
-                Text = "✅ Wastegate Sistemi Güvenli Aralıkta Çalışıyor",
+                Text = HondaTuner.Core.Localization.L.Get("wg_system_safe"),
                 Location = new Point(12, outY + 4 * outStep + 20),
                 Size = new Size(330, 24),
                 ForeColor = AccentGreen,
@@ -393,12 +397,12 @@ namespace HondaTuner.UI
             bool vtec = _service.IsVtecActive(rpm, speed, gear);
             if (vtec)
             {
-                _lblVtecState.Text = "🔥 AKTİF VTEC (12V)";
+                _lblVtecState.Text = HondaTuner.Core.Localization.L.Get("vtec_active");
                 _lblVtecState.ForeColor = AccentGreen;
             }
             else
             {
-                _lblVtecState.Text = "⚡ PASİF (VTEC LOCK)";
+                _lblVtecState.Text = HondaTuner.Core.Localization.L.Get("vtec_inactive");
                 _lblVtecState.ForeColor = TextMuted;
             }
 
@@ -420,7 +424,7 @@ namespace HondaTuner.UI
             // Alarm durumu
             if (_service.WgHighDutyTimer < 0.1)
             {
-                _lblAlarmStatus.Text = "✅ Wastegate Sistemi Güvenli Aralıkta Çalışıyor";
+                _lblAlarmStatus.Text = HondaTuner.Core.Localization.L.Get("wg_system_safe");
                 _lblAlarmStatus.BackColor = Color.FromArgb(16, 40, 25);
                 _lblAlarmStatus.ForeColor = AccentGreen;
             }

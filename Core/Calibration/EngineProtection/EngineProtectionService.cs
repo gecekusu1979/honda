@@ -83,7 +83,7 @@ namespace HondaTuner.Calibration.EngineProtection
             {
                 IsThermalLimpModeActive = true;
                 ActiveRpmLimit = Tables.ThermalLimpModeRpm;
-                ProtectionAlarmTriggered?.Invoke(this, $"🚨 YÜKSEK YAĞ SICAKLIĞI ({oilTemp}°C): Motor koruma modu devrede, RPM limiti {Tables.ThermalLimpModeRpm} RPM.");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_high_oil_temp"), oilTemp, Tables.ThermalLimpModeRpm));
             }
 
             // 2. Yağ Basıncı vs RPM Kontrolü (Fuel Cut)
@@ -95,7 +95,7 @@ namespace HondaTuner.Calibration.EngineProtection
                 {
                     IsFuelCutActive = true;
                     ActiveRpmLimit = 0.0; // Devir tamamen kesilir
-                    ProtectionAlarmTriggered?.Invoke(this, $"🚨 KRİTİK DÜŞÜK YAĞ BASINCI ({oilPress} Bar): Motor hasar mekanizması nedeniyle YAKIT KESİLDİ!");
+                    ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_low_oil_press"), oilPress));
                 }
             }
             else
@@ -112,7 +112,7 @@ namespace HondaTuner.Calibration.EngineProtection
                     IsPowerReductionActive = true;
                     ActiveTimingPull += 5.0; // Avansı 5 derece geriye al
                     ActiveBoostLimitOffset += 30.0; // Güvenli boost payı limitini azalt
-                    ProtectionAlarmTriggered?.Invoke(this, $"🚨 DÜŞÜK YAKIT BASINCI ({fuelPress} Bar): Yağlama basıncı yetersiz, avans geriye çekildi, limitler düşürüldü.");
+                    ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_low_fuel_press"), fuelPress));
                 }
             }
             else
@@ -136,7 +136,7 @@ namespace HondaTuner.Calibration.EngineProtection
             {
                 ActiveTimingPull += Tables.IatHeatSoakRetard;
                 ActiveBoostLimitOffset += Tables.IatBoostLimitReduction;
-                ProtectionAlarmTriggered?.Invoke(this, $"⚠️ EMME HAVA ENJEKTÖRÜ SICAK (HEAT SOAK): IAT {iat}°C. Koruma amaçlı avans kısılıyor (-{Tables.IatHeatSoakRetard}°), boost payı kısıtlanıyor.");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_iat_heat_soak"), iat, Tables.IatHeatSoakRetard));
             }
 
             // 6. EGT Emniyet Zenginleştirmesi
@@ -144,7 +144,7 @@ namespace HondaTuner.Calibration.EngineProtection
             {
                 ActiveTimingPull += Tables.EgtTimingPull;
                 ActiveFuelEnrichmentPct += Tables.EgtFuelEnrichment;
-                ProtectionAlarmTriggered?.Invoke(this, $"❗ CRITICAL EGT LIMIT ({egt}°C): Avans kısılıyor (-{Tables.EgtTimingPull}°), enjeksiyon %{Tables.EgtFuelEnrichment} zenginleştirilerek yanma ısısı düşürülüyor.");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_critical_egt"), egt, Tables.EgtTimingPull, Tables.EgtFuelEnrichment));
             }
 
             // 7. [YENİ] Lean Cut — Yüksek yük/devir koşulunda fakir karışım koruması
@@ -153,7 +153,7 @@ namespace HondaTuner.Calibration.EngineProtection
             {
                 IsLeanCutTriggered = true;
                 ActiveFuelEnrichmentPct += 10.0; // Acil zenginleştirme
-                ProtectionAlarmTriggered?.Invoke(this, $"🚨 LEAN CUT: RPM={rpm:0} — MAP={actualBoost:0} kPa — AFR={afr:0.00} (eşik: >{Tables.LeanCutAfrThreshold}). Fakir yanma koruması aktif!");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_lean_cut"), rpm, actualBoost, afr, Tables.LeanCutAfrThreshold));
             }
 
             // 8. [YENİ] Overboost Cut — Boost aşımı koruması
@@ -162,7 +162,7 @@ namespace HondaTuner.Calibration.EngineProtection
             {
                 IsOverboostCutTriggered = true;
                 ActiveBoostLimitOffset += actualBoost - boostSafeLimit; // Aşım kadar kısıt ekle
-                ProtectionAlarmTriggered?.Invoke(this, $"🚨 OVERBOOST: MAP={actualBoost:0} kPa > Limit={boostSafeLimit:0} kPa. Boost kesme koruması devrede!");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_overboost"), actualBoost, boostSafeLimit));
             }
 
             // 9. [YENİ] ECT Timing Retard — Soğutma sıcaklığı kritik eşiği aştığında avans dinamik geri çekmesi
@@ -172,7 +172,7 @@ namespace HondaTuner.Calibration.EngineProtection
                 double overHeat = Math.Min(ect - Tables.EctCriticalRetardThreshold, 8.0);
                 double ectPull = Tables.EctTimingRetardMin + (overHeat / 8.0) * (Tables.EctTimingRetardMax - Tables.EctTimingRetardMin);
                 ActiveTimingPull += ectPull;
-                ProtectionAlarmTriggered?.Invoke(this, $"⚠️ ECT AŞIRI SICAKLIK ({ect}°C): Avans -{ectPull:0.0}° kısıldı (dinamik retard).");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_ect_temp"), ect, ectPull));
             }
 
             // 10. [YENİ] Knock Timing Retard — Vuruntu algılandığında anlık avans geri çekme ve kademeli toparlama
@@ -181,7 +181,7 @@ namespace HondaTuner.Calibration.EngineProtection
                 _knockActive = true;
                 _knockRecoveryTimer = 0.0; // Vuruntu sürerse toparlamayı sıfırla
                 ActiveTimingPull += Tables.KnockTimingRetard; // Anlık -3.0°
-                ProtectionAlarmTriggered?.Invoke(this, $"🔔 KNOCK ALGILANDI: Avans -{Tables.KnockTimingRetard:0.0}° geri çekildi.");
+                ProtectionAlarmTriggered?.Invoke(this, string.Format(HondaTuner.Core.Localization.L.Get("msg_knock"), Tables.KnockTimingRetard));
             }
             else if (_knockActive)
             {

@@ -12,8 +12,12 @@ namespace HondaTuner.UI
     //  3D Parça Görüntüleyici — Phong Shading + Painter's Algorithm
     //  Tüm çizim GDI+ ile, dış bağımlılık yok.
     // ══════════════════════════════════════════════════════════════════
-    public class PartViewer3D : UserControl
+    public class PartViewer3D : UserControl, ILocalizable
     {
+        public void ApplyLocalization()
+        {
+            Invalidate();
+        }
         // ── Renkler ─────────────────────────────────────────────────
         private static readonly Color BgDark = Color.FromArgb(10, 13, 18);
         private static readonly Color BgCard = Color.FromArgb(20, 24, 32);
@@ -106,7 +110,7 @@ namespace HondaTuner.UI
         {
             var form = new Form
             {
-                Text = $"3D — {PartNames[(int)_currentPart]}",
+                Text = $"3D — {HondaTuner.Core.Localization.L.Get(PartNames[(int)_currentPart])}",
                 Size = new Size(960, 720),
                 BackColor = BgDark,
                 StartPosition = FormStartPosition.CenterScreen
@@ -146,7 +150,7 @@ namespace HondaTuner.UI
             // Parça adı etiketi
             using var font = new Font("Segoe UI Semibold", 9f);
             using var br = new SolidBrush(Color.FromArgb(90, AccentBlue));
-            g.DrawString(PartNames[(int)_currentPart], font, br,
+            g.DrawString(HondaTuner.Core.Localization.L.Get(PartNames[(int)_currentPart]), font, br,
                 new PointF(area.X + 8, area.Y + 6));
 
 
@@ -357,7 +361,7 @@ namespace HondaTuner.UI
 
             if (foundPath == null)
             {
-                m.AddBox(-30, -30, -30, 60, 60, 60, Iron, "DOSYA BULUNAMADI");
+                m.AddBox(-30, -30, -30, 60, 60, 60, Iron, HondaTuner.Core.Localization.L.Get("DOSYA BULUNAMADI"));
                 return m;
             }
 
@@ -391,7 +395,7 @@ namespace HondaTuner.UI
             }
             catch (Exception ex)
             {
-                m.AddBox(-30, -30, -30, 60, 60, 60, Iron, "HATA: " + ex.Message);
+                m.AddBox(-30, -30, -30, 60, 60, 60, Iron, HondaTuner.Core.Localization.L.Get("HATA:") + " " + ex.Message);
             }
             return m;
         }

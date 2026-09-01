@@ -193,5 +193,3 @@ dotnet run
 
 ## ⚖️ License
 This project is open-sourced under the **MIT License**.
-< ! - -   P u l l   S h a r k   T r i g g e r   - - >  
- 

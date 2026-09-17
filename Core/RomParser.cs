@@ -11,32 +11,60 @@ namespace HondaTuner.Core
 
         public string FilePath { get; private set; }
         public bool IsLoaded => _rom != null;
+        public bool IsReadOnly { get; private set; }
         public EcuProfile Profile => _profile;
 
         // ── Yükle ───────────────────────────────────────────────
 
-        /// <summary>ROM'u yükle. Profil belirtilmezse P28 varsayılan.</summary>
+        /// <summary>ROM'u yükle. EcuProfile null verilirse otomatik tanımaya çalışır.</summary>
         public void Load(string path, EcuProfile profile = null)
         {
-            _profile = profile ?? EcuProfiles.P28;
-
             byte[] data = File.ReadAllBytes(path);
 
             if (data == null || (data.Length != 32768 && data.Length != 65536))
+            {
+                IsReadOnly = true;
                 throw new InvalidDataException("Geçersiz ROM dosya boyutu. Sadece 32KB ve 64KB OBD1 ROM dosyaları desteklenir.");
+            }
 
-            if (data.Length != _profile.RomSize)
+            if (profile != null)
+            {
+                _profile = profile;
+                ApplicationLogger.Info("RomParser", $"ROM profil UI/API üzerinden zorunlu(override) seçildi: {_profile.Name}");
+                IsReadOnly = false;
+            }
+            else
+            {
+                _profile = HondaTuner.Database.EcuDatabaseManager.Instance.IdentifyProfile(data, out string reason);
+                if (_profile == null)
+                {
+                    IsReadOnly = true;
+                    ApplicationLogger.Warn("RomParser", $"ROM profil tespit edilemedi: {reason}. ROM READ-ONLY modda açıldı.");
+                }
+                else
+                {
+                    IsReadOnly = false;
+                    ApplicationLogger.Info("RomParser", $"ROM profil başarıyla tespit edildi: {_profile.Name}");
+                }
+            }
+
+            if (_profile != null && data.Length != _profile.RomSize)
+            {
+                IsReadOnly = true;
                 throw new InvalidDataException(
                     $"Hatalı ROM boyutu: {data.Length} byte. " +
                     $"{_profile.EcuCode} = {_profile.RomSize} byte olmalı.");
+            }
 
             _rom = data;
             FilePath = path;
 
-            // Checksum uyarı olarak göster, hata fırlatma
-            // (Demo ROM'lar ve swap ECU'lar farklı checksum değeri taşıyabilir)
-            if (!VerifyChecksum())
-                ApplicationLogger.Warn("RomParser", $"Checksum doğrulanamadı: {_profile.Name}");
+            // Checksum doğrulama (Salt-Okunur kararını etkiler)
+            if (_profile != null && !VerifyChecksum())
+            {
+                ApplicationLogger.Warn("RomParser", $"Checksum doğrulanamadı: {_profile.Name}. Güvenlik sebebiyle READ-ONLY moda geçiliyor.");
+                IsReadOnly = true;
+            }
         }
 
         // ── Fuel Map ─────────────────────────────────────────────
@@ -52,6 +80,7 @@ namespace HondaTuner.Core
         public void WriteFuelMap(byte[,] map)
         {
             AssertLoaded();
+            if (IsReadOnly) throw new InvalidOperationException("ROM READ-ONLY (Tanımlanamadı). Fuel Map yazılamaz.");
             WriteMap(_profile.FuelMapOffset, map);
             UpdateChecksum();
         }
@@ -69,6 +98,7 @@ namespace HondaTuner.Core
         public void WriteIgnitionMap(byte[,] map)
         {
             AssertLoaded();
+            if (IsReadOnly) throw new InvalidOperationException("ROM READ-ONLY. Ignition Map yazılamaz.");
             WriteMap(_profile.IgnMapOffset, map);
             UpdateChecksum();
         }
@@ -89,6 +119,7 @@ namespace HondaTuner.Core
         public void WriteVtecRpm(int rpm)
         {
             AssertLoaded();
+            if (IsReadOnly) throw new InvalidOperationException("ROM READ-ONLY. VTEC RPM yazılamaz.");
             if (!_profile.HasVtec) return; // Non-VTEC ECU, yoksay
 
             if (rpm < _profile.VtecRpmMin || rpm > _profile.VtecRpmMax)
@@ -189,7 +220,10 @@ namespace HondaTuner.Core
         public double ReadInjectorDeadTime()
         {
             AssertLoaded();
-            int offset = 0x1D80;
+            if (_profile == null || _profile.InjectorOffset <= 0)
+                throw new InvalidOperationException("Injector ölü süresi (DeadTime) ofseti geçersiz veya profile tanımsız (BLOCKED).");
+
+            int offset = _profile.InjectorOffset;
             if (offset < 0 || offset >= _rom.Length)
                 throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset okuma sınır dışı.");
             return _rom[offset] * 0.05;
@@ -202,7 +236,11 @@ namespace HondaTuner.Core
             int rawVal = (int)Math.Round(ms / 0.05);
             if (rawVal < 0 || rawVal > 255)
                 throw new ArgumentOutOfRangeException(nameof(ms), "Enjektör ölü süresi 0-12.75 ms arasında olmalı.");
-            int offset = 0x1D80;
+
+            if (_profile == null || _profile.InjectorOffset <= 0)
+                throw new InvalidOperationException("Injector ölü süresi (DeadTime) ofseti geçersiz veya profile tanımsız (BLOCKED).");
+
+            int offset = _profile.InjectorOffset;
             if (offset < 0 || offset >= _rom.Length)
                 throw new ArgumentOutOfRangeException(nameof(offset), "Kritik offset yazma sınır dışı.");
             _rom[offset] = (byte)rawVal;

@@ -32,7 +32,7 @@ namespace HondaTuner.Core.AutoTune
         public double EnvironmentalStability { get; set; }
 
         public SafetyResult Safety { get; set; }
-        public string ApprovalStatus { get; set; } // RecommendationGenerated, PendingApproval, Approved, Rejected, Applied
+        public TuneDecisionStatus ApprovalStatus { get; set; } = TuneDecisionStatus.Suggested;
         public string Explanation { get; set; }
 
         public DateTime Timestamp { get; set; } = DateTime.Now;

@@ -14,6 +14,7 @@ namespace HondaTuner.Core.Rom
         private readonly RomParser _parser = new RomParser();
 
         public bool IsLoaded => _parser.IsLoaded;
+        public bool IsReadOnly => _parser.IsReadOnly;
         public EcuProfile Profile => _parser.Profile;
         public string FilePath => _parser.FilePath;
         public HondaTuner.Core.Metadata.EcuMetadata Metadata { get; set; } = new HondaTuner.Core.Metadata.EcuMetadata();
@@ -36,6 +37,8 @@ namespace HondaTuner.Core.Rom
 
         public void SaveRom(string filePath)
         {
+            if (IsReadOnly) throw new InvalidOperationException("ROM READ-ONLY. Bilinmeyen/İmzasız profiller kaydedilemez (BLOCKED).");
+
             var calService = ServiceContainer.Resolve<ICalibrationService>();
             // 1. Calibration Commit
             if (calService != null && calService.HasActiveTransaction)
@@ -146,6 +149,26 @@ namespace HondaTuner.Core.Rom
             {
                 Logging.ApplicationLogger.Error("RomService", $"Metadata kaydetme hatası: {ex.Message}");
             }
+        }
+
+        public HondaTuner.Core.AutoTune.PhysicalWriterAck WritePhysical(HondaTuner.Hardware.EEPROM.IEepromProgrammer programmer)
+        {
+            if (programmer == null) throw new ArgumentNullException(nameof(programmer));
+
+            var buffer = GetBuffer();
+            var profileId = _parser.Profile?.EcuCode ?? "UNKNOWN";
+
+            // Generate write transaction
+            var tx = new HondaTuner.Core.Rom.Patch.PatchTransaction(profileId, buffer, buffer, new System.Collections.Generic.List<int>(), "FULL_WRITE", "FULL_WRITE", "UI Physical Write");
+            tx.Authorize("AUTH-UI-WRITE"); // Patch C requirement
+
+            // Patch E & Patch F checks are happening inside the programmer (e.g. Tl866Programmer).
+            var ack = programmer.WriteChip(tx);
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                SaveMetadata(FilePath);
+            }
+            return ack;
         }
 
         /// <summary>Doğrudan alt seviye parser'a erişim.</summary>

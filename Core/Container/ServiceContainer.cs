@@ -1,171 +1,123 @@
+// ServiceContainer.cs — Aşama 2: Backward-Compat DI Köprüsü
+//
+// Bu sınıf artık gerçek Microsoft.Extensions.DependencyInjection container'ını
+// kullanır. Mevcut ServiceContainer.Resolve<T>() çağrıları değiştirilmeden derlenir.
+//
+// Yeni kod için: IServiceProvider'ı constructor injection ile kullanın.
+// Eski kod için: ServiceContainer.Resolve<T>() backward-compat olarak korunmuştur.
+//
+// Mock/test override kayıtları için ServiceContainer.Register<T>() hâlâ kullanılabilir
+// (bu durumda statik override dictionary önceliklidir).
+
 using System;
 using System.Collections.Generic;
-using HondaTuner.Calibration;
-using HondaTuner.Calibration.AutoTune;
-using HondaTuner.Calibration.Maps;
-using HondaTuner.Calibration.Interpolation;
-using HondaTuner.Core.Interfaces;
-using HondaTuner.Core.Rom;
-using HondaTuner.Hardware.EEPROM;
-using HondaTuner.Hardware.Emulator;
-using HondaTuner.Hardware.OBD;
-using HondaTuner.Report;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HondaTuner.Core.Container
 {
     /// <summary>
-    /// Basit ve kararlı Dependency Injection Konteyneri (Service Locator).
-    /// Dışarıdan paket bağımlılığı olmadan servislerin kaydını ve çözümlemesini yönetir.
+    /// Backward-compat DI köprüsü.
+    /// Dahili olarak Microsoft.Extensions.DependencyInjection IServiceProvider kullanır.
+    /// Mevcut Resolve{T}() ve Register{T}() API'si korunmuştur.
     /// </summary>
     public static class ServiceContainer
     {
-        private static readonly Dictionary<Type, object> Services = new Dictionary<Type, object>();
-        private static readonly Dictionary<Type, Func<object>> Overrides = new Dictionary<Type, Func<object>>();
+        // Test/mock override dictionary — DI container'dan önce kontrol edilir
+        private static readonly Dictionary<Type, object> _overrides = new Dictionary<Type, object>();
 
-        static ServiceContainer()
+        // Gerçek DI provider — lazy oluşturulur
+        private static IServiceProvider _provider;
+        private static readonly object _lock = new object();
+
+        /// <summary>
+        /// IServiceProvider'ı alır ya da oluşturur. İlk çağrıda AppServiceCollection kullanılır.
+        /// </summary>
+        private static IServiceProvider Provider
         {
-            // Varsayılan servis kayıtları
-            Register<IRomService>(new RomService());
-            Register<IRomIdentifier>(new RomIdentifier());
-            Register<IRomPatchManager>(new RomPatchManager());
-            Register<ICalibrationService>(new CalibrationManager());
-            Register<IReportGenerator>(new RawHtmlReportGenerator());
-            Register<IInterpolationEngine>(new BilinearInterpolationEngine());
-            Register<MapManager>(new MapManager());
-
-            // Checksum Engine
-            var algoList = new List<HondaTuner.Core.Rom.Checksum.IChecksumAlgorithm>
+            get
             {
-                new HondaTuner.Core.Rom.Checksum.Xor8Algorithm(),
-                new HondaTuner.Core.Rom.Checksum.Add8Algorithm(),
-                new HondaTuner.Core.Rom.Checksum.Sum16Algorithm(),
-                new HondaTuner.Core.Rom.Checksum.Xor16Algorithm(),
-                new HondaTuner.Core.Rom.Checksum.HondaCustomAlgorithm()
-            };
-            Register<HondaTuner.Core.Rom.Checksum.IChecksumEngine>(new HondaTuner.Core.Rom.Checksum.ChecksumEngine(algoList));
-
-            // Donanım & Diğer
-            Register<IObdConnection>(new RealObd1Connection());
-            Register<IEepromProgrammer>(new Tl866Programmer());
-            Register<IEmulator>(new OstrichEmulator());
-
-            // Phase 10 — Real hardware additions
-            Register<Ch341aProgrammer>(new Ch341aProgrammer());
-            Register<DtcManager>(new DtcManager());
-
-            // AutoTune varsayılan olarak P28 ekseniyle başlayabilir,
-            // runtime'da güncellenebilir veya yeniden çözümlenebilir.
-            Register<IAutoTuneEngine>(new AutoTuneEngine(
-                new int[] { 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000 },
-                new int[] { 20, 40, 60, 80, 100, 120, 140, 160 }
-            ));
-
-            // Closed Loop AutoTune (Phase 8) services mapping
-            var cellLocks = new HondaTuner.Core.AutoTune.CalibrationCellLockManager();
-            var snapshots = new HondaTuner.Core.AutoTune.CalibrationSnapshotManager();
-            var recovery = new HondaTuner.Core.AutoTune.CalibrationRecoveryManager();
-            var confEng = new HondaTuner.Core.AutoTune.TuneConfidenceEngine();
-            var diffEng = new HondaTuner.Core.AutoTune.CalibrationDiffEngine();
-            var explProv = new HondaTuner.Core.AutoTune.TuneExplanationProvider();
-            var safetyRules = new HondaTuner.Core.AutoTune.Safety.SafetyRuleProvider();
-            var safetyMgr = new HondaTuner.Core.AutoTune.AutoTuneSafetyManager(safetyRules);
-            var secMgr = new HondaTuner.Core.AutoTune.CalibrationSecurityManager();
-            var sessMgr = new HondaTuner.Core.AutoTune.AutoTuneSessionManager();
-            var chgQ = new HondaTuner.Core.AutoTune.TuneChangeQueue();
-            var evPub = new HondaTuner.Core.AutoTune.AutoTuneEventPublisher();
-            var strPub = new HondaTuner.Core.AutoTune.CalibrationStreamPublisher();
-            var mapMgr = Resolve<MapManager>();
-            var calSvc = Resolve<ICalibrationService>();
-            var chkSvc = Resolve<HondaTuner.Core.Rom.Checksum.IChecksumEngine>();
-
-            var closedLoopEngine = new HondaTuner.Core.AutoTune.AutoTuneEngine(
-                cellLocks, snapshots, recovery, confEng, diffEng, explProv,
-                safetyMgr, secMgr, sessMgr, chgQ, calSvc, mapMgr, chkSvc, evPub, strPub);
-
-            Register<HondaTuner.Core.AutoTune.ICalibrationCellLockManager>(cellLocks);
-            Register<HondaTuner.Core.AutoTune.ICalibrationSnapshotManager>(snapshots);
-            Register<HondaTuner.Core.AutoTune.ICalibrationRecoveryManager>(recovery);
-            Register<HondaTuner.Core.AutoTune.ITuneConfidenceEngine>(confEng);
-            Register<HondaTuner.Core.AutoTune.ICalibrationDiffEngine>(diffEng);
-            Register<HondaTuner.Core.AutoTune.ITuneExplanationProvider>(explProv);
-            Register<HondaTuner.Core.AutoTune.IAutoTuneSafetyManager>(safetyMgr);
-            Register<HondaTuner.Core.AutoTune.ICalibrationSecurityManager>(secMgr);
-            Register<HondaTuner.Core.AutoTune.IAutoTuneSessionManager>(sessMgr);
-            Register<HondaTuner.Core.AutoTune.ITuneChangeQueue>(chgQ);
-            Register<HondaTuner.Core.AutoTune.IAutoTuneEventPublisher>(evPub);
-            Register<HondaTuner.Core.AutoTune.ICalibrationStreamPublisher>(strPub);
-            Register<HondaTuner.Core.AutoTune.IAutoTuneEngine>(closedLoopEngine);
-
-            Register<HondaTuner.Core.AutoTune.Safety.ISafetyRuleProvider>(safetyRules);
-            Register<HondaTuner.Core.AutoTune.IReplayDeterministicValidator>(new HondaTuner.Core.AutoTune.ReplayDeterministicValidator());
-
-            var queryService = new HondaTuner.Core.AutoTune.AutoTuneQueryService(closedLoopEngine);
-            var commandService = new HondaTuner.Core.AutoTune.AutoTuneCommandService(closedLoopEngine);
-            Register<HondaTuner.Core.AutoTune.IAutoTuneQueryService>(queryService);
-            Register<HondaTuner.Core.AutoTune.IAutoTuneCommandService>(commandService);
-
-
-            // Dynamic ROM Patch Management Engine v2
-            var checksumEngine = Resolve<HondaTuner.Core.Rom.Checksum.IChecksumEngine>();
-            var calibrationService = Resolve<ICalibrationService>();
-            Register<Rom.Patch.IPatchEngine>(new Rom.Patch.PatchEngine(checksumEngine, calibrationService));
-
-            // Telemetry & Live Datalog Bus Engine (Phase 7)
-            var timeClock = new Telemetry.HighResolutionClock();
-            var telemetryBus = new Telemetry.TelemetryBus();
-            var accessCtrl = new Telemetry.AccessControl();
-            var providerFac = new Telemetry.TelemetryProviderFactory(timeClock);
-            var providerDisc = new Telemetry.TelemetryProviderDiscovery();
-            var configWatch = new Telemetry.ConfigurationWatcher();
-            var telemetryEngine = new Telemetry.TelemetryEngine(telemetryBus, accessCtrl, timeClock, providerFac, configWatch);
-
-            Register<Telemetry.ITimeProvider>(timeClock);
-            Register<Telemetry.ITelemetryBus>(telemetryBus);
-            Register<Telemetry.IAccessControl>(accessCtrl);
-            Register<Telemetry.ITelemetryProviderFactory>(providerFac);
-            Register<Telemetry.ITelemetryProviderDiscovery>(providerDisc);
-            Register<Telemetry.IConfigurationWatcher>(configWatch);
-            Register<Telemetry.ITelemetryEngine>(telemetryEngine);
-
-            // Real-Time Calibration & RTP Emulator Sync (Phase 9)
-            var rtpEngine = new HondaTuner.Core.Rtp.RtpCalibrationEngine();
-            Register<HondaTuner.Core.Rtp.IRtpCalibrationEngine>(rtpEngine);
+                if (_provider == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_provider == null)
+                        {
+                            var services = new ServiceCollection();
+                            AppServiceCollection.ConfigureServices(services);
+                            _provider = services.BuildServiceProvider();
+                        }
+                    }
+                }
+                return _provider;
+            }
         }
 
-        /// <summary>Bir servis tipini örnek olarak kaydeder.</summary>
+        /// <summary>
+        /// Test veya runtime override için bir servis örneğini kaydeder.
+        /// Build edilmiş provider'dan önce kontrol edilir.
+        /// </summary>
         public static void Register<T>(T serviceInstance)
         {
             if (serviceInstance == null) throw new ArgumentNullException(nameof(serviceInstance));
-            Services[typeof(T)] = serviceInstance;
+            lock (_overrides)
+            {
+                _overrides[typeof(T)] = serviceInstance;
+            }
         }
 
-        /// <summary>Bir servisi fabrika fonksiyonu (lazy) olarak kaydeder.</summary>
-        public static void RegisterLazy<T>(Func<T> factory) where T : class
-        {
-            if (factory == null) throw new ArgumentNullException(nameof(factory));
-            Overrides[typeof(T)] = () => factory();
-        }
-
-        /// <summary>İlgili servisi çözümler.</summary>
+        /// <summary>
+        /// Servisi çözümler. Override varsa onu döner; yoksa IServiceProvider'ı kullanır.
+        /// </summary>
         public static T Resolve<T>() where T : class
         {
             var type = typeof(T);
-            if (Overrides.TryGetValue(type, out var factory))
+            lock (_overrides)
             {
-                return (T)factory();
+                if (_overrides.TryGetValue(type, out var overrideInstance))
+                    return (T)overrideInstance;
             }
-            if (Services.TryGetValue(type, out var instance))
-            {
-                return (T)instance;
-            }
-            throw new InvalidOperationException($"Servis bulunamadı: {type.FullName}");
+            return Provider.GetRequiredService<T>();
         }
 
-        /// <summary>Tüm servisleri sıfırlar (Testlerde mocks enjeksiyonu için kullanışlıdır).</summary>
+        /// <summary>
+        /// Override kayıtlarını sıfırlar (test isolation için kullanılır).
+        /// DI provider sıfırlanmaz — sadece manuel overrides temizlenir.
+        /// </summary>
+        public static void ResetOverrides()
+        {
+            lock (_overrides)
+            {
+                _overrides.Clear();
+            }
+        }
+
+        /// <summary>
+        /// [Deprecated] Backward-compat alias. ResetOverrides() tercih edilir.
+        /// DI provider cache'ini de yeniden oluşturmak için kullanın.
+        /// </summary>
         public static void Reset()
         {
-            Services.Clear();
-            Overrides.Clear();
+            lock (_overrides)
+            {
+                _overrides.Clear();
+            }
+            lock (_lock)
+            {
+                (_provider as IDisposable)?.Dispose();
+                _provider = null;
+            }
+        }
+
+        /// <summary>
+        /// Dışarıdan önceden oluşturulmuş bir IServiceProvider'ı enjekte eder.
+        /// Program.cs'ten IHost kullanıldığında çağrılır.
+        /// </summary>
+        public static void UseProvider(IServiceProvider provider)
+        {
+            lock (_lock)
+            {
+                _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            }
         }
     }
 }

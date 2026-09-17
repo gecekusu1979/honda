@@ -37,8 +37,15 @@ namespace HondaTuner.Core.AutoTune
         private readonly IAutoTuneEventPublisher _eventPublisher;
         private readonly ICalibrationStreamPublisher _streamPublisher;
 
+        private AutoTuneSession _activeSession;
+
         public bool IsRunning { get; private set; }
-        public AutoTuneSession ActiveSession { get; private set; }
+        public AutoTuneSession ActiveSession
+        {
+            get => System.Threading.Volatile.Read(ref _activeSession);
+            private set => System.Threading.Volatile.Write(ref _activeSession, value);
+        }
+
         public AdaptiveMemory Memory { get; } = new AdaptiveMemory();
         public CalibrationJournal Journal { get; } = new CalibrationJournal();
         public IReadOnlyList<CalibrationSnapshot> Snapshots => _snapshotsList.AsReadOnly();
@@ -126,7 +133,7 @@ namespace HondaTuner.Core.AutoTune
                     ActiveProfile = profile,
                     UserRole = userId == "AdvancedUser" ? "Advanced" : (userId == "BeginnerUser" ? "Beginner" : "Professional"),
                     OperatingMode = mode,
-                    State = "Running"
+                    State = SessionState.Running
                 };
 
                 // Load target maps & rules
@@ -158,7 +165,7 @@ namespace HondaTuner.Core.AutoTune
                 if (ActiveSession == null) return;
 
                 IsRunning = false;
-                ActiveSession.State = "Stopped";
+                ActiveSession.State = SessionState.Stopped;
                 ActiveSession.EndTime = DateTime.Now;
 
                 _eventPublisher.Publish(new AutoTuneDomainEvent
@@ -186,7 +193,7 @@ namespace HondaTuner.Core.AutoTune
             {
                 if (ActiveSession == null) return;
                 IsRunning = false;
-                ActiveSession.State = "Paused";
+                ActiveSession.State = SessionState.Paused;
                 _sessionManager.UpdateSessionState(ActiveSession.EcuIdentifier, "Paused");
 
                 _eventPublisher.Publish(new AutoTuneDomainEvent
@@ -207,7 +214,7 @@ namespace HondaTuner.Core.AutoTune
             {
                 if (ActiveSession == null) return;
                 IsRunning = true;
-                ActiveSession.State = "Running";
+                ActiveSession.State = SessionState.Running;
                 _sessionManager.UpdateSessionState(ActiveSession.EcuIdentifier, "Running");
 
                 _eventPublisher.Publish(new AutoTuneDomainEvent
@@ -224,17 +231,22 @@ namespace HondaTuner.Core.AutoTune
 
         public void ProcessTelemetry(TelemetrySnapshot telemetry)
         {
-            if (telemetry == null || !IsRunning || ActiveSession == null) return;
+            var currentSession = System.Threading.Volatile.Read(ref _activeSession);
+
+            if (telemetry == null || currentSession == null) return;
+
+            // Locksuz state check yapabiliriz çünkü state atomic veya transition testli
+            if (currentSession.State != SessionState.Running) return;
 
             // Stable window check
             if (_stableFilter.AddSnapshot(telemetry, out var stableList))
             {
                 _eventPublisher.Publish(new AutoTuneDomainEvent
                 {
-                    SessionId = ActiveSession.SessionId,
-                    EcuIdentifier = ActiveSession.EcuIdentifier,
-                    User = ActiveSession.UserRole,
-                    OperatingMode = ActiveSession.OperatingMode,
+                    SessionId = currentSession.SessionId,
+                    EcuIdentifier = currentSession.EcuIdentifier,
+                    User = currentSession.UserRole,
+                    OperatingMode = currentSession.OperatingMode,
                     EventType = "TelemetryWindowAccepted",
                     Payload = $"Stabil telemetri yakalandı. Size: {stableList.Count}"
                 });
@@ -254,7 +266,7 @@ namespace HondaTuner.Core.AutoTune
                     if (decision == null) continue;
 
                     // Enforce lock manager check
-                    if (!_cellLockManager.TryLockCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId))
+                    if (!_cellLockManager.TryLockCell(decision.MapName, decision.CellRow, decision.CellCol, currentSession.SessionId))
                     {
                         // Cell is locked by other execution path / thread. Ignore.
                         continue;
@@ -268,7 +280,7 @@ namespace HondaTuner.Core.AutoTune
 
                     if (confidence < 50.0)
                     {
-                        _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
+                        _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, currentSession.SessionId);
                         continue;
                     }
 
@@ -280,383 +292,167 @@ namespace HondaTuner.Core.AutoTune
                     {
                         _eventPublisher.Publish(new AutoTuneDomainEvent
                         {
-                            SessionId = ActiveSession.SessionId,
-                            EcuIdentifier = ActiveSession.EcuIdentifier,
-                            User = ActiveSession.UserRole,
-                            OperatingMode = ActiveSession.OperatingMode,
+                            SessionId = currentSession.SessionId,
+                            EcuIdentifier = currentSession.EcuIdentifier,
+                            User = currentSession.UserRole,
+                            OperatingMode = currentSession.OperatingMode,
                             EventType = "SafetyViolation",
                             Payload = $"Güvenlik İhlali: {safetyVal.Reason}"
                         });
 
-                        _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
+                        _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, currentSession.SessionId);
                         continue;
                     }
 
                     // State machine & Approval evaluation
-                    string status = TuneApprovalWorkflow.DetermineInitialStatus(ActiveSession.UserRole, ActiveSession.OperatingMode, out string approvalExp);
+                    var status = TuneApprovalWorkflow.DetermineInitialStatus(currentSession.UserRole, currentSession.OperatingMode, out string approvalExp);
                     decision.ApprovalStatus = status;
-                    decision.Explanation = _explanationProvider.GenerateExplanation(decision, ActiveSession.UserRole);
+                    decision.Explanation = _explanationProvider.GenerateExplanation(decision, currentSession.UserRole);
 
-                    // Add to Queue and sort priorities
-                    _changeQueue.Enqueue(decision);
-                    ActiveSession.AddDecision(decision);
-
-                    _eventPublisher.Publish(new AutoTuneDomainEvent
+                    bool commitSuccess = false;
+                    lock (_lockObj)
                     {
-                        SessionId = ActiveSession.SessionId,
-                        EcuIdentifier = ActiveSession.EcuIdentifier,
-                        User = ActiveSession.UserRole,
-                        OperatingMode = ActiveSession.OperatingMode,
-                        EventType = "DecisionCreated",
-                        Payload = decision.Explanation
-                    });
-
-                    // Auto-apply if immediately approved
-                    if (status == "Approved")
-                    {
-                        ApplyDecisionInternal(decision);
+                        if (System.Threading.Volatile.Read(ref _activeSession) == currentSession && currentSession.State == SessionState.Running)
+                        {
+                            _changeQueue.Enqueue(decision);
+                            currentSession.AddDecision(decision);
+                            commitSuccess = true;
+                        }
                     }
+
+                    if (commitSuccess)
+                    {
+                        // Domain Event for memory
+                        _eventPublisher.Publish(new AutoTuneDomainEvent
+                        {
+                            SessionId = currentSession.SessionId,
+                            EcuIdentifier = currentSession.EcuIdentifier,
+                            User = currentSession.UserRole,
+                            OperatingMode = currentSession.OperatingMode,
+                            EventType = "DecisionCreated",
+                            Payload = decision.Explanation
+                        });
+                    }
+
+                    // Unlock
+                    _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, currentSession.SessionId);
                 }
             }
         }
 
         public bool ApproveDecision(string decisionId)
         {
-            var decision = ActiveSession?.Decisions.FirstOrDefault(d => d.DecisionId == decisionId);
-            if (decision == null || ActiveSession == null) return false;
+            TuneDecision decision = null;
+            AutoTuneSession capturedSession = null;
 
-            if (!TuneApprovalWorkflow.CanTransition(decision.ApprovalStatus, "Approved", ActiveSession.UserRole, out string err))
+            lock (_lockObj)
             {
-                ApplicationLogger.Warn("AutoTuneEngine", $"Geçiş engeli: {err}");
-                return false;
+                capturedSession = System.Threading.Volatile.Read(ref _activeSession);
+                if (capturedSession == null) return false;
+
+                decision = capturedSession.Decisions.FirstOrDefault(d => d.DecisionId == decisionId);
+                if (decision == null) return false;
+
+                if (!TuneApprovalWorkflow.CanTransition(decision.ApprovalStatus, TuneDecisionStatus.Approved, capturedSession.UserRole, out string err))
+                {
+                    ApplicationLogger.Warn("AutoTuneEngine", $"Geçiş engeli: {err}");
+                    return false;
+                }
+
+                // FAZ 3B - Enum Type Migration
+                // Sadece State değiştirilir, Stream yayınlanır ve Learning Memory'e yazılır. ROM'a yazılmaz!
+                decision.ApprovalStatus = TuneDecisionStatus.Approved;
             }
 
-            decision.ApprovalStatus = "Approved";
-            _eventPublisher.Publish(new AutoTuneDomainEvent
+            _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, capturedSession.SessionId);
+
+            _streamPublisher.PublishApplied(new CalibrationStreamPayload
             {
-                SessionId = ActiveSession.SessionId,
-                EcuIdentifier = ActiveSession.EcuIdentifier,
-                User = ActiveSession.UserRole,
-                OperatingMode = ActiveSession.OperatingMode,
-                EventType = "DecisionApproved",
-                Payload = $"Karar {decisionId} onaylandı."
+                SessionId = capturedSession.SessionId,
+                Timestamp = DateTime.Now,
+                Parameter = decision.Parameter,
+                MapAddress = $"{decision.MapName}[{decision.CellRow},{decision.CellCol}]",
+                OldValue = decision.OldValue,
+                NewValue = decision.NewValue,
+                Confidence = decision.ConfidenceScore,
+                SafetyStatus = "Allow",
+                ApprovalStatus = TuneDecisionStatus.Approved.ToString() // Keep json backward compatibility!
             });
 
-            return ApplyDecisionInternal(decision);
+            // Write learning to memory
+            Memory.Learn(decision.ParameterName, decision.MapName, decision.CellRow, decision.CellCol, decision.ChangePercent, true, null);
+
+            Journal.Log(new JournalEntry
+            {
+                User = capturedSession.UserRole,
+                Profile = capturedSession.ActiveProfile,
+                Parameter = decision.ParameterName,
+                RPM = decision.CellRow,
+                Load = decision.CellCol,
+                BeforeValue = decision.OldValue,
+                AfterValue = decision.NewValue,
+                Confidence = decision.ConfidenceScore,
+                SafetyStatus = "Allow",
+                ApprovalStatus = TuneDecisionStatus.Approved.ToString(), // Keep json mapping string compatible
+                Result = "UserAccepted"
+            });
+
+            _eventPublisher.Publish(new AutoTuneDomainEvent
+            {
+                SessionId = capturedSession.SessionId,
+                EcuIdentifier = capturedSession.EcuIdentifier,
+                User = capturedSession.UserRole,
+                OperatingMode = capturedSession.OperatingMode,
+                EventType = "DecisionApproved",
+                Payload = $"Karar {decisionId} kullanıcı tarafından onaylandı. (ROM modifikasyonu hariç)"
+            });
+
+            return true;
         }
 
         public void RejectDecision(string decisionId)
         {
-            var decision = ActiveSession?.Decisions.FirstOrDefault(d => d.DecisionId == decisionId);
-            if (decision == null || ActiveSession == null) return;
+            TuneDecision decision = null;
+            AutoTuneSession capturedSession = null;
 
-            if (TuneApprovalWorkflow.CanTransition(decision.ApprovalStatus, "Rejected", ActiveSession.UserRole, out _))
+            lock (_lockObj)
             {
-                decision.ApprovalStatus = "Rejected";
-                _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
+                capturedSession = System.Threading.Volatile.Read(ref _activeSession);
+                if (capturedSession == null) return;
+
+                decision = capturedSession.Decisions.FirstOrDefault(d => d.DecisionId == decisionId);
+                if (decision == null) return;
+
+                if (TuneApprovalWorkflow.CanTransition(decision.ApprovalStatus, TuneDecisionStatus.Rejected, capturedSession.UserRole, out _))
+                {
+                    decision.ApprovalStatus = TuneDecisionStatus.Rejected;
+                }
+                else
+                {
+                    decision = null;
+                }
+            }
+
+            if (decision != null)
+            {
+                _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, capturedSession.SessionId);
 
                 _eventPublisher.Publish(new AutoTuneDomainEvent
                 {
-                    SessionId = ActiveSession.SessionId,
-                    EcuIdentifier = ActiveSession.EcuIdentifier,
-                    User = ActiveSession.UserRole,
-                    OperatingMode = ActiveSession.OperatingMode,
+                    SessionId = capturedSession.SessionId,
+                    EcuIdentifier = capturedSession.EcuIdentifier,
+                    User = capturedSession.UserRole,
+                    OperatingMode = capturedSession.OperatingMode,
                     EventType = "DecisionRejected",
                     Payload = $"Karar {decisionId} reddedildi."
                 });
             }
         }
 
-        private bool ApplyDecisionInternal(TuneDecision decision)
-        {
-            if (ActiveSession == null) return false;
-
-            // Security checks validation
-            if (!_securityManager.ValidatePermissions(ActiveSession.UserRole, ActiveSession.OperatingMode, "Apply", out string permReason))
-            {
-                decision.ApprovalStatus = "Rejected";
-                _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
-                ApplicationLogger.Warn("AutoTuneEngine", $"Güvenlik kilidi engeli: {permReason}");
-                return false;
-            }
-
-            // SafeMode and DryRun simulation
-            if (ActiveSession.OperatingMode == AutoTuneOperatingMode.DryRun || ActiveSession.OperatingMode == AutoTuneOperatingMode.Simulation)
-            {
-                decision.ApprovalStatus = "Applied";
-                _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
-
-                // Stream প্রস্তাব simulation change
-                _streamPublisher.PublishApplied(new CalibrationStreamPayload
-                {
-                    SessionId = ActiveSession.SessionId,
-                    Timestamp = DateTime.Now,
-                    Parameter = decision.Parameter,
-                    MapAddress = $"{decision.MapName}[{decision.CellRow},{decision.CellCol}]",
-                    OldValue = decision.OldValue,
-                    NewValue = decision.NewValue,
-                    Confidence = decision.ConfidenceScore,
-                    SafetyStatus = "Allow",
-                    ApprovalStatus = "Applied"
-                });
-
-                // Write learning to memory
-                Memory.Learn(decision.ParameterName, decision.MapName, decision.CellRow, decision.CellCol, decision.ChangePercent, true, null);
-
-                // Log to journal
-                Journal.Log(new JournalEntry
-                {
-                    User = ActiveSession.UserRole,
-                    Profile = ActiveSession.ActiveProfile,
-                    Parameter = decision.ParameterName,
-                    RPM = decision.CellRow, // Row correlates
-                    Load = decision.CellCol,
-                    BeforeValue = decision.OldValue,
-                    AfterValue = decision.NewValue,
-                    Confidence = decision.ConfidenceScore,
-                    SafetyStatus = "Allow",
-                    ApprovalStatus = "Applied",
-                    Result = "Accepted"
-                });
-
-                return true;
-            }
-
-            // Normal mode physical ROM update using rollback transactions
-            try
-            {
-                // Capture Snapshot
-                var cells = new List<CellSnapshot>
-                {
-                    new CellSnapshot { MapName = decision.MapName, Row = decision.CellRow, Col = decision.CellCol, Value = decision.OldValue }
-                };
-
-                var snapshot = _snapshotManager.CaptureSnapshot(
-                    ActiveSession.EcuIdentifier,
-                    ActiveSession.UserRole,
-                    ActiveSession.ActiveProfile,
-                    0.0, // Checksum placeholder
-                    decision.Safety,
-                    decision.ConfidenceScore,
-                    null,
-                    cells);
-
-                lock (_lockObj)
-                {
-                    _snapshotsList.Add(snapshot);
-                }
-
-                // Register pending recovery details
-                var recoveryMeta = new RecoveryMetaData
-                {
-                    TransactionId = decision.DecisionId,
-                    SnapshotId = snapshot.SnapshotId,
-                    PreviousChecksum = 0.0,
-                    ExpectedChecksum = 1.0,
-                    RollbackStatus = "Pending",
-                    EcuProfile = ActiveSession.ActiveProfile,
-                    ActiveUser = ActiveSession.UserRole,
-                    Timestamp = DateTime.Now,
-                    PreviousCellValues = cells
-                };
-                _recoveryManager.RegisterPendingTransaction(recoveryMeta);
-
-                // Transaction open
-                _calibrationService.BeginTransaction();
-
-                // Define map limits — look up real map offset from active ROM profile
-                int resolvedOffset = 0x0278; // P28 fuel map default (safe non-arbitrary fallback)
-                try
-                {
-                    var romSvc = HondaTuner.Core.Container.ServiceContainer.Resolve<IRomService>();
-                    var prof = romSvc?.Profile;
-                    if (prof != null && decision.Offset <= 0)
-                    {
-                        bool isIgn = decision.MapName?.IndexOf("ign", StringComparison.OrdinalIgnoreCase) >= 0;
-                        resolvedOffset = isIgn ? prof.IgnMapOffset : prof.FuelMapOffset;
-                    }
-                    else if (decision.Offset > 0)
-                        resolvedOffset = decision.Offset;
-                }
-                catch { /* Profile not loaded yet — use fallback */ }
-
-                var dummyDef = new MapDefinition
-                {
-                    MapName = decision.MapName,
-                    Offset = resolvedOffset,
-                    Rows = 8,
-                    Columns = 8
-                };
-
-                // Map write cell call
-                _mapManager.WriteCell(dummyDef, decision.CellRow, decision.CellCol, decision.NewValue);
-
-                // Checksum Engine evaluation validation
-                bool isRcValid = true;
-                try
-                {
-                    var romService = HondaTuner.Core.Container.ServiceContainer.Resolve<IRomService>();
-                    var checksums = romService?.Profile?.ChecksumDefinitions ?? new List<HondaTuner.Core.Rom.Checksum.ChecksumDefinition>();
-                    isRcValid = _checksumEngine.VerifyBeforeSave(romService.GetBuffer(), checksums, out _);
-                }
-                catch
-                {
-                    isRcValid = false;
-                }
-
-                if (isRcValid)
-                {
-                    // Success, commit!
-                    _calibrationService.CommitTransaction();
-                    _recoveryManager.ClearPendingTransaction();
-
-                    decision.ApprovalStatus = "Applied";
-                    _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
-
-                    _streamPublisher.PublishApplied(new CalibrationStreamPayload
-                    {
-                        SessionId = ActiveSession.SessionId,
-                        Timestamp = DateTime.Now,
-                        Parameter = decision.Parameter,
-                        MapAddress = $"{decision.MapName}[{decision.CellRow},{decision.CellCol}]",
-                        OldValue = decision.OldValue,
-                        NewValue = decision.NewValue,
-                        Confidence = decision.ConfidenceScore,
-                        SafetyStatus = "Allow",
-                        ApprovalStatus = "Applied"
-                    });
-
-                    Memory.Learn(decision.ParameterName, decision.MapName, decision.CellRow, decision.CellCol, decision.ChangePercent, true, null);
-
-                    Journal.Log(new JournalEntry
-                    {
-                        User = ActiveSession.UserRole,
-                        Profile = ActiveSession.ActiveProfile,
-                        Parameter = decision.ParameterName,
-                        RPM = decision.CellRow,
-                        Load = decision.CellCol,
-                        BeforeValue = decision.OldValue,
-                        AfterValue = decision.NewValue,
-                        Confidence = decision.ConfidenceScore,
-                        SafetyStatus = "Allow",
-                        ApprovalStatus = "Applied",
-                        Result = "Accepted"
-                    });
-
-                    _eventPublisher.Publish(new AutoTuneDomainEvent
-                    {
-                        SessionId = ActiveSession.SessionId,
-                        EcuIdentifier = ActiveSession.EcuIdentifier,
-                        User = ActiveSession.UserRole,
-                        OperatingMode = ActiveSession.OperatingMode,
-                        EventType = "MapChangeApplied",
-                        Payload = $"Applied {decision.ParameterName} cell update ({decision.OldValue:F2} -> {decision.NewValue:F2})"
-                    });
-
-                    return true;
-                }
-                else
-                {
-                    // Fail validation, rollback transaction
-                    _calibrationService.RollbackTransaction();
-                    _recoveryManager.ClearPendingTransaction();
-
-                    decision.ApprovalStatus = "Rejected";
-                    _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
-
-                    Journal.Log(new JournalEntry
-                    {
-                        User = ActiveSession.UserRole,
-                        Profile = ActiveSession.ActiveProfile,
-                        Parameter = decision.ParameterName,
-                        RPM = decision.CellRow,
-                        Load = decision.CellCol,
-                        BeforeValue = decision.OldValue,
-                        AfterValue = decision.NewValue,
-                        Confidence = decision.ConfidenceScore,
-                        SafetyStatus = "Reject",
-                        ApprovalStatus = "Rejected",
-                        Result = "RolledBack"
-                    });
-
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                _calibrationService.RollbackTransaction();
-                _recoveryManager.ClearPendingTransaction();
-                _cellLockManager.ReleaseCell(decision.MapName, decision.CellRow, decision.CellCol, ActiveSession.SessionId);
-
-                ApplicationLogger.Error("AutoTuneEngine", $"Uygulama hatası: {ex.Message}");
-                return false;
-            }
-        }
-
         public bool RollbackLastChange(out string resultMessage)
         {
-            resultMessage = "";
-            lock (_lockObj)
-            {
-                if (ActiveSession == null)
-                {
-                    resultMessage = "Aktif oturum yok.";
-                    return false;
-                }
-
-                if (_snapshotsList.Count == 0)
-                {
-                    resultMessage = "Geri yükleme için hiçbir snapshot bulunamadı.";
-                    return false;
-                }
-
-                var last = _snapshotsList.Last(s => !s.IsRestored);
-                if (last == null)
-                {
-                    resultMessage = "Tüm snapshotlar zaten geri yüklendi.";
-                    return false;
-                }
-
-                try
-                {
-                    _snapshotManager.RestoreSnapshot(last);
-
-                    // Recover each cell value in snapshots list
-                    _calibrationService.BeginTransaction();
-                    var dummyDef = new MapDefinition { MapName = last.CellSnapshots[0].MapName };
-                    foreach (var cell in last.CellSnapshots)
-                    {
-                        _mapManager.WriteCell(dummyDef, cell.Row, cell.Col, cell.Value);
-                    }
-                    _calibrationService.CommitTransaction();
-
-                    Journal.Log(new JournalEntry
-                    {
-                        User = ActiveSession.UserRole,
-                        Profile = ActiveSession.ActiveProfile,
-                        Parameter = last.CellSnapshots[0].MapName,
-                        RPM = last.CellSnapshots[0].Row,
-                        Load = last.CellSnapshots[0].Col,
-                        BeforeValue = last.CellSnapshots[0].Value,
-                        AfterValue = last.CellSnapshots[0].Value,
-                        Confidence = last.ConfidenceScore,
-                        SafetyStatus = "Allow",
-                        ApprovalStatus = "Applied",
-                        Result = "RolledBack"
-                    });
-
-                    _streamPublisher.PublishRollback(ActiveSession.SessionId, $"{last.CellSnapshots[0].MapName}[{last.CellSnapshots[0].Row},{last.CellSnapshots[0].Col}]", last.CellSnapshots[0].Value);
-
-                    resultMessage = $"Snapshot {last.SnapshotId} adımı geri yüklenmiştir.";
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    _calibrationService.RollbackTransaction();
-                    resultMessage = $"Geri yükleme hatası: {ex.Message}";
-                    return false;
-                }
-            }
+            resultMessage = "AutoTune fiziksel yazma yetkisine sahip olmadığı için ROM üzerinde geri alma işlemi devre dışı bırakılmıştır. Sadece memory snapshot tutulur.";
+            return false;
         }
     }
 }

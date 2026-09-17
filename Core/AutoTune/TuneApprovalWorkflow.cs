@@ -4,46 +4,46 @@ namespace HondaTuner.Core.AutoTune
 {
     public class TuneApprovalWorkflow
     {
-        public static string DetermineInitialStatus(string userRole, AutoTuneOperatingMode mode, out string explanation)
+        public static TuneDecisionStatus DetermineInitialStatus(string userRole, AutoTuneOperatingMode mode, out string explanation)
         {
             explanation = "";
             if (mode == AutoTuneOperatingMode.DryRun || mode == AutoTuneOperatingMode.Simulation || mode == AutoTuneOperatingMode.SafeMode)
             {
-                explanation = "DryRun/Simulation/SafeMode modunda otomatik onay verildi.";
-                return "Approved";
+                explanation = "DryRun/Simulation/SafeMode modunda otomatik öneri üretildi.";
+                return TuneDecisionStatus.Suggested;
             }
 
             switch (userRole?.ToLowerInvariant())
             {
                 case "professional":
-                    explanation = "Professional rolü için doğrudan onay verildi.";
-                    return "Approved";
+                    explanation = "Professional rolü için doğrudan öneri (Suggested) üretildi.";
+                    return TuneDecisionStatus.Suggested;
 
                 case "advanced":
                     explanation = "Advanced rolü için kullanıcı onayı bekleniyor.";
-                    return "PendingApproval";
+                    return TuneDecisionStatus.PendingApproval;
 
                 case "beginner":
                 default:
                     explanation = "Beginner yetkisiyle gerçek ROM yazma işlemi engellendi (Sadece okuma izinli).";
-                    return "Rejected"; // Safe mode limits
+                    return TuneDecisionStatus.Rejected; // Safe mode limits
             }
         }
 
-        public static bool CanTransition(string currentStatus, string targetStatus, string userRole, out string errorMessage)
+        public static bool CanTransition(TuneDecisionStatus currentStatus, TuneDecisionStatus targetStatus, string userRole, out string errorMessage)
         {
             errorMessage = "";
             if (currentStatus == targetStatus) return true;
 
-            if (currentStatus == "Applied")
+            if (currentStatus == TuneDecisionStatus.Applied)
             {
                 errorMessage = "Zaten uygulanmış bir karar değiştirilemez.";
                 return false;
             }
 
-            if (targetStatus == "Approved" || targetStatus == "Rejected")
+            if (targetStatus == TuneDecisionStatus.Approved || targetStatus == TuneDecisionStatus.Rejected)
             {
-                if (currentStatus == "PendingApproval")
+                if (currentStatus == TuneDecisionStatus.PendingApproval || currentStatus == TuneDecisionStatus.Suggested)
                 {
                     if (string.Equals(userRole, "beginner", StringComparison.OrdinalIgnoreCase))
                     {
@@ -52,13 +52,13 @@ namespace HondaTuner.Core.AutoTune
                     }
                     return true;
                 }
-                errorMessage = "Sadece beklemedeki (PendingApproval) kararlar onaylanabilir veya reddedilebilir.";
+                errorMessage = "Sadece beklemedeki (PendingApproval) veya önerilen (Suggested) kararlar onaylanabilir veya reddedilebilir.";
                 return false;
             }
 
-            if (targetStatus == "Applied")
+            if (targetStatus == TuneDecisionStatus.Applied)
             {
-                if (currentStatus == "Approved")
+                if (currentStatus == TuneDecisionStatus.Approved)
                 {
                     return true;
                 }

@@ -15,7 +15,7 @@ namespace HondaTuner.Core.AutoTune
         {
             if (_engine.ActiveSession != null && _engine.ActiveSession.SessionId == sessionId)
             {
-                return _engine.ActiveSession.State;
+                return _engine.ActiveSession.State.ToString();
             }
             return "NotFound";
         }

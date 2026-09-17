@@ -44,6 +44,63 @@ namespace HondaTuner.Database
             return list;
         }
 
+        /// <summary>
+        /// ROM verisini analiz ederek mevcut veritabanındaki profillerle eşleştirir.
+        /// SignatureBytes, RomSize ve layout bilgilerini (strict match) kullanır.
+        /// Eşleşme yoksa null döner, bu durumda ROM salt-okunur (ReadOnly) modda kalmalıdır.
+        /// </summary>
+        public EcuProfile IdentifyProfile(byte[] romData, out string reason)
+        {
+            if (romData == null || romData.Length == 0)
+            {
+                reason = "ROM verisi boş.";
+                return null;
+            }
+
+            var allProfiles = new List<EcuProfile>(_dynamicProfiles);
+            allProfiles.AddRange(EcuProfiles.All);
+
+            foreach (var p in allProfiles)
+            {
+                if (romData.Length != p.RomSize)
+                    continue;
+
+                // Faz 4: Deterministic identification - Eger profile bir Signature tanımlamışsa onu ara
+                if (p.SignatureBytes != null && p.SignatureBytes.Length > 0)
+                {
+                    bool match = true;
+                    if (romData.Length >= p.SignatureBytes.Length)
+                    {
+                        for (int i = 0; i < p.SignatureBytes.Length; i++)
+                        {
+                            if (romData[i] != p.SignatureBytes[i])
+                            {
+                                match = false;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        match = false;
+                    }
+
+                    if (!match) continue;
+                }
+
+                // Extra layout verification (e.g. ChecksumOffset is within bounds)
+                if (p.ChecksumOffset >= romData.Length) continue;
+                if (p.FuelMapOffset >= romData.Length || p.IgnMapOffset >= romData.Length) continue;
+
+                // Match bulundu
+                reason = $"Eşleşen profil bulundu: {p.Name}";
+                return p;
+            }
+
+            reason = "Veritabanındaki hiçbir ECU profili, bu ROM'un boyutu veya imzasıyla eşleşmiyor.";
+            return null;
+        }
+
         public IReadOnlyList<EcuProfile> DynamicProfiles => _dynamicProfiles;
         public IReadOnlyList<JsonProfileData> RawJsonProfiles => _rawJsonProfiles;
 
@@ -294,13 +351,13 @@ namespace HondaTuner.Database
             }
 
             profile.ChecksumAlgorithm = ChecksumAlgorithm ?? "Xor8";
-            profile.SpeedLimiterOffset = SpeedLimitOffset != 0 ? SpeedLimitOffset : 0x1FAC;
-            profile.KnockOffset = KnockOffset != 0 ? KnockOffset : 0x1FB6;
-            profile.InjectorOffset = InjectorOffset != 0 ? InjectorOffset : 0x1D80;
-            profile.IdleOffset = IdleOffset != 0 ? IdleOffset : 0x1E80;
+            profile.SpeedLimiterOffset = SpeedLimitOffset;
+            profile.KnockOffset = KnockOffset;
+            profile.InjectorOffset = InjectorOffset;
+            profile.IdleOffset = IdleOffset;
             profile.HeaderPattern = HeaderPattern ?? string.Empty;
-            profile.FuelAxisOffset = FuelAxisOffset != 0 ? FuelAxisOffset : (FuelMapOffset - 64);
-            profile.IgnitionAxisOffset = IgnitionAxisOffset != 0 ? IgnitionAxisOffset : (profile.IgnMapOffset - 64);
+            profile.FuelAxisOffset = FuelAxisOffset;
+            profile.IgnitionAxisOffset = IgnitionAxisOffset;
 
             // Maps listesi dolduruluyor
             if (Maps != null)

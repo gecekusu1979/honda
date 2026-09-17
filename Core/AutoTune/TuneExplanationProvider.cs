@@ -9,15 +9,15 @@ namespace HondaTuner.Core.AutoTune
             if (decision == null) return "Geçersiz karar verisi.";
 
             string approvalReq;
-            if (decision.ApprovalStatus == "Approved")
+            if (decision.ApprovalStatus == TuneDecisionStatus.Approved)
             {
                 approvalReq = "Doğrudan onaylandı / Gerekmiyor";
             }
-            else if (decision.ApprovalStatus == "PendingApproval")
+            else if (decision.ApprovalStatus == TuneDecisionStatus.PendingApproval)
             {
                 approvalReq = "Advanced onayı gerekiyor";
             }
-            else if (decision.ApprovalStatus == "Rejected")
+            else if (decision.ApprovalStatus == TuneDecisionStatus.Rejected)
             {
                 approvalReq = "Beginner yetkisi/Kullanıcı engellemesi";
             }

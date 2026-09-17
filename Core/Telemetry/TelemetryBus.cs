@@ -111,10 +111,10 @@ namespace HondaTuner.Core.Telemetry
                 _cts.Cancel();
                 _telemetryQueue.CompleteAdding();
                 _diagnosticQueue.CompleteAdding();
-
-                if (_dispatchThread.IsAlive) _dispatchThread.Join(1000);
-                if (_diagnosticThread.IsAlive) _diagnosticThread.Join(1000);
             }
+
+            if (_dispatchThread.IsAlive) _dispatchThread.Join(1000);
+            if (_diagnosticThread.IsAlive) _diagnosticThread.Join(1000);
         }
 
         public void SetBackpressurePolicy(BackpressurePolicy policy)

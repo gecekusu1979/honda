@@ -19,26 +19,9 @@ namespace HondaTuner
             string logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
             Core.Logging.ApplicationLogger.Initialize(logDir);
 
-            // Testleri çalıştır ve sakla
-            string testLogs = Tests.TuningTestHarness.RunAllTests();
-            string sampleRomLogs = Tests.SampleRomTestFramework.RunAllTests();
-
-            Core.Logging.ApplicationLogger.Info("Program", "Test sonuçları:\n" + testLogs);
-            Core.Logging.ApplicationLogger.Info("Program", "Örnek ROM test sonuçları:\n" + sampleRomLogs);
-
-            if (args != null && args.Length > 0 && (args[0] == "--test-only" || args[0] == "-t"))
-            {
-                Console.WriteLine("=== TUNING TEST HARNESS RESULTS ===");
-                Console.WriteLine(testLogs);
-                Console.WriteLine(sampleRomLogs);
-                string testOutPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test_results.txt");
-                File.WriteAllText(testOutPath, testLogs + Environment.NewLine + sampleRomLogs);
-                Console.WriteLine($"Test results saved to: {testOutPath}");
-                Environment.Exit(0);
-                return;
-            }
-
             // ROM demo dosyaları yoksa üret
+            // NOT: Testler artık xUnit projesiyle çalıştırılır:
+            //   dotnet test Tests/HondaTuner.Tests.csproj
             EnsureRomFiles();
 
             Application.Run(new MainForm());
@@ -76,9 +59,10 @@ namespace HondaTuner
                         RomGenerator.SaveToFile(c.Profile, path, c.Fuel, c.Ign);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // ROM üretimi kritik değil; sessizce atla
+                // ROM üretimi kritik değil; ama sessizce yutmak yerine logluyoruz
+                Core.Logging.ApplicationLogger.Warn("Program", $"Demo ROM üretimi başarısız (kritik değil): {ex.Message}");
             }
         }
     }

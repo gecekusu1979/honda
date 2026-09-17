@@ -11,7 +11,7 @@ namespace HondaTuner.Core.AutoTune
         public string UserRole { get; set; } = "Beginner";
         public DateTime StartTime { get; set; } = DateTime.Now;
         public DateTime? EndTime { get; set; }
-        public string State { get; set; } = "Created"; // Lifecycle states (Created, Initializing, etc.)
+        public SessionState State { get; set; } = SessionState.Initializing;
         public AutoTuneOperatingMode OperatingMode { get; set; } = AutoTuneOperatingMode.Normal;
 
         private readonly List<TuneDecision> _decisions = new List<TuneDecision>();

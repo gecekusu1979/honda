@@ -140,10 +140,23 @@ namespace HondaTuner.Hardware.EEPROM
             }
         }
 
-        public void WriteChip(byte[] romData)
+        public HondaTuner.Core.AutoTune.PhysicalWriterAck WriteChip(HondaTuner.Core.Rom.Patch.PatchTransaction transaction)
         {
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            byte[] romData = transaction.PatchedBytes;
             if (romData == null || romData.Length == 0) throw new ArgumentNullException(nameof(romData));
             EnsureConnected();
+
+            // Patch C: Physical Write Authorization Boundary
+            if (!transaction.IsAuthorized)
+                throw new UnauthorizedAccessException("Fiziksel donanıma yazma yetkilendirmesi başarısız. (Patch C: Authorization Boundary INV-10)");
+
+
+            var romService = Core.Container.ServiceContainer.Resolve<IRomService>();
+            if (romService != null && romService.IsReadOnly)
+            {
+                throw new InvalidOperationException("ROM READ-ONLY. Tanımlanamayan profil EEPROM/Flash chipe yazılamaz (BLOCKED).");
+            }
 
             // Safety: validate ROM size
             if (romData.Length != DefaultRomSize && romData.Length != EcuConstants.ExtendedRomSize)
@@ -167,8 +180,25 @@ namespace HondaTuner.Hardware.EEPROM
                 ReportProgress(100);
             }
 
-            ApplicationLogger.Info("Ch341aProgrammer", "Chip yazma tamamlandı.");
-            OperationCompleted?.Invoke(this, "Yazma başarılı.");
+            // Patch E: Mandatory Post-Write Verification
+            if (!VerifyChip(romData))
+                throw new InvalidOperationException("Fiziksel yazma doğrulanamadı (Byte Verify Failed - INV-06).");
+
+            // Patch F: Post-Write Checksum Validation
+            var checksumEngine = Core.Container.ServiceContainer.Resolve<Core.Rom.Checksum.IChecksumEngine>();
+            var romProfile = Core.Container.ServiceContainer.Resolve<Core.Interfaces.IRomService>()?.Profile;
+            if (checksumEngine != null && romProfile != null && romProfile.ChecksumDefinitions != null)
+            {
+                foreach (var def in romProfile.ChecksumDefinitions)
+                {
+                    if (!checksumEngine.Validate(romData, def).IsValid)
+                        throw new InvalidOperationException($"Fiziksel ROM checksum doğrulaması başarısız: {def.ChecksumType} (INV-08).");
+                }
+            }
+
+            ApplicationLogger.Info("Ch341aProgrammer", "Chip yazma, doğrulama ve checksum onaylandı.");
+            OperationCompleted?.Invoke(this, "Yazma ve Doğrulama başarılı.");
+            return new Core.AutoTune.PhysicalWriterAck(_chipType, transaction.TransactionId, true);
         }
 
         public void EraseChip()
@@ -353,7 +383,8 @@ namespace HondaTuner.Hardware.EEPROM
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Warn("Ch341aProgrammer", $"Yedek oluşturma hatası: {ex.Message}");
+                ApplicationLogger.Error("Ch341aProgrammer", $"Yedek oluşturma hatası: {ex.Message}");
+                throw new System.IO.IOException("Yedekleme başarısız. Yazma modülü güvenlik (INV-05) nedeniyle durduruldu.", ex);
             }
         }
 

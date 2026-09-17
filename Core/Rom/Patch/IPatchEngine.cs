@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 namespace HondaTuner.Core.Rom.Patch
 {
     /// <summary>
@@ -35,6 +34,17 @@ namespace HondaTuner.Core.Rom.Patch
         /// <param name="username">İşlemi tetikleyen kullanıcı</param>
         /// <returns>Geri alma sonucu</returns>
         PatchResult RollbackPatch(byte[] romData, string patchId, EcuProfile profile, string username);
+
+        /// <summary>
+        /// Yamayı uygulamadan önce immutable bir PatchTransaction oluşturur.
+        /// </summary>
+        PatchTransaction CreateTransaction(byte[] originalRom, string patchId, EcuProfile profile);
+
+        /// <summary>
+        /// Immutable PatchTransaction üzerinden Rollback işlemini gerçekleştirir.
+        /// Gerçekleşen SHA-256 (Original) == SHA-256 (Restored) şartı aranır.
+        /// </summary>
+        bool RollbackTransaction(byte[] romData, PatchTransaction transaction, out string errorMessage);
 
         /// <summary>
         /// Yamanın verilere uygulanabilir olup olmadığını kontrol eder.

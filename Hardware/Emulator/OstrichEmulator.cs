@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO.Ports;
 using System.Linq;
 using Microsoft.Win32;
@@ -7,16 +7,16 @@ using HondaTuner.Core.Interfaces;
 using HondaTuner.Core.Logging;
 
 /*
- * Moates Ostrich 2.0 / Racerom RoadRunner — Real-Time Programming (RTP) Emulator
+ * Moates Ostrich 2.0 / Racerom RoadRunner â€” Real-Time Programming (RTP) Emulator
  * Connection: USB-Serial (FTDI chip inside Ostrich)
  * Baud: 115200, 8-N-1
  *
  * Protocol (from open-source HTS / community reverse engineering):
  *   INIT:  send 0x01, expect echo 0x01 within 200ms
- *   WRITE: [0x02][ADDR_HI][ADDR_LO][BYTE]            → echo OK
- *   BLOCK: [0x03][ADDR_HI][ADDR_LO][LEN_HI][LEN_LO][DATA...] → echo OK
- *   READ:  [0x04][ADDR_HI][ADDR_LO][LEN_HI][LEN_LO] → DATA bytes
- *   READB: [0x05][ADDR_HI][ADDR_LO]                 → single BYTE
+ *   WRITE: [0x02][ADDR_HI][ADDR_LO][BYTE]            â†’ echo OK
+ *   BLOCK: [0x03][ADDR_HI][ADDR_LO][LEN_HI][LEN_LO][DATA...] â†’ echo OK
+ *   READ:  [0x04][ADDR_HI][ADDR_LO][LEN_HI][LEN_LO] â†’ DATA bytes
+ *   READB: [0x05][ADDR_HI][ADDR_LO]                 â†’ single BYTE
  *
  * REQUIRES TESTING WITH REAL MOATES OSTRICH HARDWARE.
  * Protocol based on open-source HondaTuningSuite (HTS) reference.
@@ -46,8 +46,8 @@ namespace HondaTuner.Hardware.Emulator
 
         public void Connect()
         {
-            SetState(ConnectionState.Connecting, "Ostrich aranıyor...");
-            ApplicationLogger.Info("OstrichEmulator", "Ostrich emülatörü aranıyor (USB-Serial)...");
+            SetState(ConnectionState.Connecting, "Ostrich aranÄ±yor...");
+            ApplicationLogger.Info("OstrichEmulator", "Ostrich emÃ¼latÃ¶rÃ¼ aranÄ±yor (USB-Serial)...");
 
             try
             {
@@ -55,7 +55,7 @@ namespace HondaTuner.Hardware.Emulator
 
                 if (string.IsNullOrEmpty(_portName))
                     throw new InvalidOperationException(
-                        "Ostrich 2.0 cihazı bulunamadı. USB sürücüsünün (FTDI) kurulu olduğundan emin olun.");
+                        "Ostrich 2.0 cihazÄ± bulunamadÄ±. USB sÃ¼rÃ¼cÃ¼sÃ¼nÃ¼n (FTDI) kurulu olduÄŸundan emin olun.");
 
                 ApplicationLogger.Info("OstrichEmulator", $"Ostrich port bulundu: {_portName}");
 
@@ -79,15 +79,15 @@ namespace HondaTuner.Hardware.Emulator
                 {
                     int echo = _port.ReadByte();
                     if (echo != CMD_INIT)
-                        throw new InvalidOperationException($"Ostrich handshake başarısız: echo=0x{echo:X2}");
+                        throw new InvalidOperationException($"Ostrich handshake baÅŸarÄ±sÄ±z: echo=0x{echo:X2}");
                 }
 
-                SetState(ConnectionState.Connected, "Ostrich bağlandı.");
-                ApplicationLogger.Info("OstrichEmulator", "Ostrich 2.0 bağlantısı başarılı.");
+                SetState(ConnectionState.Connected, "Ostrich baÄŸlandÄ±.");
+                ApplicationLogger.Info("OstrichEmulator", "Ostrich 2.0 baÄŸlantÄ±sÄ± baÅŸarÄ±lÄ±.");
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Error("OstrichEmulator", $"Bağlantı hatası: {ex.Message}");
+                ApplicationLogger.Error("OstrichEmulator", $"BaÄŸlantÄ± hatasÄ±: {ex.Message}");
                 CleanupPort();
                 SetState(ConnectionState.Error, ex.Message);
                 throw;
@@ -97,8 +97,8 @@ namespace HondaTuner.Hardware.Emulator
         public void Disconnect()
         {
             CleanupPort();
-            SetState(ConnectionState.Disconnected, "Ostrich bağlantısı kesildi.");
-            ApplicationLogger.Info("OstrichEmulator", "Bağlantı kapatıldı.");
+            SetState(ConnectionState.Disconnected, "Ostrich baÄŸlantÄ±sÄ± kesildi.");
+            ApplicationLogger.Info("OstrichEmulator", "BaÄŸlantÄ± kapatÄ±ldÄ±.");
         }
 
         public byte ReadByte(int offset)
@@ -179,7 +179,7 @@ namespace HondaTuner.Hardware.Emulator
             }
         }
 
-        // ── Helpers ─────────────────────────────────────────────────────
+        // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void WriteBlockChunk(int offset, byte[] data, int dataOffset, int length)
         {
@@ -209,7 +209,7 @@ namespace HondaTuner.Hardware.Emulator
             try
             {
                 // Read COM port assignments from Windows Registry (no System.Management required)
-                // HKLM\SYSTEM\CurrentControlSet\Enum\USB — look for FTDI USB serial devices
+                // HKLM\SYSTEM\CurrentControlSet\Enum\USB â€” look for FTDI USB serial devices
                 using RegistryKey usbKey = Registry.LocalMachine.OpenSubKey(
                     @"SYSTEM\CurrentControlSet\Enum\USB");
                 if (usbKey != null)
@@ -239,7 +239,7 @@ namespace HondaTuner.Hardware.Emulator
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Warn("OstrichEmulator", $"Registry port tarama hatası: {ex.Message}");
+                ApplicationLogger.Warn("OstrichEmulator", $"Registry port tarama hatasÄ±: {ex.Message}");
             }
 
             // Fallback: try all COM ports, test handshake
@@ -266,19 +266,19 @@ namespace HondaTuner.Hardware.Emulator
                 }
                 sp.Close();
             }
-            catch { }
+            catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
             return false;
         }
 
         private void EnsureConnected()
         {
             if (State != ConnectionState.Connected || _port == null || !_port.IsOpen)
-                throw new InvalidOperationException("Ostrich emülatörü bağlı değil.");
+                throw new InvalidOperationException("Ostrich emÃ¼latÃ¶rÃ¼ baÄŸlÄ± deÄŸil.");
         }
 
         private void CleanupPort()
         {
-            try { _port?.Close(); } catch { }
+            try { _port?.Close(); } catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
             _port = null;
         }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
@@ -9,8 +9,8 @@ using HondaTuner.Core;
 namespace HondaTuner.UI
 {
     /// <summary>
-    /// Datalog yöneticisi: gerçek SerialPort, simülasyon ve CSV Playback modu.
-    /// Olay: DataReceived — telemetri verisi hazır.
+    /// Datalog yÃ¶neticisi: gerÃ§ek SerialPort, simÃ¼lasyon ve CSV Playback modu.
+    /// Olay: DataReceived â€” telemetri verisi hazÄ±r.
     /// </summary>
     public class DatalogManager : IDisposable
     {
@@ -32,7 +32,7 @@ namespace HondaTuner.UI
                 Rpm = (buf[2] << 8 | buf[3]) * 0.25,
                 Map = buf[4] * 0.78,   // 200 kPa max
                 Speed = buf[5],
-                Afr = 9.0 + buf[6] * 0.043,  // 9..20 aralığı
+                Afr = 9.0 + buf[6] * 0.043,  // 9..20 aralÄ±ÄŸÄ±
                 Ect = buf[7] - 40,
                 Iat = buf[8] - 40,
                 Tps = buf[9] * 0.392,        // 255 -> 100%
@@ -52,7 +52,7 @@ namespace HondaTuner.UI
         private CancellationTokenSource _simCts;
         private readonly Random _rng = new Random();
 
-        // Simülatör durum değişkenleri (gerçekçi değişimler)
+        // SimÃ¼latÃ¶r durum deÄŸiÅŸkenleri (gerÃ§ekÃ§i deÄŸiÅŸimler)
         private double _simRpm = 800;
         private double _simLoad = 30;
         private double _simSpeed = 0;
@@ -65,7 +65,7 @@ namespace HondaTuner.UI
         public bool IsRunning { get; private set; }
         public bool IsSimulation { get; private set; }
 
-        // ── Gerçek Bağlantı ──────────────────────────────────────
+        // â”€â”€ GerÃ§ek BaÄŸlantÄ± â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         public void Connect(string portName)
         {
@@ -109,7 +109,7 @@ namespace HondaTuner.UI
                 _csvWriter?.Dispose();
                 _csvWriter = null;
             }
-            catch { }
+            catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
         }
 
         private void OnSerialData(object sender, SerialDataReceivedEventArgs e)
@@ -124,10 +124,10 @@ namespace HondaTuner.UI
                     _obd1Parser.Write(buffer);
                 }
             }
-            catch { /* port hatası yoksay */ }
+            catch { /* port hatasÄ± yoksay */ }
         }
 
-        // ── Simülasyon ───────────────────────────────────────────
+        // â”€â”€ SimÃ¼lasyon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         public void StartSimulation()
         {
@@ -142,7 +142,7 @@ namespace HondaTuner.UI
                 while (!_simCts.Token.IsCancellationRequested)
                 {
                     tick++;
-                    // Her 80 tickte bir faz değiştir
+                    // Her 80 tickte bir faz deÄŸiÅŸtir
                     if (tick % 80 == 0)
                     {
                         _simPhase = (_simPhase + 1) % 4;
@@ -156,28 +156,28 @@ namespace HondaTuner.UI
                         };
                     }
 
-                    // Devir hedefi yavaşça yaklaş
+                    // Devir hedefi yavaÅŸÃ§a yaklaÅŸ
                     double rpmDiff = _simRpmTarget - _simRpm;
                     _simRpm += rpmDiff * 0.04 + (_rng.NextDouble() - 0.5) * 40;
                     _simRpm = Math.Max(600, Math.Min(9000, _simRpm));
 
-                    // Yük = devire bağlı (yaklaşık)
+                    // YÃ¼k = devire baÄŸlÄ± (yaklaÅŸÄ±k)
                     _simLoad = 20 + (_simRpm / 9000.0) * 120 + (_rng.NextDouble() - 0.5) * 20;
                     _simLoad = Math.Max(15, Math.Min(185, _simLoad));
 
-                    // Hız = kademeli
+                    // HÄ±z = kademeli
                     double speedTarget = _simPhase == 3 ? 0 : _simRpm * 0.025;
                     _simSpeed += (speedTarget - _simSpeed) * 0.01;
                     _simSpeed = Math.Max(0, Math.Min(260, _simSpeed));
 
-                    // AFR — zengin/fakir simülasyonu
+                    // AFR â€” zengin/fakir simÃ¼lasyonu
                     double afrTarget = _simRpm > 6000 ? 12.5 + _rng.NextDouble() * 1.5 :
                                        _simRpm < 1000 ? 13.0 + _rng.NextDouble() * 1.0 :
                                                         14.2 + _rng.NextDouble() * 1.0;
                     _simAfr += (afrTarget - _simAfr) * 0.08;
                     _simAfr = Math.Max(10, Math.Min(20, _simAfr));
 
-                    // ECT — ısınma simülasyonu (35°C'den 90°C'ye)
+                    // ECT â€” Ä±sÄ±nma simÃ¼lasyonu (35Â°C'den 90Â°C'ye)
                     if (_simEct < 90) _simEct += 0.03;
                     _simEct = Math.Min(105, _simEct);
 
@@ -227,46 +227,46 @@ namespace HondaTuner.UI
             if (_port != null)
             {
                 _port.DataReceived -= OnSerialData;
-                try { if (_port.IsOpen) _port.Close(); } catch { }
+                try { if (_port.IsOpen) _port.Close(); } catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
                 _port.Dispose();
                 _port = null;
             }
         }
 
-        // ── CSV Playback (Datalog Geri Oynatma) ─────────────────
+        // â”€â”€ CSV Playback (Datalog Geri Oynatma) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         /// <summary>Oynatma state'i: None, Playing, Paused.</summary>
         public enum PlaybackState { None, Playing, Paused }
 
-        /// <summary>Oynatma yüklü CSV satırları listesi.</summary>
+        /// <summary>Oynatma yÃ¼klÃ¼ CSV satÄ±rlarÄ± listesi.</summary>
         private List<TelemetryFrame> _playbackFrames = new List<TelemetryFrame>();
 
-        /// <summary>Geçerli oynatma pozisyonu (frame index).</summary>
+        /// <summary>GeÃ§erli oynatma pozisyonu (frame index).</summary>
         private int _playbackPosition = 0;
 
-        /// <summary>Oynatma arka plan görevi için iptal tokeni.</summary>
+        /// <summary>Oynatma arka plan gÃ¶revi iÃ§in iptal tokeni.</summary>
         private CancellationTokenSource _playbackCts;
 
-        /// <summary>Geçerli oynatma durumu.</summary>
+        /// <summary>GeÃ§erli oynatma durumu.</summary>
         public PlaybackState State { get; private set; } = PlaybackState.None;
 
-        /// <summary>Toplam yüklü frame sayısı.</summary>
+        /// <summary>Toplam yÃ¼klÃ¼ frame sayÄ±sÄ±.</summary>
         public int PlaybackFrameCount => _playbackFrames.Count;
 
-        /// <summary>Geçerli oynatma pozisyonu.</summary>
+        /// <summary>GeÃ§erli oynatma pozisyonu.</summary>
         public int PlaybackPosition => _playbackPosition;
 
-        /// <summary>Oynatma pozisyonu değiştiğinde GUI'ye bildirir.</summary>
+        /// <summary>Oynatma pozisyonu deÄŸiÅŸtiÄŸinde GUI'ye bildirir.</summary>
         public event Action<int> PlaybackPositionChanged;
 
-        /// <summary>CSV telemetri dosyasını playback listesine yükler.</summary>
+        /// <summary>CSV telemetri dosyasÄ±nÄ± playback listesine yÃ¼kler.</summary>
         public bool LoadCsv(string filePath)
         {
             try
             {
                 var frames = new List<TelemetryFrame>();
                 string[] lines = File.ReadAllLines(filePath, System.Text.Encoding.UTF8);
-                for (int i = 1; i < lines.Length; i++) // satır 0 = başlık
+                for (int i = 1; i < lines.Length; i++) // satÄ±r 0 = baÅŸlÄ±k
                 {
                     string line = lines[i].Trim();
                     if (string.IsNullOrEmpty(line)) continue;
@@ -295,12 +295,12 @@ namespace HondaTuner.UI
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[ERR] CSV yükleme hatası: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[ERR] CSV yÃ¼kleme hatasÄ±: {ex.Message}");
                 return false;
             }
         }
 
-        /// <summary>Oynatmayı başlatır veya duraklatılmış oynatmayı devam ettirir.</summary>
+        /// <summary>OynatmayÄ± baÅŸlatÄ±r veya duraklatÄ±lmÄ±ÅŸ oynatmayÄ± devam ettirir.</summary>
         public void Play()
         {
             if (_playbackFrames.Count == 0) return;
@@ -321,7 +321,7 @@ namespace HondaTuner.UI
 
                     if (_playbackPosition >= _playbackFrames.Count)
                     {
-                        // Oynatma sonu — otomatik dur
+                        // Oynatma sonu â€” otomatik dur
                         State = PlaybackState.Paused;
                         _playbackPosition = _playbackFrames.Count - 1;
                         PlaybackPositionChanged?.Invoke(_playbackPosition);
@@ -333,7 +333,7 @@ namespace HondaTuner.UI
             }, token);
         }
 
-        /// <summary>Oynatmayı duraklatır (pozisyon korunur).</summary>
+        /// <summary>OynatmayÄ± duraklatÄ±r (pozisyon korunur).</summary>
         public void Pause()
         {
             if (State != PlaybackState.Playing) return;
@@ -342,17 +342,17 @@ namespace HondaTuner.UI
             _playbackCts = null;
         }
 
-        /// <summary>Oynatmayı belirli bir frame'e konumlandırır (Seek).</summary>
+        /// <summary>OynatmayÄ± belirli bir frame'e konumlandÄ±rÄ±r (Seek).</summary>
         public void SeekTo(int frameIndex)
         {
             if (_playbackFrames.Count == 0) return;
             _playbackPosition = Math.Max(0, Math.Min(frameIndex, _playbackFrames.Count - 1));
-            // Anlık frame'i DataReceived üzerinden yayınla (geçmişi canlı gibi gösterir)
+            // AnlÄ±k frame'i DataReceived Ã¼zerinden yayÄ±nla (geÃ§miÅŸi canlÄ± gibi gÃ¶sterir)
             DataReceived?.Invoke(_playbackFrames[_playbackPosition]);
             PlaybackPositionChanged?.Invoke(_playbackPosition);
         }
 
-        /// <summary>Playback altyapısını durdurur ve sıfırlar.</summary>
+        /// <summary>Playback altyapÄ±sÄ±nÄ± durdurur ve sÄ±fÄ±rlar.</summary>
         public void StopPlayback()
         {
             _playbackCts?.Cancel();
@@ -373,15 +373,15 @@ namespace HondaTuner.UI
         public void Dispose() => Disconnect();
     }
 
-    /// <summary>Tek bir telemetri örneği.</summary>
+    /// <summary>Tek bir telemetri Ã¶rneÄŸi.</summary>
     public class TelemetryFrame
     {
         public double Rpm { get; set; }
         public double Map { get; set; }   // kPa
         public double Speed { get; set; }   // km/h
         public double Afr { get; set; }
-        public double Ect { get; set; }   // °C
-        public double Iat { get; set; }   // °C
+        public double Ect { get; set; }   // Â°C
+        public double Iat { get; set; }   // Â°C
         public double Tps { get; set; }   // % (0-100)
         public double BatteryVolts { get; set; } // V
         public double InjDuty { get; set; } // %

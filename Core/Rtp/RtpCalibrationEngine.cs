@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -694,7 +694,7 @@ namespace HondaTuner.Core.Rtp
             {
                 _workerTask?.Wait(250);
             }
-            catch { }
+            catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
 
             _calibrationService.OnCalibrationChanged -= HandleCalibrationChanged;
             _queueEvent.Dispose();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,7 +19,7 @@ namespace HondaTuner.UI
         {
             UpdateLocalizedUI();
         }
-        // ── Renk Paleti ─────────────────────────────────────────
+        // â”€â”€ Renk Paleti â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         private static readonly Color BgDark = Color.FromArgb(13, 17, 23);
         private static readonly Color BgPanel = Color.FromArgb(22, 27, 34);
         private static readonly Color BgCard = Color.FromArgb(33, 38, 45);
@@ -30,7 +30,7 @@ namespace HondaTuner.UI
         private static readonly Color VtecGreen = Color.FromArgb(63, 185, 80);
         private static readonly Color Border = Color.FromArgb(48, 54, 61);
 
-        // ── Bileşenler ───────────────────────────────────────────
+        // â”€â”€ BileÅŸenler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         private readonly RomParser _parser = new RomParser();
         private readonly RomBackupManager _backupMgr = new RomBackupManager();
         private List<EcuProfile> _loadedProfiles = new List<EcuProfile>();
@@ -41,13 +41,13 @@ namespace HondaTuner.UI
         private MapGridControl _ignGrid;
         private DiffView _diffView;
 
-        // Özel sekme sistemi (TabControl yerine — her zaman görünür)
-        private Panel _tabBar;           // sekme butonları şeridi
-        private Panel _contentArea;      // içerik alanı
-        private Panel[] _tabPages;       // sayfalar (index = sekme numarası)
-        private Button[] _tabButtons;    // sekme butonları
+        // Ã–zel sekme sistemi (TabControl yerine â€” her zaman gÃ¶rÃ¼nÃ¼r)
+        private Panel _tabBar;           // sekme butonlarÄ± ÅŸeridi
+        private Panel _contentArea;      // iÃ§erik alanÄ±
+        private Panel[] _tabPages;       // sayfalar (index = sekme numarasÄ±)
+        private Button[] _tabButtons;    // sekme butonlarÄ±
         private int _activeTabIndex = 0;
-        private Panel _diffPage;         // diff sayfası referansı için
+        private Panel _diffPage;         // diff sayfasÄ± referansÄ± iÃ§in
 
         private StatusStrip _status;
         private ToolStripStatusLabel _statusLabel;
@@ -74,7 +74,7 @@ namespace HondaTuner.UI
         private byte[,] _stockFuelMap;
         private byte[,] _stockIgnMap;
 
-        // M1 — Telemetri
+        // M1 â€” Telemetri
         private TelemetryDashboard _telemetryDash;
         private DatalogManager _datalogMgr;
         private ComboBox _comPortCombo;
@@ -89,11 +89,11 @@ namespace HondaTuner.UI
         private TrackBar _pbSeek;
         private Label _lblPlaybackPos;
 
-        // M4 — 3D Grafikler
+        // M4 â€” 3D Grafikler
         private SurfaceChart3D _fuelChart3D;
         private SurfaceChart3D _ignChart3D;
 
-        // M5 — 3D Parça Görüntüleyici
+        // M5 â€” 3D ParÃ§a GÃ¶rÃ¼ntÃ¼leyici
         private PartViewer3D _partViewer;
 
         // Tuning Asistani
@@ -112,7 +112,7 @@ namespace HondaTuner.UI
         private Panel _panelWizards;
         private Panel _rightPanel;
 
-        // Yama Merkezi Bileşenleri
+        // Yama Merkezi BileÅŸenleri
         private ListBox _patchList;
         private TextBox _patchDetailsBox;
         private Button _btnApplyPatch;
@@ -138,7 +138,7 @@ namespace HondaTuner.UI
         private ListView _atDecisionsListView;
         private long _telemetrySequence = 0;
 
-        // Gelişmiş Ayarlar (Launch / DTC)
+        // GeliÅŸmiÅŸ Ayarlar (Launch / DTC)
         private CheckBox _chkLaunchControlActive;
         private NumericUpDown _numLaunchControlRpm;
         private NumericUpDown _numLaunchControlSpeed;
@@ -172,16 +172,16 @@ namespace HondaTuner.UI
         private DiagnosticsControl _diagnosticsControl;
         private DynoLogsControl _dynoLogsControl;
 
-        // ── Donanım Kontrol (Phase 10) ───────────────────────────
+        // â”€â”€ DonanÄ±m Kontrol (Phase 10) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         private HondaTuner.Hardware.EEPROM.Ch341aProgrammer _programmer;
         private HondaTuner.Hardware.OBD.DtcManager _dtcManager;
         private HondaTuner.Hardware.Emulator.OstrichEmulator _ostrich;
         private ToolStripStatusLabel _progStatusLabel;
         private ToolStripStatusLabel _emuStatusLabel;
-        // Anti-Brick Guard: anlık telemetri akü voltajını takip eder
-        private double _lastBatteryVolts = 99.0; // 99 = bilinmiyor (kısıtlama yok)
+        // Anti-Brick Guard: anlÄ±k telemetri akÃ¼ voltajÄ±nÄ± takip eder
+        private double _lastBatteryVolts = 99.0; // 99 = bilinmiyor (kÄ±sÄ±tlama yok)
 
-        // Hardware Kontrol UI bileşenleri
+        // Hardware Kontrol UI bileÅŸenleri
         private ComboBox _chipTypeCombo;
         private Label _progStateLabel;
         private Button _btnProgConnect, _btnProgDisconnect;
@@ -240,7 +240,7 @@ namespace HondaTuner.UI
                 _rtpEngine.OnRtpDomainEvent += OnRtpDomainEvent;
             }
 
-            // ── Donanım Kontrol başlat ───────────────────────────
+            // â”€â”€ DonanÄ±m Kontrol baÅŸlat â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _programmer = new HondaTuner.Hardware.EEPROM.Ch341aProgrammer();
             _programmer.StateChanged += OnProgrammerStateChanged;
             _programmer.ProgressChanged += (s, pct) =>
@@ -250,8 +250,8 @@ namespace HondaTuner.UI
             };
             _programmer.OperationCompleted += (s, msg) =>
             {
-                if (InvokeRequired) BeginInvoke((Action)(() => AppendProgLog("✅ " + msg)));
-                else AppendProgLog("✅ " + msg);
+                if (InvokeRequired) BeginInvoke((Action)(() => AppendProgLog("âœ… " + msg)));
+                else AppendProgLog("âœ… " + msg);
             };
             _dtcManager = new HondaTuner.Hardware.OBD.DtcManager();
             _ostrich = new HondaTuner.Hardware.Emulator.OstrichEmulator();
@@ -261,16 +261,16 @@ namespace HondaTuner.UI
             BuildHeader();
             BuildStatusBar();
             BuildVtecPanel();
-            BuildTabs();            // FILL — EN SON
+            BuildTabs();            // FILL â€” EN SON
 
-            SetStatus("ROM yüklenmedi.  Dosya → Aç ile başlayın.");
+            SetStatus("ROM yÃ¼klenmedi.  Dosya â†’ AÃ§ ile baÅŸlayÄ±n.");
             UpdateProfileUI();
             UpdateAssistantDefaults();
 
             UpdateLocalizedUI();
         }
 
-        // ── Gradient Header ──────────────────────────────────────
+        // â”€â”€ Gradient Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildHeader()
         {
@@ -309,7 +309,7 @@ namespace HondaTuner.UI
 
             _headerVehicleLabel = new Label
             {
-                Text = HondaTuner.Core.Localization.L.Get("Araç seçilmedi"),
+                Text = HondaTuner.Core.Localization.L.Get("AraÃ§ seÃ§ilmedi"),
                 Tag = "dynamic",
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = AccentBlue,
@@ -320,7 +320,7 @@ namespace HondaTuner.UI
 
             var btnVehicle = new Button
             {
-                Text = "🚗  Araç Seç",
+                Text = "ğŸš—  AraÃ§ SeÃ§",
                 Size = new Size(130, 32),
                 Location = new Point(header.Width - 160, 26),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right,
@@ -360,7 +360,7 @@ namespace HondaTuner.UI
             g.DrawLine(pen, 0, p.Height - 1, p.Width, p.Height - 1);
         }
 
-        // ── Menü ─────────────────────────────────────────────────
+        // â”€â”€ MenÃ¼ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildMenu()
         {
@@ -405,8 +405,8 @@ namespace HondaTuner.UI
             menu.Items.Add(toolMenu);
 
             var langMenu = new ToolStripMenuItem(HondaTuner.Core.Localization.L.Get("menu_language")) { ForeColor = TextPrimary, Tag = "menu_language" };
-            // Language items are pinned to fixed display names — never translated by the localization pass
-            var trItem = new ToolStripMenuItem("Türkçe (TR)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "tr" };
+            // Language items are pinned to fixed display names â€” never translated by the localization pass
+            var trItem = new ToolStripMenuItem("TÃ¼rkÃ§e (TR)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "tr" };
             var enItem = new ToolStripMenuItem("English (EN)") { ForeColor = TextPrimary, Checked = HondaTuner.Core.Localization.L.CurrentLanguage == "en" };
 
             trItem.Click += (s, ev) =>
@@ -439,13 +439,13 @@ namespace HondaTuner.UI
             return item;
         }
 
-        // ── Sekmeler ─────────────────────────────────────────────
+        // â”€â”€ Sekmeler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildTabs()
         {
-            // ───────────────────────────────────────────────
-            // 1. ÖZEL SEKME BARLARI
-            // ───────────────────────────────────────────────
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // 1. Ã–ZEL SEKME BARLARI
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             var tabKeys = new[]
             {
                 "tab_fuel",
@@ -506,9 +506,9 @@ namespace HondaTuner.UI
             RelayoutTabButtons();
             _tabBar.Resize += (s, e) => RelayoutTabButtons();
 
-            // ───────────────────────────────────────────────
-            // 2. İÇERİK ALANI
-            // ───────────────────────────────────────────────
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // 2. Ä°Ã‡ERÄ°K ALANI
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _contentArea = new Panel { Dock = DockStyle.Fill, BackColor = BgDark };
             _tabPages = new Panel[tabKeys.Length];
 
@@ -523,11 +523,11 @@ namespace HondaTuner.UI
                 _contentArea.Controls.Add(_tabPages[i]);
             }
 
-            // ───────────────────────────────────────────────
-            // 3. SAYFA İÇERİKLERİ
-            // ───────────────────────────────────────────────
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // 3. SAYFA Ä°Ã‡ERÄ°KLERÄ°
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-            // -- [0] Yakıt Haritası
+            // -- [0] YakÄ±t HaritasÄ±
             _fuelChart3D = new SurfaceChart3D
             {
                 Dock = DockStyle.Right,
@@ -540,7 +540,7 @@ namespace HondaTuner.UI
             _tabPages[0].Controls.Add(_fuelGrid);
             _tabPages[0].Controls.Add(_fuelChart3D);
 
-            // -- [1] Ateşleme Haritası
+            // -- [1] AteÅŸleme HaritasÄ±
             _ignChart3D = new SurfaceChart3D
             {
                 Dock = DockStyle.Right,
@@ -553,7 +553,7 @@ namespace HondaTuner.UI
             _tabPages[1].Controls.Add(_ignGrid);
             _tabPages[1].Controls.Add(_ignChart3D);
 
-            // -- [2] Tuning Asistanı
+            // -- [2] Tuning AsistanÄ±
             BuildAssistantPage(_tabPages[2]);
 
             // -- [3] Diff
@@ -564,7 +564,7 @@ namespace HondaTuner.UI
             // -- [4] Telemetri
             BuildTelemetryPage(_tabPages[4]);
 
-            // -- [5] 3D Parça Görüntüleyici
+            // -- [5] 3D ParÃ§a GÃ¶rÃ¼ntÃ¼leyici
             BuildPartPage(_tabPages[5]);
 
             // -- [6] AutoTune
@@ -605,20 +605,20 @@ namespace HondaTuner.UI
             _dynoLogsControl = new DynoLogsControl();
             _tabPages[14].Controls.Add(_dynoLogsControl);
 
-            // -- [15] Donanım Kontrol
+            // -- [15] DonanÄ±m Kontrol
             BuildHardwareControlPage(_tabPages[15]);
 
-            // ───────────────────────────────────────────────
-            // 4. FORMA EKLE (sıra önemli)
-            // ───────────────────────────────────────────────
-            Controls.Add(_contentArea);   // Fill — önce
-            Controls.Add(_tabBar);        // Top  — sonra (Fill'in üstüne yerleşir)
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // 4. FORMA EKLE (sÄ±ra Ã¶nemli)
+            // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            Controls.Add(_contentArea);   // Fill â€” Ã¶nce
+            Controls.Add(_tabBar);        // Top  â€” sonra (Fill'in Ã¼stÃ¼ne yerleÅŸir)
             _contentArea.BringToFront();
 
             SelectTab(0);
         }
 
-        // ── Donanım Kontrol Sayfası ──────────────────────────────
+        // â”€â”€ DonanÄ±m Kontrol SayfasÄ± â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildHardwareControlPage(Panel tab)
         {
@@ -635,7 +635,7 @@ namespace HondaTuner.UI
             mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52f));
             mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48f));
 
-            // ── Sol Panel: CH341A EEPROM Programlayıcı ──────────
+            // â”€â”€ Sol Panel: CH341A EEPROM ProgramlayÄ±cÄ± â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             var leftPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -648,7 +648,7 @@ namespace HondaTuner.UI
 
             var progTitle = new Label
             {
-                Text = "CH341A EEPROM Programlayıcı",
+                Text = "CH341A EEPROM ProgramlayÄ±cÄ±",
                 Font = new Font("Segoe UI", 11f, FontStyle.Bold),
                 ForeColor = AccentBlue,
                 AutoSize = true,
@@ -656,11 +656,11 @@ namespace HondaTuner.UI
             };
             leftPanel.Controls.Add(progTitle);
 
-            // Çip Tipi
+            // Ã‡ip Tipi
             var chipPanel = new Panel { Width = 380, Height = 30, Margin = new Padding(0, 0, 0, 6) };
             var chipLabel = new Label
             {
-                Text = "Çip Tipi:",
+                Text = "Ã‡ip Tipi:",
                 Font = new Font("Segoe UI", 9f),
                 ForeColor = TextMuted,
                 AutoSize = true,
@@ -689,7 +689,7 @@ namespace HondaTuner.UI
             // Durum etiketi
             _progStateLabel = new Label
             {
-                Text = "● Bağlı Değil",
+                Text = "â— BaÄŸlÄ± DeÄŸil",
                 Font = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = TextMuted,
                 AutoSize = true,
@@ -697,10 +697,10 @@ namespace HondaTuner.UI
             };
             leftPanel.Controls.Add(_progStateLabel);
 
-            // Bağlan / Kes butonları
+            // BaÄŸlan / Kes butonlarÄ±
             var connBtnPanel = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 8) };
-            _btnProgConnect = MakeHwButton("Bağlan", 90, Color.FromArgb(40, 167, 69));
-            _btnProgDisconnect = MakeHwButton("Bağlantıyı Kes", 130, Color.FromArgb(185, 28, 28));
+            _btnProgConnect = MakeHwButton("BaÄŸlan", 90, Color.FromArgb(40, 167, 69));
+            _btnProgDisconnect = MakeHwButton("BaÄŸlantÄ±yÄ± Kes", 130, Color.FromArgb(185, 28, 28));
             _btnProgDisconnect.Enabled = false;
             _btnProgConnect.Margin = new Padding(0, 0, 8, 0);
             _btnProgConnect.Click += OnProgConnect;
@@ -709,12 +709,12 @@ namespace HondaTuner.UI
             connBtnPanel.Controls.Add(_btnProgDisconnect);
             leftPanel.Controls.Add(connBtnPanel);
 
-            // İşlem butonları
+            // Ä°ÅŸlem butonlarÄ±
             var opBtnPanel = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 8), WrapContents = true, MaximumSize = new Size(390, 200) };
-            _btnProgRead = MakeHwButton("Çipten Oku", 115, Color.FromArgb(13, 110, 190));
-            _btnProgWrite = MakeHwButton("Çipe Yaz", 100, Color.FromArgb(185, 28, 28));
-            _btnProgErase = MakeHwButton("Çipi Sil", 90, Color.FromArgb(80, 80, 90));
-            _btnProgVerify = MakeHwButton("Çipi Doğrula", 115, Color.FromArgb(30, 120, 60));
+            _btnProgRead = MakeHwButton("Ã‡ipten Oku", 115, Color.FromArgb(13, 110, 190));
+            _btnProgWrite = MakeHwButton("Ã‡ipe Yaz", 100, Color.FromArgb(185, 28, 28));
+            _btnProgErase = MakeHwButton("Ã‡ipi Sil", 90, Color.FromArgb(80, 80, 90));
+            _btnProgVerify = MakeHwButton("Ã‡ipi DoÄŸrula", 115, Color.FromArgb(30, 120, 60));
             foreach (var btn in new[] { _btnProgRead, _btnProgWrite, _btnProgErase, _btnProgVerify })
             {
                 btn.Enabled = false;
@@ -731,7 +731,7 @@ namespace HondaTuner.UI
             leftPanel.Controls.Add(opBtnPanel);
 
             // Progress Bar
-            var progLabelBar = new Label { Text = "İlerleme:", Font = new Font("Segoe UI", 8.5f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 0, 0, 2) };
+            var progLabelBar = new Label { Text = "Ä°lerleme:", Font = new Font("Segoe UI", 8.5f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 0, 0, 2) };
             leftPanel.Controls.Add(progLabelBar);
             _progProgressBar = new ProgressBar
             {
@@ -746,7 +746,7 @@ namespace HondaTuner.UI
             leftPanel.Controls.Add(_progProgressBar);
 
             // Log Konsolu
-            var logLabel = new Label { Text = "İşlem Kaydı:", Font = new Font("Segoe UI", 8.5f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 0, 0, 2) };
+            var logLabel = new Label { Text = "Ä°ÅŸlem KaydÄ±:", Font = new Font("Segoe UI", 8.5f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 0, 0, 2) };
             leftPanel.Controls.Add(logLabel);
             _progLog = new RichTextBox
             {
@@ -763,7 +763,7 @@ namespace HondaTuner.UI
             leftPanel.Controls.Add(_progLog);
             AppendProgLog(HondaTuner.Core.Localization.L.Get("prog_init_ready"));
 
-            // ── Sağ Panel: Canlı OBD1 DTC ───────────────────────
+            // â”€â”€ SaÄŸ Panel: CanlÄ± OBD1 DTC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             var rightPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -777,7 +777,7 @@ namespace HondaTuner.UI
 
             var dtcTitle = new Label
             {
-                Text = "Canlı OBD1 Arıza Kodları (DTC)",
+                Text = "CanlÄ± OBD1 ArÄ±za KodlarÄ± (DTC)",
                 Font = new Font("Segoe UI", 11f, FontStyle.Bold),
                 ForeColor = AccentRed,
                 AutoSize = true,
@@ -787,7 +787,7 @@ namespace HondaTuner.UI
 
             var dtcInfo = new Label
             {
-                Text = "OBD1 seri portu seçin, bağlantı kurun, sonra kodu okuyun.",
+                Text = "OBD1 seri portu seÃ§in, baÄŸlantÄ± kurun, sonra kodu okuyun.",
                 Font = new Font("Segoe UI", 8f),
                 ForeColor = TextMuted,
                 AutoSize = true,
@@ -795,7 +795,7 @@ namespace HondaTuner.UI
             };
             rightPanel.Controls.Add(dtcInfo);
 
-            // OBD Port seçimi
+            // OBD Port seÃ§imi
             var obdPortRow = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 8) };
             var obdPortLabel = new Label { Text = "Port:", Font = new Font("Segoe UI", 9f), ForeColor = TextMuted, AutoSize = true, Margin = new Padding(0, 5, 6, 0) };
             _dtcPortCombo = new ComboBox
@@ -809,13 +809,13 @@ namespace HondaTuner.UI
             foreach (var p in System.IO.Ports.SerialPort.GetPortNames())
                 _dtcPortCombo.Items.Add(p);
             if (_dtcPortCombo.Items.Count > 0) _dtcPortCombo.SelectedIndex = 0;
-            var btnObdConnect = MakeButton("Bağlan", new Point(0, 0), 72, VtecGreen);
+            var btnObdConnect = MakeButton("BaÄŸlan", new Point(0, 0), 72, VtecGreen);
             btnObdConnect.Margin = new Padding(6, 0, 6, 0);
             btnObdConnect.Click += (s, ex) =>
             {
                 if (_dtcPortCombo.SelectedItem == null)
                 {
-                    MessageBox.Show("Lütfen bir seri port seçin.", "Port Seçin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("LÃ¼tfen bir seri port seÃ§in.", "Port SeÃ§in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
                 try
@@ -824,11 +824,11 @@ namespace HondaTuner.UI
                     var conn = new HondaTuner.Hardware.OBD.RealObd1Connection();
                     conn.Open(_dtcPortCombo.SelectedItem.ToString(), EcuConstants.Obd1BaudRate);
                     _obdConn = conn;
-                    SetStatus($"OBD Bağlantısı: {_dtcPortCombo.SelectedItem} açıldı.");
+                    SetStatus($"OBD BaÄŸlantÄ±sÄ±: {_dtcPortCombo.SelectedItem} aÃ§Ä±ldÄ±.");
                 }
                 catch (Exception exConn)
                 {
-                    MessageBox.Show($"OBD bağlantı hatası:\n{exConn.Message}", "Bağlantı Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"OBD baÄŸlantÄ± hatasÄ±:\n{exConn.Message}", "BaÄŸlantÄ± HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
             var btnObdRefreshPorts = MakeButton("Yenile", new Point(0, 0), 54, AccentBlue);
@@ -847,8 +847,8 @@ namespace HondaTuner.UI
             rightPanel.Controls.Add(obdPortRow);
 
             var dtcBtnPanel = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(0, 0, 0, 10) };
-            var btnReadDtc = MakeButton("Arıza Kodlarını Oku", new Point(0, 0), 175, AccentRed);
-            var btnClearDtc = MakeButton("Kodları Temizle", new Point(0, 0), 145, Color.FromArgb(255, 200, 0));
+            var btnReadDtc = MakeButton("ArÄ±za KodlarÄ±nÄ± Oku", new Point(0, 0), 175, AccentRed);
+            var btnClearDtc = MakeButton("KodlarÄ± Temizle", new Point(0, 0), 145, Color.FromArgb(255, 200, 0));
             btnReadDtc.Margin = new Padding(0, 0, 8, 0);
             btnReadDtc.Click += OnReadDtcsLive;
             btnClearDtc.Click += OnClearDtcsLive;
@@ -890,7 +890,7 @@ namespace HondaTuner.UI
                 Margin = new Padding(0)
             };
             _dtcGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Kod", HeaderText = "Kod", Width = 80 });
-            _dtcGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Aciklama", HeaderText = "Açıklama", Width = 280, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            _dtcGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Aciklama", HeaderText = "AÃ§Ä±klama", Width = 280, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             rightPanel.Controls.Add(_dtcGrid);
 
             // Assemble
@@ -899,7 +899,7 @@ namespace HondaTuner.UI
             tab.Controls.Add(mainLayout);
         }
 
-        // ── Hardware Event Handlers ──────────────────────────────
+        // â”€â”€ Hardware Event Handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void OnProgrammerStateChanged(object sender, HondaTuner.Core.Interfaces.ConnectionStateChangedEventArgs e)
         {
@@ -945,7 +945,7 @@ namespace HondaTuner.UI
                         b.Enabled = false;
                     break;
             }
-            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Durum: {e.NewState} — {e.Message}");
+            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Durum: {e.NewState} â€” {e.Message}");
         }
 
         private void OnOstrichStateChanged(object sender, HondaTuner.Core.Interfaces.ConnectionStateChangedEventArgs e)
@@ -987,21 +987,21 @@ namespace HondaTuner.UI
             {
                 if (_chipTypeCombo != null)
                     _programmer.ChipType = _chipTypeCombo.SelectedItem?.ToString() ?? "SST27SF512";
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Bağlanıyor... (Çip: {_programmer.ChipType})");
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] BaÄŸlanÄ±yor... (Ã‡ip: {_programmer.ChipType})");
                 System.Threading.Tasks.Task.Run(() =>
                 {
                     try { _programmer.Connect(); }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"CH341A bağlantı hatası:\n{ex.Message}", "Bağlantı Hatası",
+                            MessageBox.Show($"CH341A baÄŸlantÄ± hatasÄ±:\n{ex.Message}", "BaÄŸlantÄ± HatasÄ±",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Bağlantı başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"BaÄŸlantÄ± baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1010,11 +1010,11 @@ namespace HondaTuner.UI
             try
             {
                 _programmer.Disconnect();
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Bağlantı kesildi.");
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] BaÄŸlantÄ± kesildi.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Bağlantı kesme hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"BaÄŸlantÄ± kesme hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1022,7 +1022,7 @@ namespace HondaTuner.UI
         {
             try
             {
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çip okunuyor...");
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Ã‡ip okunuyor...");
                 _progProgressBar.Value = 0;
                 int romLen = _activeProfile != null ? _activeProfile.RomSize : EcuConstants.DefaultRomSize;
                 System.Threading.Tasks.Task.Run(() =>
@@ -1032,20 +1032,20 @@ namespace HondaTuner.UI
                         byte[] data = _programmer.ReadChip(romLen);
                         BeginInvoke((Action)(() =>
                         {
-                            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ {data.Length} bayt okundu.");
+                            AppendProgLog($"[{DateTime.Now:HH:mm:ss}] âœ… {data.Length} bayt okundu.");
                             SetStatus($"CH341A: {data.Length} bayt okundu.");
                         }));
                     }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"Okuma hatası:\n{ex.Message}", "Okuma Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                            MessageBox.Show($"Okuma hatasÄ±:\n{ex.Message}", "Okuma HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Okuma başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Okuma baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1053,26 +1053,26 @@ namespace HondaTuner.UI
         {
             if (!_parser.IsLoaded) { NoRomWarning(); return; }
 
-            // ── Anti-Brick Voltaj Kilidi ──────────────────────────────────────────
-            // Telemetri bağlıysa ve voltaj < 11.8V ise yazma işlemini engelle.
-            // _lastBatteryVolts == 99.0 → telemetri bağlı değil, kontrolü atla.
+            // â”€â”€ Anti-Brick Voltaj Kilidi â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // Telemetri baÄŸlÄ±ysa ve voltaj < 11.8V ise yazma iÅŸlemini engelle.
+            // _lastBatteryVolts == 99.0 â†’ telemetri baÄŸlÄ± deÄŸil, kontrolÃ¼ atla.
             if (_lastBatteryVolts < 99.0 && _lastBatteryVolts < 11.8)
             {
-                string msg = $"⚠️ Yetersiz Akü Voltajı — Flash yazma iptal edildi!\n\n" +
-                             $"Anlık voltaj: {_lastBatteryVolts:0.00} V\n" +
+                string msg = $"âš ï¸ Yetersiz AkÃ¼ VoltajÄ± â€” Flash yazma iptal edildi!\n\n" +
+                             $"AnlÄ±k voltaj: {_lastBatteryVolts:0.00} V\n" +
                              $"Minimum gerekli: 11.8 V\n\n" +
-                             "Motoru çalıştırın veya şarj cihazına bağlayınız.";
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ❌ YAZMA ENGELLENDİ: Voltaj {_lastBatteryVolts:0.00} V < 11.8 V.");
-                MessageBox.Show(msg, "Yetersiz Akü Voltajı", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                             "Motoru Ã§alÄ±ÅŸtÄ±rÄ±n veya ÅŸarj cihazÄ±na baÄŸlayÄ±nÄ±z.";
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] âŒ YAZMA ENGELLENDÄ°: Voltaj {_lastBatteryVolts:0.00} V < 11.8 V.");
+                MessageBox.Show(msg, "Yetersiz AkÃ¼ VoltajÄ±", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
-            if (MessageBox.Show("Aktif ROM dosyası çipe yazılacak. Yedek otomatik alınacak. Devam?",
-                "Çipe Yaz", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+            if (MessageBox.Show("Aktif ROM dosyasÄ± Ã§ipe yazÄ±lacak. Yedek otomatik alÄ±nacak. Devam?",
+                "Ã‡ipe Yaz", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             try
             {
                 byte[] romData = _parser.GetRomBuffer();
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çipe yazılıyor ({romData.Length} bayt)...");
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Ã‡ipe yazÄ±lÄ±yor ({romData.Length} bayt)...");
                 _progProgressBar.Value = 0;
                 System.Threading.Tasks.Task.Run(() =>
                 {
@@ -1082,47 +1082,47 @@ namespace HondaTuner.UI
                         var ack = romSvc.WritePhysical(_programmer);
                         if (ack.Verified)
                         {
-                            BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ Yazma tamamlandı. (Tx: {ack.TransactionId})"); SetStatus($"{_programmer.DeviceName}: Yazma tamamlandı."); }));
+                            BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] âœ… Yazma tamamlandÄ±. (Tx: {ack.TransactionId})"); SetStatus($"{_programmer.DeviceName}: Yazma tamamlandÄ±."); }));
                         }
                     }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"Yazma hatası:\n{ex.Message}", "Yazma Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                            MessageBox.Show($"Yazma hatasÄ±:\n{ex.Message}", "Yazma HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Yazma başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Yazma baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void OnProgEraseChip(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Çip tamamen silinecek! Bu işlem geri alınamaz. Devam?",
-                "Çipi Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+            if (MessageBox.Show("Ã‡ip tamamen silinecek! Bu iÅŸlem geri alÄ±namaz. Devam?",
+                "Ã‡ipi Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             try
             {
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çip siliniyor...");
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Ã‡ip siliniyor...");
                 _progProgressBar.Value = 0;
                 System.Threading.Tasks.Task.Run(() =>
                 {
                     try
                     {
                         _programmer.EraseChip();
-                        BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ Silme tamamlandı."); SetStatus("CH341A: Silme tamamlandı."); }));
+                        BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] âœ… Silme tamamlandÄ±."); SetStatus("CH341A: Silme tamamlandÄ±."); }));
                     }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"Silme hatası:\n{ex.Message}", "Silme Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                            MessageBox.Show($"Silme hatasÄ±:\n{ex.Message}", "Silme HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Silme başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Silme baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1132,7 +1132,7 @@ namespace HondaTuner.UI
             try
             {
                 byte[] expected = _parser.GetRomBuffer();
-                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Çip doğrulanıyor ({expected.Length} bayt karşılaştırılıyor)...");
+                AppendProgLog($"[{DateTime.Now:HH:mm:ss}] Ã‡ip doÄŸrulanÄ±yor ({expected.Length} bayt karÅŸÄ±laÅŸtÄ±rÄ±lÄ±yor)...");
                 _progProgressBar.Value = 0;
                 System.Threading.Tasks.Task.Run(() =>
                 {
@@ -1141,21 +1141,21 @@ namespace HondaTuner.UI
                         bool ok = _programmer.VerifyChip(expected);
                         BeginInvoke((Action)(() =>
                         {
-                            string msg = ok ? "✅ Doğrulama başarılı — çip ROM ile eşleşiyor." : "❌ Doğrulama BAŞARISIZ — çip verisi farklı!";
+                            string msg = ok ? "âœ… DoÄŸrulama baÅŸarÄ±lÄ± â€” Ã§ip ROM ile eÅŸleÅŸiyor." : "âŒ DoÄŸrulama BAÅARISIZ â€” Ã§ip verisi farklÄ±!";
                             AppendProgLog($"[{DateTime.Now:HH:mm:ss}] {msg}");
-                            SetStatus($"CH341A Doğrulama: {(ok ? "BAŞARILI" : "BAŞARISIZ")}");
+                            SetStatus($"CH341A DoÄŸrulama: {(ok ? "BAÅARILI" : "BAÅARISIZ")}");
                         }));
                     }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"Doğrulama hatası:\n{ex.Message}", "Doğrulama Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                            MessageBox.Show($"DoÄŸrulama hatasÄ±:\n{ex.Message}", "DoÄŸrulama HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Doğrulama başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"DoÄŸrulama baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1164,8 +1164,8 @@ namespace HondaTuner.UI
             if (_obdConn == null)
             {
                 MessageBox.Show(
-                    "OBD1 bağlantısı kurulmamış.\nLütfen sağ paneldeki Port seçiciden 'Bağlan' butonuna basın.",
-                    "OBD Bağlantısı Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "OBD1 baÄŸlantÄ±sÄ± kurulmamÄ±ÅŸ.\nLÃ¼tfen saÄŸ paneldeki Port seÃ§iciden 'BaÄŸlan' butonuna basÄ±n.",
+                    "OBD BaÄŸlantÄ±sÄ± Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             try
@@ -1181,26 +1181,26 @@ namespace HondaTuner.UI
                             _dtcGrid.Rows.Clear();
                             if (dtcList == null || dtcList.Count == 0)
                             {
-                                _dtcGrid.Rows.Add("—", "Arıza kodu bulunamadı.");
+                                _dtcGrid.Rows.Add("â€”", "ArÄ±za kodu bulunamadÄ±.");
                             }
                             else
                             {
                                 foreach (var dtc in dtcList)
                                     _dtcGrid.Rows.Add($"P{dtc.Code:D4}", dtc.Description);
                             }
-                            SetStatus($"DTC: {dtcList?.Count ?? 0} arıza kodu okundu.");
+                            SetStatus($"DTC: {dtcList?.Count ?? 0} arÄ±za kodu okundu.");
                         }));
                     }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"DTC okuma hatası:\n{ex.Message}", "DTC Okuma Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                            MessageBox.Show($"DTC okuma hatasÄ±:\n{ex.Message}", "DTC Okuma HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"DTC okuma başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"DTC okuma baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1209,12 +1209,12 @@ namespace HondaTuner.UI
             if (_obdConn == null)
             {
                 MessageBox.Show(
-                    "OBD1 bağlantısı kurulmamış.\nLütfen sağ paneldeki Port seçiciden 'Bağlan' butonuna basın.",
-                    "OBD Bağlantısı Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "OBD1 baÄŸlantÄ±sÄ± kurulmamÄ±ÅŸ.\nLÃ¼tfen saÄŸ paneldeki Port seÃ§iciden 'BaÄŸlan' butonuna basÄ±n.",
+                    "OBD BaÄŸlantÄ±sÄ± Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (MessageBox.Show("ECU'daki tüm arıza kodları temizlenecek. Devam?",
-                "Arıza Kodlarını Temizle", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+            if (MessageBox.Show("ECU'daki tÃ¼m arÄ±za kodlarÄ± temizlenecek. Devam?",
+                "ArÄ±za KodlarÄ±nÄ± Temizle", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             try
             {
                 System.Threading.Tasks.Task.Run(() =>
@@ -1225,24 +1225,24 @@ namespace HondaTuner.UI
                         BeginInvoke((Action)(() =>
                         {
                             _dtcGrid.Rows.Clear();
-                            _dtcGrid.Rows.Add("—", "Arıza kodları temizlendi.");
-                            SetStatus("DTC: Arıza kodları ECU'dan temizlendi.");
+                            _dtcGrid.Rows.Add("â€”", "ArÄ±za kodlarÄ± temizlendi.");
+                            SetStatus("DTC: ArÄ±za kodlarÄ± ECU'dan temizlendi.");
                         }));
                     }
                     catch (Exception ex)
                     {
                         BeginInvoke((Action)(() =>
-                            MessageBox.Show($"DTC temizleme hatası:\n{ex.Message}", "DTC Temizleme Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                            MessageBox.Show($"DTC temizleme hatasÄ±:\n{ex.Message}", "DTC Temizleme HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error)));
                     }
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"DTC temizleme başlatma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"DTC temizleme baÅŸlatma hatasÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // ── Bölüm Sonu ───────────────────────────────────────────
+        // â”€â”€ BÃ¶lÃ¼m Sonu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildPartPage(Panel tab)
         {
@@ -1259,7 +1259,7 @@ namespace HondaTuner.UI
             tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));  // Row 1: Left Menu + 3D Canvas
             tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 50f)); // Row 2: Note & Hint (32 + 18)
 
-            // Header şeridi
+            // Header ÅŸeridi
             var hdr = new Panel
             {
                 Dock = DockStyle.Fill,
@@ -1280,7 +1280,7 @@ namespace HondaTuner.UI
 
             var btnFull = new Button
             {
-                Text = "⛶",
+                Text = "â›¶",
                 Size = new Size(24, 24),
                 Location = new Point(6, 5),
                 FlatStyle = FlatStyle.Flat,
@@ -1294,7 +1294,7 @@ namespace HondaTuner.UI
 
             var btnReset = new Button
             {
-                Text = "↺",
+                Text = "â†º",
                 Size = new Size(24, 24),
                 Location = new Point(36, 5),
                 FlatStyle = FlatStyle.Flat,
@@ -1304,7 +1304,7 @@ namespace HondaTuner.UI
                 Cursor = Cursors.Hand
             };
             btnReset.FlatAppearance.BorderSize = 0;
-            new ToolTip().SetToolTip(btnReset, "Kamerayı Sıfırla");
+            new ToolTip().SetToolTip(btnReset, "KamerayÄ± SÄ±fÄ±rla");
 
             hdr.Controls.Add(btnFull);
             hdr.Controls.Add(btnReset);
@@ -1338,7 +1338,7 @@ namespace HondaTuner.UI
                 ForeColor = Color.FromArgb(100, 110, 125),
                 BackColor = BgDark,
                 Font = new Font("Segoe UI", 7f),
-                Text = "Sol: döndür  |  Sağ: kaydır  |  Tekerlek: zoom"
+                Text = "Sol: dÃ¶ndÃ¼r  |  SaÄŸ: kaydÄ±r  |  Tekerlek: zoom"
             };
 
             footer.Controls.Add(hint);
@@ -1371,7 +1371,7 @@ namespace HondaTuner.UI
             // Title
             var lblTitle = new Label
             {
-                Text = "3D MODEL SEÇİMİ",
+                Text = "3D MODEL SEÃ‡Ä°MÄ°",
                 Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
                 ForeColor = AccentBlue,
                 Width = 178,
@@ -1384,7 +1384,7 @@ namespace HondaTuner.UI
             // Button Ecu
             var btnEcu = new Button
             {
-                Text = "🧠  ECU Ana Kartı",
+                Text = "ğŸ§   ECU Ana KartÄ±",
                 Height = 36,
                 Width = 178,
                 FlatStyle = FlatStyle.Flat,
@@ -1424,11 +1424,11 @@ namespace HondaTuner.UI
 
             var subPartNames = new string[]
             {
-                "💾  EEPROM Çip",
-                "🔌  OBD1 Konnektör",
-                "🌡️  MAP Sensörü",
-                "⛽  Enjektör",
-                "⚙️  Distribütör"
+                "ğŸ’¾  EEPROM Ã‡ip",
+                "ğŸ”Œ  OBD1 KonnektÃ¶r",
+                "ğŸŒ¡ï¸  MAP SensÃ¶rÃ¼",
+                "â›½  EnjektÃ¶r",
+                "âš™ï¸  DistribÃ¼tÃ¶r"
             };
 
             var subPartButtons = new Button[5];
@@ -1445,7 +1445,7 @@ namespace HondaTuner.UI
             // Button Motor
             var btnMotor = new Button
             {
-                Text = "🔩  B16 FWD Motor",
+                Text = "ğŸ”©  B16 FWD Motor",
                 Height = 36,
                 Width = 178,
                 FlatStyle = FlatStyle.Flat,
@@ -1465,7 +1465,7 @@ namespace HondaTuner.UI
                 bool isEcuGroup = part != PartViewer3D.PartType.B16Engine;
 
                 // Dynamic back/selection breadcrumb text
-                btnEcu.Tag = (part == PartViewer3D.PartType.B16Engine || part != PartViewer3D.PartType.EcuBoard) ? "🧠  ECU (Geri)" : "🧠  ECU Ana Kartı";
+                btnEcu.Tag = (part == PartViewer3D.PartType.B16Engine || part != PartViewer3D.PartType.EcuBoard) ? "ğŸ§   ECU (Geri)" : "ğŸ§   ECU Ana KartÄ±";
                 btnEcu.Text = HondaTuner.Core.Localization.L.Get((string)btnEcu.Tag);
 
                 // Style Ecu Board button
@@ -1534,7 +1534,7 @@ namespace HondaTuner.UI
             // Title for modifications
             var lblModTitle = new Label
             {
-                Text = "🔧 PROJE PARÇALARI",
+                Text = "ğŸ”§ PROJE PARÃ‡ALARI",
                 Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
                 ForeColor = AccentRed,
                 Width = 178,
@@ -1571,15 +1571,15 @@ namespace HondaTuner.UI
             {
                 { "ECU", "Hondata S300, Neptune RTP, Crome Pro, HTS" },
                 { "Emme", "Cold Air Intake, Skunk2 Pro, K&N filtre" },
-                { "Gaz Kelebeği", "B16/B18 62 mm throttle body" },
+                { "Gaz KelebeÄŸi", "B16/B18 62 mm throttle body" },
                 { "Emme Manifoldu", "D16Y8 veya Skunk2" },
-                { "Egzoz", "4-2-1 Header, 2.25\" düz hat" },
+                { "Egzoz", "4-2-1 Header, 2.25\" dÃ¼z hat" },
                 { "Egzantrik", "Delta Cam, Bisimoto Stage 1" },
-                { "Yakıt", "Walbro 255, büyük enjektör" },
-                { "Ateşleme", "NGK Iridium, MSD" },
-                { "Volan", "Hafifletilmiş Volan" },
+                { "YakÄ±t", "Walbro 255, bÃ¼yÃ¼k enjektÃ¶r" },
+                { "AteÅŸleme", "NGK Iridium, MSD" },
+                { "Volan", "HafifletilmiÅŸ Volan" },
                 { "Debriyaj", "Exedy Stage 1" },
-                { "Süspansiyon", "BC Racing, Tein, D2" },
+                { "SÃ¼spansiyon", "BC Racing, Tein, D2" },
                 { "Fren", "Integra DC2 veya Civic VTi disk" },
                 { "Turbo", "TD04, GT2554R, GT2860" }
             };
@@ -1626,7 +1626,7 @@ namespace HondaTuner.UI
         {
             if (_tabButtons == null || _tabButtons.Length == 0) return;
 
-            int buttonWidth = 142; // Uygun genişlik
+            int buttonWidth = 142; // Uygun geniÅŸlik
             int buttonHeight = 34;
             int padding = 2;
 
@@ -1665,7 +1665,7 @@ namespace HondaTuner.UI
                 btn.ForeColor = TextPrimary;
                 btn.Font = new Font("Segoe UI", 9f, FontStyle.Bold);
                 btn.FlatAppearance.BorderSize = 0;
-                // Alt kenarda kırmızı vurgu çizgisi
+                // Alt kenarda kÄ±rmÄ±zÄ± vurgu Ã§izgisi
                 btn.Paint += DrawActiveTabLine;
             }
             else
@@ -1689,7 +1689,7 @@ namespace HondaTuner.UI
         {
             tab.Padding = new Padding(0);
 
-            // Bağlantı paneli
+            // BaÄŸlantÄ± paneli
             var connPanel = new Panel
             {
                 Dock = DockStyle.Top,
@@ -1714,17 +1714,17 @@ namespace HondaTuner.UI
                 ForeColor = TextPrimary,
                 Font = new Font("Segoe UI", 9f),
             };
-            // COM portları listele
+            // COM portlarÄ± listele
             foreach (var p in SerialPort.GetPortNames())
                 _comPortCombo.Items.Add(p);
             if (_comPortCombo.Items.Count > 0)
                 _comPortCombo.SelectedIndex = 0;
 
-            _btnConnect = MakeButton("🔌 Canlı Bağlan", new Point(190, 11), 130, AccentBlue);
+            _btnConnect = MakeButton("ğŸ”Œ CanlÄ± BaÄŸlan", new Point(190, 11), 130, AccentBlue);
             _btnConnect.Tag = "btn_start";
-            _btnSimulate = MakeButton("🎮 Simülasyon Başlat", new Point(328, 11), 160, VtecGreen);
+            _btnSimulate = MakeButton("ğŸ® SimÃ¼lasyon BaÅŸlat", new Point(328, 11), 160, VtecGreen);
             _btnSimulate.Tag = "btn_simulate";
-            _btnDisconnect = MakeButton("⏹ Bağlantıyı Kes", new Point(496, 11), 140, AccentRed);
+            _btnDisconnect = MakeButton("â¹ BaÄŸlantÄ±yÄ± Kes", new Point(496, 11), 140, AccentRed);
             _btnDisconnect.Tag = "btn_stop";
             _btnDisconnect.Enabled = false;
 
@@ -1735,7 +1735,7 @@ namespace HondaTuner.UI
             connPanel.Controls.AddRange(new Control[]
             { portLabel, _comPortCombo, _btnConnect, _btnSimulate, _btnDisconnect });
 
-            // ── Playback Kontrol Paneli (Datalog Geri Oynatıcı) ─────────
+            // â”€â”€ Playback Kontrol Paneli (Datalog Geri OynatÄ±cÄ±) â”€â”€â”€â”€â”€â”€â”€â”€â”€
             var playPanel = new Panel
             {
                 Dock = DockStyle.Top,
@@ -1749,11 +1749,11 @@ namespace HondaTuner.UI
                 e.Graphics.DrawLine(pen, 0, playPanel.Height - 1, playPanel.Width, playPanel.Height - 1);
             };
 
-            _btnLoadCsv = MakeButton("📂 CSV Yükle", new Point(8, 9), 110, TextMuted);
+            _btnLoadCsv = MakeButton("ğŸ“‚ CSV YÃ¼kle", new Point(8, 9), 110, TextMuted);
             _btnLoadCsv.Tag = "btn_load_csv";
-            _btnPlayback = MakeButton("▶ Oynat", new Point(126, 9), 80, VtecGreen);
+            _btnPlayback = MakeButton("â–¶ Oynat", new Point(126, 9), 80, VtecGreen);
             _btnPlayback.Tag = "btn_playback";
-            _btnPausePlayback = MakeButton("⏸ Duraklat", new Point(214, 9), 90, AccentBlue);
+            _btnPausePlayback = MakeButton("â¸ Duraklat", new Point(214, 9), 90, AccentBlue);
             _btnPausePlayback.Tag = "btn_pause";
             _btnPlayback.Enabled = false;
             _btnPausePlayback.Enabled = false;
@@ -1773,13 +1773,13 @@ namespace HondaTuner.UI
 
             _lblPlaybackPos = MakeLabel("00:00 / 00:00", new Font("Segoe UI", 8.5f), TextMuted, new Point(724, 15));
 
-            // ── CSV yükleme
+            // â”€â”€ CSV yÃ¼kleme
             _btnLoadCsv.Click += (s, e) =>
             {
                 using var dlg = new OpenFileDialog
                 {
-                    Title = "Datalog CSV Seç",
-                    Filter = "CSV Telemetri|*.csv|Tüm Dosyalar|*.*",
+                    Title = "Datalog CSV SeÃ§",
+                    Filter = "CSV Telemetri|*.csv|TÃ¼m Dosyalar|*.*",
                 };
                 if (dlg.ShowDialog() != DialogResult.OK) return;
                 bool ok = _datalogMgr.LoadCsv(dlg.FileName);
@@ -1791,15 +1791,15 @@ namespace HondaTuner.UI
                     _btnPlayback.Enabled = true;
                     _btnPausePlayback.Enabled = false;
                     UpdatePlaybackLabel(0, _datalogMgr.PlaybackFrameCount);
-                    SetStatus($"CSV yüklendi: {System.IO.Path.GetFileName(dlg.FileName)} — {_datalogMgr.PlaybackFrameCount} frame");
+                    SetStatus($"CSV yÃ¼klendi: {System.IO.Path.GetFileName(dlg.FileName)} â€” {_datalogMgr.PlaybackFrameCount} frame");
                 }
                 else
                 {
-                    MessageBox.Show("CSV dosyası yüklenemedi. Format kontrolü yapınız.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("CSV dosyasÄ± yÃ¼klenemedi. Format kontrolÃ¼ yapÄ±nÄ±z.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
 
-            // ── Play
+            // â”€â”€ Play
             _btnPlayback.Click += (s, e) =>
             {
                 _datalogMgr.Play();
@@ -1809,7 +1809,7 @@ namespace HondaTuner.UI
                 _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_pause");
             };
 
-            // ── Pause
+            // â”€â”€ Pause
             _btnPausePlayback.Click += (s, e) =>
             {
                 _datalogMgr.Pause();
@@ -1819,7 +1819,7 @@ namespace HondaTuner.UI
                 _btnPausePlayback.Text = HondaTuner.Core.Localization.L.Get("btn_resume");
             };
 
-            // ── Seek (TrackBar kaydırma)
+            // â”€â”€ Seek (TrackBar kaydÄ±rma)
             bool _seekDragging = false;
             _pbSeek.MouseDown += (s, e) => _seekDragging = true;
             _pbSeek.MouseUp += (s, e) =>
@@ -1828,7 +1828,7 @@ namespace HondaTuner.UI
                 _datalogMgr.SeekTo(_pbSeek.Value);
             };
 
-            // ── DatalogManager PlaybackPositionChanged → TrackBar sync (cross-thread safe)
+            // â”€â”€ DatalogManager PlaybackPositionChanged â†’ TrackBar sync (cross-thread safe)
             _datalogMgr.PlaybackPositionChanged += (pos) =>
             {
                 if (InvokeRequired)
@@ -1867,7 +1867,7 @@ namespace HondaTuner.UI
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = "MOTOR KORUMA AKTİF!",
+                Text = "MOTOR KORUMA AKTÄ°F!",
                 Visible = false
             };
 
@@ -1882,7 +1882,7 @@ namespace HondaTuner.UI
         private void UpdatePlaybackLabel(int pos, int total)
         {
             if (_lblPlaybackPos == null) return;
-            // Frame'i saniyeye çevir (80ms/frame esas alınarak)
+            // Frame'i saniyeye Ã§evir (80ms/frame esas alÄ±narak)
             double posSec = pos * 0.08;
             double totalSec = total * 0.08;
             _lblPlaybackPos.Text = $"{TimeSpan.FromSeconds(posSec):mm\\:ss} / {TimeSpan.FromSeconds(totalSec):mm\\:ss}  ({pos}/{total})";
@@ -1951,30 +1951,30 @@ namespace HondaTuner.UI
             left.Controls.Add(_goalCombo);
             y += 36;
 
-            _injectorCcSpinner = AddAssistantSpinner(left, "Enjektör cc", 180, 1000, 10, 240, ref y);
-            _mapSensorSpinner = AddAssistantSpinner(left, "MAP sensörü bar", 1, 4, 1, 1, ref y);
+            _injectorCcSpinner = AddAssistantSpinner(left, "EnjektÃ¶r cc", 180, 1000, 10, 240, ref y);
+            _mapSensorSpinner = AddAssistantSpinner(left, "MAP sensÃ¶rÃ¼ bar", 1, 4, 1, 1, ref y);
             _targetAfrSpinner = AddAssistantSpinner(left, "Power AFR hedefi", 10, 16, (decimal)0.1, (decimal)12.8, ref y, 1);
 
             var btnApply = MakeButton("Basemap Uygula", new Point(14, y + 4), 150, AccentBlue);
-            var btnPreview = MakeButton("Notları Yenile", new Point(174, y + 4), 150, VtecGreen);
-            var btnStage1 = MakeButton("⚡ Stage 1 Map", new Point(14, y + 44), 310, AccentRed);
+            var btnPreview = MakeButton("NotlarÄ± Yenile", new Point(174, y + 4), 150, VtecGreen);
+            var btnStage1 = MakeButton("âš¡ Stage 1 Map", new Point(14, y + 44), 310, AccentRed);
             btnApply.Click += OnApplyAssistantBasemap;
             btnPreview.Click += (s, e) => UpdateAssistantDefaults();
             btnStage1.Click += OnApplyStage1Basemap;
-            new ToolTip().SetToolTip(btnStage1, "Stage 1 Basemap: VTEC RPM + Rev Limit + Hız + Yakıt/Ateşleme haritasını ROM'a yazar");
+            new ToolTip().SetToolTip(btnStage1, "Stage 1 Basemap: VTEC RPM + Rev Limit + HÄ±z + YakÄ±t/AteÅŸleme haritasÄ±nÄ± ROM'a yazar");
             left.Controls.Add(btnApply);
             left.Controls.Add(btnPreview);
             left.Controls.Add(btnStage1);
             y += 84;
 
-            AddAssistantLabel(left, "Wideband yakıt düzeltme", y);
+            AddAssistantLabel(left, "Wideband yakÄ±t dÃ¼zeltme", y);
             y += 24;
-            _measuredAfrSpinner = AddAssistantSpinner(left, "Ölçülen AFR", 9, 19, (decimal)0.1, (decimal)14.0, ref y, 1);
+            _measuredAfrSpinner = AddAssistantSpinner(left, "Ã–lÃ§Ã¼len AFR", 9, 19, (decimal)0.1, (decimal)14.0, ref y, 1);
             _widebandRpmSpinner = AddAssistantSpinner(left, "RPM", 500, 9500, 100, 4500, ref y);
             _widebandLoadSpinner = AddAssistantSpinner(left, "Load kPa", 20, 250, 5, 100, ref y);
-            _widebandRadiusSpinner = AddAssistantSpinner(left, "Etki alanı", 0, 4, 1, 1, ref y);
+            _widebandRadiusSpinner = AddAssistantSpinner(left, "Etki alanÄ±", 0, 4, 1, 1, ref y);
 
-            var btnAfr = MakeButton("AFR Düzelt", new Point(14, y + 4), 150, AccentRed);
+            var btnAfr = MakeButton("AFR DÃ¼zelt", new Point(14, y + 4), 150, AccentRed);
             btnAfr.Click += OnApplyWidebandCorrection;
             left.Controls.Add(btnAfr);
 
@@ -2080,7 +2080,7 @@ namespace HondaTuner.UI
 
             // Sol panel: Yama listesi
             var leftPanel = new Panel { Dock = DockStyle.Fill, BackColor = BgPanel, Padding = new Padding(8) };
-            var lblPatches = MakeLabel("Kullanılabilir Yamalar", new Font("Segoe UI", 9f, FontStyle.Bold), TextPrimary, new Point(8, 8));
+            var lblPatches = MakeLabel("KullanÄ±labilir Yamalar", new Font("Segoe UI", 9f, FontStyle.Bold), TextPrimary, new Point(8, 8));
             leftPanel.Controls.Add(lblPatches);
 
             _patchList = new ListBox
@@ -2098,10 +2098,10 @@ namespace HondaTuner.UI
 
             layoutMain.Controls.Add(leftPanel, 0, 0);
 
-            // Sağ panel: Detaylar ve log
+            // SaÄŸ panel: Detaylar ve log
             var rightPanel = new Panel { Dock = DockStyle.Fill, BackColor = BgPanel, Padding = new Padding(8) };
 
-            var lblDetails = MakeLabel("Yama Detayları ve Önizleme", new Font("Segoe UI", 9f, FontStyle.Bold), TextPrimary, new Point(8, 8));
+            var lblDetails = MakeLabel("Yama DetaylarÄ± ve Ã–nizleme", new Font("Segoe UI", 9f, FontStyle.Bold), TextPrimary, new Point(8, 8));
             rightPanel.Controls.Add(lblDetails);
 
             _patchDetailsBox = new TextBox
@@ -2119,7 +2119,7 @@ namespace HondaTuner.UI
             };
             rightPanel.Controls.Add(_patchDetailsBox);
 
-            _btnApplyPatch = MakeButton("Yamayı Uygula", new Point(8, 160), 95, AccentBlue);
+            _btnApplyPatch = MakeButton("YamayÄ± Uygula", new Point(8, 160), 95, AccentBlue);
             _btnApplyPatch.Click += OnApplyPatchClick;
             rightPanel.Controls.Add(_btnApplyPatch);
 
@@ -2127,7 +2127,7 @@ namespace HondaTuner.UI
             _btnRollbackPatch.Click += OnRollbackPatchClick;
             rightPanel.Controls.Add(_btnRollbackPatch);
 
-            var lblAudit = MakeLabel("Yama Log Kayıtları", new Font("Segoe UI", 9f, FontStyle.Bold), TextPrimary, new Point(8, 196));
+            var lblAudit = MakeLabel("Yama Log KayÄ±tlarÄ±", new Font("Segoe UI", 9f, FontStyle.Bold), TextPrimary, new Point(8, 196));
             rightPanel.Controls.Add(lblAudit);
 
             _patchAuditListView = new ListView
@@ -2145,7 +2145,7 @@ namespace HondaTuner.UI
             };
             _patchAuditListView.Columns.Add("Zaman", 75);
             _patchAuditListView.Columns.Add("Yama ID", 80);
-            _patchAuditListView.Columns.Add("Sonuç", 120);
+            _patchAuditListView.Columns.Add("SonuÃ§", 120);
             rightPanel.Controls.Add(_patchAuditListView);
 
             layoutMain.Controls.Add(rightPanel, 1, 0);
@@ -2159,7 +2159,7 @@ namespace HondaTuner.UI
 
             if (_patchList.SelectedIndex < 0 || _patchList.SelectedIndex >= patches.Count)
             {
-                _patchDetailsBox.Text = "Lütfen listeden bir yama seçin.";
+                _patchDetailsBox.Text = "LÃ¼tfen listeden bir yama seÃ§in.";
                 _btnApplyPatch.Enabled = false;
                 _btnRollbackPatch.Enabled = false;
                 return;
@@ -2171,20 +2171,20 @@ namespace HondaTuner.UI
 
             var sb = new System.Text.StringBuilder();
             sb.AppendLine($"ID: {patch.PatchId}");
-            sb.AppendLine($"Adı: {patch.Name}");
-            sb.AppendLine($"Açıklama: {patch.Description}");
+            sb.AppendLine($"AdÄ±: {patch.Name}");
+            sb.AppendLine($"AÃ§Ä±klama: {patch.Description}");
             sb.AppendLine($"Kategori: {patch.Category}");
-            sb.AppendLine($"Güvenlik Seviyesi: {patch.SafetyLevel}");
-            sb.AppendLine($"Durum: {(isApplied ? "UYGULANDI" : "Uygulanmadı")}");
+            sb.AppendLine($"GÃ¼venlik Seviyesi: {patch.SafetyLevel}");
+            sb.AppendLine($"Durum: {(isApplied ? "UYGULANDI" : "UygulanmadÄ±")}");
 
             if (buffer != null)
             {
                 var preview = patchEngine.PreviewPatch(buffer, patch.PatchId, profile);
                 sb.AppendLine($"Adres (Offset): 0x{preview.Offset:X4}");
-                sb.AppendLine($"Bayt Değişimi: {preview.ByteDifference} byte");
+                sb.AppendLine($"Bayt DeÄŸiÅŸimi: {preview.ByteDifference} byte");
                 if (preview.Warnings.Count > 0)
                 {
-                    sb.AppendLine("Uyarılar:");
+                    sb.AppendLine("UyarÄ±lar:");
                     foreach (var w in preview.Warnings)
                     {
                         sb.AppendLine($"  - {w}");
@@ -2227,7 +2227,7 @@ namespace HondaTuner.UI
                 _btnRollbackPatch.Enabled = false;
             }
 
-            // Audit Kayıtlarını Listele
+            // Audit KayÄ±tlarÄ±nÄ± Listele
             _patchAuditListView.Items.Clear();
             var auditLogs = patchEngine.GetPatchAudit();
             foreach (var log in auditLogs)
@@ -2245,7 +2245,7 @@ namespace HondaTuner.UI
             var profile = _parser?.Profile;
             if (profile == null)
             {
-                MessageBox.Show("Yama uygulamak için aktif bir ROM yüklü olmalıdır.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Yama uygulamak iÃ§in aktif bir ROM yÃ¼klÃ¼ olmalÄ±dÄ±r.", "UyarÄ±", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -2261,11 +2261,11 @@ namespace HondaTuner.UI
                 _parser.SetRomBuffer(buffer);
                 MarkDirty();
                 RefreshPatchUi();
-                MessageBox.Show($"Yama '{patch.Name}' başarıyla uygulandı.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Yama '{patch.Name}' baÅŸarÄ±yla uygulandÄ±.", "BaÅŸarÄ±lÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show($"Yama uygulaması doğrulanamadı:\n{result.ErrorMessage}", "Doğrulama Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Yama uygulamasÄ± doÄŸrulanamadÄ±:\n{result.ErrorMessage}", "DoÄŸrulama HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 RefreshPatchUi();
             }
         }
@@ -2288,11 +2288,11 @@ namespace HondaTuner.UI
                 _parser.SetRomBuffer(buffer);
                 MarkDirty();
                 RefreshPatchUi();
-                MessageBox.Show($"Yama '{patch.Name}' geri alındı (Rollback).", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Yama '{patch.Name}' geri alÄ±ndÄ± (Rollback).", "BaÅŸarÄ±lÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show($"Yama geri alma hatası:\n{result.ErrorMessage}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Yama geri alma hatasÄ±:\n{result.ErrorMessage}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 RefreshPatchUi();
             }
         }
@@ -2310,22 +2310,22 @@ namespace HondaTuner.UI
             };
             _chkLaunchControlActive.CheckedChanged += (s, e) => MarkDirty();
 
-            var lblLC = new Label { Text = "Sınır Devri:", ForeColor = TextPrimary, Location = new Point(16, 52), Size = new Size(100, 20), BackColor = Color.Transparent };
+            var lblLC = new Label { Text = "SÄ±nÄ±r Devri:", ForeColor = TextPrimary, Location = new Point(16, 52), Size = new Size(100, 20), BackColor = Color.Transparent };
             _numLaunchControlRpm = new NumericUpDown { Minimum = 2000, Maximum = 7000, Increment = 100, Value = 3500, Location = new Point(120, 50), Width = 90, BackColor = BgCard, ForeColor = TextPrimary };
             _numLaunchControlRpm.ValueChanged += (s, e) => MarkDirty();
             var lblLCRpm = new Label { Text = "RPM", ForeColor = TextMuted, Location = new Point(220, 52), Size = new Size(40, 20), BackColor = Color.Transparent };
 
-            var lblLCS = new Label { Text = "Hız Eşiği:", ForeColor = TextPrimary, Location = new Point(16, 82), Size = new Size(100, 20), BackColor = Color.Transparent };
+            var lblLCS = new Label { Text = "HÄ±z EÅŸiÄŸi:", ForeColor = TextPrimary, Location = new Point(16, 82), Size = new Size(100, 20), BackColor = Color.Transparent };
             _numLaunchControlSpeed = new NumericUpDown { Minimum = 0, Maximum = 30, Increment = 1, Value = 8, Location = new Point(120, 80), Width = 90, BackColor = BgCard, ForeColor = TextPrimary };
             _numLaunchControlSpeed.ValueChanged += (s, e) => MarkDirty();
             var lblLCSpeed = new Label { Text = "km/h", ForeColor = TextMuted, Location = new Point(220, 82), Size = new Size(40, 20), BackColor = Color.Transparent };
 
-            var lblDTCHeader = new Label { Text = "🔧 DTC (Arıza Işığı) Devre Dışı Bırakma", ForeColor = AccentBlue, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Location = new Point(16, 130), Size = new Size(350, 22), BackColor = Color.Transparent };
+            var lblDTCHeader = new Label { Text = "ğŸ”§ DTC (ArÄ±za IÅŸÄ±ÄŸÄ±) Devre DÄ±ÅŸÄ± BÄ±rakma", ForeColor = AccentBlue, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Location = new Point(16, 130), Size = new Size(350, 22), BackColor = Color.Transparent };
 
-            _chkDtcKnock = new CheckBox { Text = "Vuruntu Sensörünü Bypass Et (Knock Sensor CEL 23)", Location = new Point(16, 160), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
-            _chkDtcVtec = new CheckBox { Text = "VTEC Yağ Basınç Müşürünü Bypass Et (VTEC Switch CEL 22)", Location = new Point(16, 185), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
-            _chkDtcO2 = new CheckBox { Text = "Oksijen Sensörü Isıtıcısını Bypass Et (O2 Heater CEL 41)", Location = new Point(16, 210), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
-            _chkDtcEld = new CheckBox { Text = "ELD - Elektriksel Yük Dedektörünü Bypass Et (ELD CEL 20)", Location = new Point(16, 235), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
+            _chkDtcKnock = new CheckBox { Text = "Vuruntu SensÃ¶rÃ¼nÃ¼ Bypass Et (Knock Sensor CEL 23)", Location = new Point(16, 160), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
+            _chkDtcVtec = new CheckBox { Text = "VTEC YaÄŸ BasÄ±nÃ§ MÃ¼ÅŸÃ¼rÃ¼nÃ¼ Bypass Et (VTEC Switch CEL 22)", Location = new Point(16, 185), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
+            _chkDtcO2 = new CheckBox { Text = "Oksijen SensÃ¶rÃ¼ IsÄ±tÄ±cÄ±sÄ±nÄ± Bypass Et (O2 Heater CEL 41)", Location = new Point(16, 210), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
+            _chkDtcEld = new CheckBox { Text = "ELD - Elektriksel YÃ¼k DedektÃ¶rÃ¼nÃ¼ Bypass Et (ELD CEL 20)", Location = new Point(16, 235), Width = 400, ForeColor = TextPrimary, AutoSize = true, BackColor = Color.Transparent };
 
             _chkDtcKnock.CheckedChanged += (s, e) => MarkDirty();
             _chkDtcVtec.CheckedChanged += (s, e) => MarkDirty();
@@ -2348,27 +2348,27 @@ namespace HondaTuner.UI
 
         private void BuildCalibrationWizards(Panel tab)
         {
-            var lblInjHeader = new Label { Text = "🧪 Enjektör Ölçekleme Sihirbazı", ForeColor = AccentBlue, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Location = new Point(16, 20), Size = new Size(350, 22), BackColor = Color.Transparent };
+            var lblInjHeader = new Label { Text = "ğŸ§ª EnjektÃ¶r Ã–lÃ§ekleme SihirbazÄ±", ForeColor = AccentBlue, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Location = new Point(16, 20), Size = new Size(350, 22), BackColor = Color.Transparent };
 
-            var lblOldInj = new Label { Text = "Eski Enjektör Boyutu:", ForeColor = TextPrimary, Location = new Point(16, 52), Size = new Size(130, 20), BackColor = Color.Transparent };
+            var lblOldInj = new Label { Text = "Eski EnjektÃ¶r Boyutu:", ForeColor = TextPrimary, Location = new Point(16, 52), Size = new Size(130, 20), BackColor = Color.Transparent };
             _numOldInjector = new NumericUpDown { Minimum = 180, Maximum = 2000, Increment = 10, Value = 240, Location = new Point(150, 50), Width = 90, BackColor = BgCard, ForeColor = TextPrimary };
             var lblOldInjCc = new Label { Text = "cc", ForeColor = TextMuted, Location = new Point(250, 52), AutoSize = true, BackColor = Color.Transparent };
 
-            var lblNewInj = new Label { Text = "Yeni Enjektör Boyutu:", ForeColor = TextPrimary, Location = new Point(16, 82), Size = new Size(130, 20), BackColor = Color.Transparent };
+            var lblNewInj = new Label { Text = "Yeni EnjektÃ¶r Boyutu:", ForeColor = TextPrimary, Location = new Point(16, 82), Size = new Size(130, 20), BackColor = Color.Transparent };
             _numNewInjector = new NumericUpDown { Minimum = 180, Maximum = 2000, Increment = 10, Value = 440, Location = new Point(150, 80), Width = 90, BackColor = BgCard, ForeColor = TextPrimary };
             var lblNewInjCc = new Label { Text = "cc", ForeColor = TextMuted, Location = new Point(250, 82), AutoSize = true, BackColor = Color.Transparent };
 
-            var btnScaleInj = MakeButton("Enjektörleri Ölçekle", new Point(16, 115), 180, AccentRed);
+            var btnScaleInj = MakeButton("EnjektÃ¶rleri Ã–lÃ§ekle", new Point(16, 115), 180, AccentRed);
             btnScaleInj.Click += OnScaleInjectorsClick;
 
-            var lblMapHeader = new Label { Text = "🔌 MAP Sensörü Kalibrasyon Sihirbazı", ForeColor = AccentBlue, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Location = new Point(16, 170), Size = new Size(350, 22), BackColor = Color.Transparent };
+            var lblMapHeader = new Label { Text = "ğŸ”Œ MAP SensÃ¶rÃ¼ Kalibrasyon SihirbazÄ±", ForeColor = AccentBlue, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), Location = new Point(16, 170), Size = new Size(350, 22), BackColor = Color.Transparent };
 
-            var lblNewMap = new Label { Text = "Yeni MAP Sensörü Seçin:", ForeColor = TextPrimary, Location = new Point(16, 202), Size = new Size(140, 20), BackColor = Color.Transparent };
+            var lblNewMap = new Label { Text = "Yeni MAP SensÃ¶rÃ¼ SeÃ§in:", ForeColor = TextPrimary, Location = new Point(16, 202), Size = new Size(140, 20), BackColor = Color.Transparent };
             _comboNewMapSensor = new ComboBox { Location = new Point(160, 200), Width = 190, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = BgCard, ForeColor = TextPrimary };
             _comboNewMapSensor.Items.AddRange(new object[] { "Stok 1-Bar (20 - 105 kPa)", "Motorola 2.5-Bar (20 - 250 kPa)", "Omnipower 3-Bar (20 - 300 kPa)", "Omnipower 4-Bar (20 - 400 kPa)" });
             _comboNewMapSensor.SelectedIndex = 0;
 
-            var btnScaleMap = MakeButton("Yük Eksenini Kalibre Et", new Point(16, 235), 180, AccentBlue);
+            var btnScaleMap = MakeButton("YÃ¼k Eksenini Kalibre Et", new Point(16, 235), 180, AccentBlue);
             btnScaleMap.Click += OnScaleMapSensorClick;
 
             tab.Controls.Add(lblInjHeader);
@@ -2418,7 +2418,7 @@ namespace HondaTuner.UI
             _fuelGrid.SetData(fuelMap);
 
             MarkDirty();
-            MessageBox.Show($"Enjektör ölçekleme başarıyla uygulandı!\nÖlçek oranı: {ratio:F3}\nYakıt haritası güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"EnjektÃ¶r Ã¶lÃ§ekleme baÅŸarÄ±yla uygulandÄ±!\nÃ–lÃ§ek oranÄ±: {ratio:F3}\nYakÄ±t haritasÄ± gÃ¼ncellendi.", "BaÅŸarÄ±lÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void OnScaleMapSensorClick(object sender, EventArgs e)
@@ -2446,13 +2446,13 @@ namespace HondaTuner.UI
             }
 
             // Rebuild column headers for grids
-            _fuelGrid.LoadMap(_parser.ReadFuelMap(), "Yakıt", _activeProfile);
-            _ignGrid.LoadMap(_parser.ReadIgnitionMap(), "Ateşleme", _activeProfile);
+            _fuelGrid.LoadMap(_parser.ReadFuelMap(), "YakÄ±t", _activeProfile);
+            _ignGrid.LoadMap(_parser.ReadIgnitionMap(), "AteÅŸleme", _activeProfile);
             _fuelGrid.RebuildGrid();
             _ignGrid.RebuildGrid();
 
             MarkDirty();
-            MessageBox.Show($"MAP sensörü başarıyla kalibre edildi!\nYeni Yük ekseni (kPa) 20 - {maxKpa} aralığına ölçeklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"MAP sensÃ¶rÃ¼ baÅŸarÄ±yla kalibre edildi!\nYeni YÃ¼k ekseni (kPa) 20 - {maxKpa} aralÄ±ÄŸÄ±na Ã¶lÃ§eklendi.", "BaÅŸarÄ±lÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void AddAssistantLabel(Control parent, string text, int y)
@@ -2498,7 +2498,7 @@ namespace HondaTuner.UI
         }
 
 
-        // ── VTEC / Rev Limit / Limitörler Paneli ─────────────────
+        // â”€â”€ VTEC / Rev Limit / LimitÃ¶rler Paneli â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildVtecPanel()
         {
@@ -2517,7 +2517,7 @@ namespace HondaTuner.UI
             int x = 12;
 
             // VTEC RPM
-            _vtecRpmLabel = MakeLabel("⚡ VTEC RPM:", new Font("Segoe UI", 9f, FontStyle.Bold), VtecGreen, new Point(x, 18));
+            _vtecRpmLabel = MakeLabel("âš¡ VTEC RPM:", new Font("Segoe UI", 9f, FontStyle.Bold), VtecGreen, new Point(x, 18));
             x += 85;
 
             _vtecRpmSpinner = MakeSpinner(new Point(x, 15), 65, 1000, 8000, 100, 4800);
@@ -2527,8 +2527,8 @@ namespace HondaTuner.UI
             MakeLabel("rpm", new Font("Segoe UI", 8f), TextMuted, new Point(x, 20)).Parent = _vtecPanel;
             x += 32;
 
-            // VTEC Yük Eşiği (M2)
-            var vtecLoadLabel = MakeLabel("Yük Eşiği:", new Font("Segoe UI", 9f, FontStyle.Bold), TextMuted, new Point(x, 18));
+            // VTEC YÃ¼k EÅŸiÄŸi (M2)
+            var vtecLoadLabel = MakeLabel("YÃ¼k EÅŸiÄŸi:", new Font("Segoe UI", 9f, FontStyle.Bold), TextMuted, new Point(x, 18));
             x += 65;
 
             _vtecLoadSpinner = MakeSpinner(new Point(x, 15), 55, 10, 150, 5, 60);
@@ -2549,8 +2549,8 @@ namespace HondaTuner.UI
             MakeLabel("rpm", new Font("Segoe UI", 8f), TextMuted, new Point(x, 20)).Parent = _vtecPanel;
             x += 35;
 
-            // Hız Sınırı (M2)
-            var speedLabel = MakeLabel("Hız Sınırı:", new Font("Segoe UI", 9f, FontStyle.Bold), TextMuted, new Point(x, 18));
+            // HÄ±z SÄ±nÄ±rÄ± (M2)
+            var speedLabel = MakeLabel("HÄ±z SÄ±nÄ±rÄ±:", new Font("Segoe UI", 9f, FontStyle.Bold), TextMuted, new Point(x, 18));
             x += 65;
 
             _speedLimitSpinner = MakeSpinner(new Point(x, 15), 55, 50, 300, 5, 180);
@@ -2560,7 +2560,7 @@ namespace HondaTuner.UI
             MakeLabel("km/h", new Font("Segoe UI", 8f), TextMuted, new Point(x, 20)).Parent = _vtecPanel;
             x += 44;
 
-            // Enjektör Ölü Süresi (M2)
+            // EnjektÃ¶r Ã–lÃ¼ SÃ¼resi (M2)
             var injLabel = MakeLabel("Inj. Dead:", new Font("Segoe UI", 9f, FontStyle.Bold), TextMuted, new Point(x, 18));
             x += 65;
 
@@ -2582,7 +2582,7 @@ namespace HondaTuner.UI
 
             MakeLabel("ms", new Font("Segoe UI", 8f), TextMuted, new Point(x, 20)).Parent = _vtecPanel;
 
-            // Tüm spinner'ları panele ekle
+            // TÃ¼m spinner'larÄ± panele ekle
             _vtecPanel.Controls.Add(_vtecRpmLabel);
             _vtecPanel.Controls.Add(_vtecRpmSpinner);
             _vtecPanel.Controls.Add(vtecLoadLabel);
@@ -2632,7 +2632,7 @@ namespace HondaTuner.UI
             _revLimitSpinner.Maximum = _activeProfile.RevLimitMax;
         }
 
-        // ── Status Bar ───────────────────────────────────────────
+        // â”€â”€ Status Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildStatusBar()
         {
@@ -2657,7 +2657,7 @@ namespace HondaTuner.UI
             };
             _checksumLabel = new ToolStripStatusLabel
             {
-                Text = "—",
+                Text = "â€”",
                 BorderSides = ToolStripStatusLabelBorderSides.Left,
                 ForeColor = TextMuted,
             };
@@ -2698,12 +2698,12 @@ namespace HondaTuner.UI
             Controls.Add(_status);
         }
 
-        // ── M1: Datalog Bağlantı Olayları ────────────────────────
+        // â”€â”€ M1: Datalog BaÄŸlantÄ± OlaylarÄ± â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void OnDatalogConnect(object sender, EventArgs e)
         {
             if (_comPortCombo.SelectedItem == null)
-            { MessageBox.Show("Lütfen bir COM port seçin.", "Bağlantı", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            { MessageBox.Show("LÃ¼tfen bir COM port seÃ§in.", "BaÄŸlantÄ±", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
             try
             {
@@ -2714,7 +2714,7 @@ namespace HondaTuner.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Bağlantı hatası: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"BaÄŸlantÄ± hatasÄ±: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -2751,17 +2751,17 @@ namespace HondaTuner.UI
 
         private void OnTelemetryDataReceived(TelemetryFrame frame)
         {
-            // Cross-thread güvenli UI güncellemesi
+            // Cross-thread gÃ¼venli UI gÃ¼ncellemesi
             if (InvokeRequired)
             {
                 BeginInvoke((Action)(() => OnTelemetryDataReceived(frame)));
                 return;
             }
 
-            // Anti-Brick Guard: anlık voltajı güncelle
+            // Anti-Brick Guard: anlÄ±k voltajÄ± gÃ¼ncelle
             _lastBatteryVolts = frame.BatteryVolts;
 
-            // Motor Koruma Mantığı Değerlendirmesi
+            // Motor Koruma MantÄ±ÄŸÄ± DeÄŸerlendirmesi
             if (_engineProtSvc != null)
             {
                 _engineProtSvc.EvaluateSafety(
@@ -2822,7 +2822,7 @@ namespace HondaTuner.UI
                 frame.Rpm, frame.Map, frame.Speed,
                 frame.Afr, frame.Ect, frame.Iat);
 
-            // Cell Tracing — iki grid üzerinde de vurgula
+            // Cell Tracing â€” iki grid Ã¼zerinde de vurgula
             _fuelGrid.SetTraceCell(frame.Rpm, frame.Map);
             _ignGrid.SetTraceCell(frame.Rpm, frame.Map);
 
@@ -2856,13 +2856,13 @@ namespace HondaTuner.UI
                 // Update ECT and Knock Indicators live on UI
                 if (_lblAtEct != null)
                 {
-                    _lblAtEct.Text = $"ECT Sıcaklığı: {frame.Ect:0} °C";
+                    _lblAtEct.Text = $"ECT SÄ±caklÄ±ÄŸÄ±: {frame.Ect:0} Â°C";
                     _lblAtEct.ForeColor = frame.Ect >= 100.0 ? AccentRed : TextPrimary;
                 }
             }
         }
 
-        // ── Araç / Profil Seçimi ─────────────────────────────────
+        // â”€â”€ AraÃ§ / Profil SeÃ§imi â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void OnSelectVehicle(object sender, EventArgs e)
         {
@@ -2894,15 +2894,15 @@ namespace HondaTuner.UI
                 ? $"{_activeVehicle.Make} {_activeVehicle.Model} {_activeVehicle.Trim} ({_activeVehicle.YearRange})"
                 : HondaTuner.Core.Localization.L.Get(_activeProfile.CasaTag);
 
-            Text = $"HondaTuner — {_activeProfile.EcuCode} / {_activeProfile.EngineCode}" +
-                   (_isDirty ? "  ●" : "");
+            Text = $"HondaTuner â€” {_activeProfile.EcuCode} / {_activeProfile.EngineCode}" +
+                   (_isDirty ? "  â—" : "");
             if (_headerVehicleLabel != null)
-                _headerVehicleLabel.Text = $"📌  {vehicle}  |  {vtecTag}{iabTag}";
+                _headerVehicleLabel.Text = $"ğŸ“Œ  {vehicle}  |  {vtecTag}{iabTag}";
             if (_profileLabel != null)
                 _profileLabel.Text = $"[{_activeProfile.EcuCode}] {_activeProfile.EngineCode}  {vtecTag}{iabTag}";
         }
 
-        // ── Dosya İşlemleri ──────────────────────────────────────
+        // â”€â”€ Dosya Ä°ÅŸlemleri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void OnOpen(object sender, EventArgs e)
         {
@@ -2910,8 +2910,8 @@ namespace HondaTuner.UI
 
             using var dlg = new OpenFileDialog
             {
-                Title = "ROM Seç",
-                Filter = "ROM Binary|*.bin|Tüm Dosyalar|*.*",
+                Title = "ROM SeÃ§",
+                Filter = "ROM Binary|*.bin|TÃ¼m Dosyalar|*.*",
             };
             if (dlg.ShowDialog() != DialogResult.OK) return;
 
@@ -2923,8 +2923,8 @@ namespace HondaTuner.UI
 
                 if (identificationResult.IsMismatch)
                 {
-                    var msg = $"ROM otomatik olarak tanımlanamadı (Güven: %{identificationResult.Confidence:F0}).\nManuel olarak bir ECU / Araç profili seçmek ister misiniz?";
-                    var r = MessageBox.Show(msg, "Tanımlama Başarısız", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var msg = $"ROM otomatik olarak tanÄ±mlanamadÄ± (GÃ¼ven: %{identificationResult.Confidence:F0}).\nManuel olarak bir ECU / AraÃ§ profili seÃ§mek ister misiniz?";
+                    var r = MessageBox.Show(msg, "TanÄ±mlama BaÅŸarÄ±sÄ±z", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (r != DialogResult.Yes) return;
 
                     using var vehicleDlg = new VehicleSelectDialog();
@@ -2935,7 +2935,7 @@ namespace HondaTuner.UI
                 else
                 {
                     _activeProfile = identificationResult.MatchedProfile;
-                    // EcuDatabase üzerinden eşleşen araç varsa seç
+                    // EcuDatabase Ã¼zerinden eÅŸleÅŸen araÃ§ varsa seÃ§
                     var record = EcuDatabase.GetByCode(_activeProfile.EcuCode);
                     if (record != null && record.Vehicles != null && record.Vehicles.Length > 0)
                     {
@@ -2946,9 +2946,9 @@ namespace HondaTuner.UI
                         _activeVehicle = null;
                     }
 
-                    string matchDetails = $"Tanımlanan ECU: {_activeProfile.EcuCode}\nMotor: {_activeProfile.EngineCode}\nGüven: %{identificationResult.Confidence:F0}\n\nEşleşen Kurallar:\n"
+                    string matchDetails = $"TanÄ±mlanan ECU: {_activeProfile.EcuCode}\nMotor: {_activeProfile.EngineCode}\nGÃ¼ven: %{identificationResult.Confidence:F0}\n\nEÅŸleÅŸen Kurallar:\n"
                         + string.Join("\n", identificationResult.MatchedRules);
-                    MessageBox.Show(matchDetails, "ROM Başarıyla Tanımlandı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(matchDetails, "ROM BaÅŸarÄ±yla TanÄ±mlandÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 _parser.Load(dlg.FileName, _activeProfile);
@@ -2961,7 +2961,7 @@ namespace HondaTuner.UI
                 _fuelGrid.LoadMap(_stockFuelMap, "Fuel Map", _activeProfile);
                 _ignGrid.LoadMap(_stockIgnMap, "Ignition Map", _activeProfile);
 
-                // M2 — ROM parametrelerini yükle
+                // M2 â€” ROM parametrelerini yÃ¼kle
                 if (_activeProfile.HasVtec)
                 {
                     _vtecRpmSpinner.Minimum = _activeProfile.VtecRpmMin;
@@ -3002,7 +3002,7 @@ namespace HondaTuner.UI
                 _diffView.Compare(_stockFuelMap, _stockFuelMap, "Fuel Map");
 
                 _isDirty = false;
-                SetStatus($"✅  Yüklendi: {System.IO.Path.GetFileName(dlg.FileName)}  [{_activeProfile.EcuCode}]");
+                SetStatus($"âœ…  YÃ¼klendi: {System.IO.Path.GetFileName(dlg.FileName)}  [{_activeProfile.EcuCode}]");
                 SetChecksum(true);
                 UpdateProfileUI();
 
@@ -3018,7 +3018,7 @@ namespace HondaTuner.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Yükleme Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "YÃ¼kleme HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -3075,7 +3075,7 @@ namespace HondaTuner.UI
                 _ignGrid.LoadMap(_parser.ReadIgnitionMap(), "Ignition Map", _activeProfile);
                 UpdateUIFromRom();
                 MarkDirty();
-                SetStatus("Geri Alma (Undo) işlemi uygulandı.");
+                SetStatus("Geri Alma (Undo) iÅŸlemi uygulandÄ±.");
             }
         }
 
@@ -3138,17 +3138,17 @@ namespace HondaTuner.UI
                 _backupMgr.SaveVersion(_parser.GetRomBuffer(), "ROM Degisiklikleri Kaydedildi");
 
                 _isDirty = false;
-                SetStatus($"💾  Kaydedildi: {System.IO.Path.GetFileName(path)}");
+                SetStatus($"ğŸ’¾  Kaydedildi: {System.IO.Path.GetFileName(path)}");
                 SetChecksum(true);
                 UpdateProfileUI();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Kayıt Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "KayÄ±t HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // ── Araçlar ──────────────────────────────────────────────
+        // â”€â”€ AraÃ§lar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void OnApplyAssistantBasemap(object sender, EventArgs e)
         {
@@ -3176,7 +3176,7 @@ namespace HondaTuner.UI
             _assistantNotes.ScrollToCaret();
 
             MarkDirty();
-            SetStatus("Tuning asistanı basemap'i haritalara uyguladı.");
+            SetStatus("Tuning asistanÄ± basemap'i haritalara uyguladÄ±.");
         }
 
         private void OnApplyStage1Basemap(object sender, EventArgs e)
@@ -3185,10 +3185,10 @@ namespace HondaTuner.UI
 
             var confirm = MessageBox.Show(
                 "Stage 1 Basemap;\n" +
-                "  • VTEC RPM, Rev Limit ve Hız Sınırı'nı ROM'a yazacak\n" +
-                "  • Yakıt ve Ateşleme haritalarını enjektör + hedef AFR'ye göre güncelleyecek\n\n" +
+                "  â€¢ VTEC RPM, Rev Limit ve HÄ±z SÄ±nÄ±rÄ±'nÄ± ROM'a yazacak\n" +
+                "  â€¢ YakÄ±t ve AteÅŸleme haritalarÄ±nÄ± enjektÃ¶r + hedef AFR'ye gÃ¶re gÃ¼ncelleyecek\n\n" +
                 "Devam etmek istiyor musunuz?",
-                "⚡ Stage 1 Basemap Onayla",
+                "âš¡ Stage 1 Basemap Onayla",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -3222,11 +3222,11 @@ namespace HondaTuner.UI
                 _assistantNotes.ScrollToCaret();
 
                 MarkDirty();
-                SetStatus("⚡ Stage 1 Basemap ROM'a uygulandı — kaydetmeyi unutmayın.");
+                SetStatus("âš¡ Stage 1 Basemap ROM'a uygulandÄ± â€” kaydetmeyi unutmayÄ±n.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Stage 1 uygulanamadı:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Stage 1 uygulanamadÄ±:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -3248,7 +3248,7 @@ namespace HondaTuner.UI
                 $"Wideband duzeltme uygulandi.\r\n" +
                 $"Olculen AFR: {_measuredAfrSpinner.Value:0.0}\r\n" +
                 $"Hedef AFR: {_targetAfrSpinner.Value:0.0}\r\n" +
-                $"Hücre: {_widebandRpmSpinner.Value:0} rpm / {_widebandLoadSpinner.Value:0} kPa\r\n" +
+                $"HÃ¼cre: {_widebandRpmSpinner.Value:0} rpm / {_widebandLoadSpinner.Value:0} kPa\r\n" +
                 $"Etki alani: {_widebandRadiusSpinner.Value:0}\r\n\r\n" +
                 "Olculen AFR hedefin ustundeyse yakit eklenir; altindaysa yakit azaltilir.";
 
@@ -3257,7 +3257,7 @@ namespace HondaTuner.UI
             _assistantNotes.ScrollToCaret();
 
             MarkDirty();
-            SetStatus("Wideband AFR ölçümüne göre yakıt haritası düzeltildi.");
+            SetStatus("Wideband AFR Ã¶lÃ§Ã¼mÃ¼ne gÃ¶re yakÄ±t haritasÄ± dÃ¼zeltildi.");
         }
 
         private TuningSetup BuildAssistantSetup()
@@ -3285,7 +3285,7 @@ namespace HondaTuner.UI
                 _widebandRpmSpinner.Minimum, _widebandRpmSpinner.Maximum);
 
             string activeProfileText = HondaTuner.Core.Localization.L.Get("Aktif profil:");
-            string vehicleText = HondaTuner.Core.Localization.L.Get("Araç:");
+            string vehicleText = HondaTuner.Core.Localization.L.Get("AraÃ§:");
             string disclaimerText = HondaTuner.Core.Localization.L.Get("disclaimer_notes");
 
             _assistantNotes.Text =
@@ -3324,7 +3324,7 @@ namespace HondaTuner.UI
             bool ok = _parser.VerifyChecksum();
             SetChecksum(ok);
             MessageBox.Show(
-                ok ? "✅ Checksum geçerli." : "❌ Checksum hatalı!",
+                ok ? "âœ… Checksum geÃ§erli." : "âŒ Checksum hatalÄ±!",
                 "Checksum", MessageBoxButtons.OK,
                 ok ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
         }
@@ -3332,8 +3332,8 @@ namespace HondaTuner.UI
         private void OnResetToStock(object sender, EventArgs e)
         {
             if (!_parser.IsLoaded) { NoRomWarning(); return; }
-            if (MessageBox.Show("Tüm değişiklikler silinecek. Emin misin?",
-                "Stock'a Döndür", MessageBoxButtons.YesNo,
+            if (MessageBox.Show("TÃ¼m deÄŸiÅŸiklikler silinecek. Emin misin?",
+                "Stock'a DÃ¶ndÃ¼r", MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning) != DialogResult.Yes) return;
 
             _parser.Load(_parser.FilePath, _activeProfile);
@@ -3345,10 +3345,10 @@ namespace HondaTuner.UI
             _revLimitSpinner.Value = _parser.ReadRevLimit();
 
             _isDirty = false;
-            SetStatus("↩  Stock ROM'a döndürüldü.");
+            SetStatus("â†©  Stock ROM'a dÃ¶ndÃ¼rÃ¼ldÃ¼.");
         }
 
-        // ── Diff ─────────────────────────────────────────────────
+        // â”€â”€ Diff â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void RefreshDiff()
         {
@@ -3359,7 +3359,7 @@ namespace HondaTuner.UI
             _diffView.Compare(stock, modified, map);
         }
 
-        // ── Yardımcılar ──────────────────────────────────────────
+        // â”€â”€ YardÄ±mcÄ±lar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void MarkDirty()
         {
@@ -3375,19 +3375,19 @@ namespace HondaTuner.UI
             {
                 key = "status_empty";
             }
-            else if (msg.StartsWith("ROM yüklenmedi"))
+            else if (msg.StartsWith("ROM yÃ¼klenmedi"))
             {
                 key = "rom_not_loaded_status";
             }
-            else if (msg.StartsWith("CSV yüklendi:"))
+            else if (msg.StartsWith("CSV yÃ¼klendi:"))
             {
                 key = "csv_loaded_status";
             }
-            else if (msg.StartsWith("AutoTune Oturumu Başlatıldı"))
+            else if (msg.StartsWith("AutoTune Oturumu BaÅŸlatÄ±ldÄ±"))
             {
                 key = "autotune_session_started";
             }
-            else if (msg.StartsWith("AutoTune Oturumu Duraklatıldı"))
+            else if (msg.StartsWith("AutoTune Oturumu DuraklatÄ±ldÄ±"))
             {
                 key = "autotune_session_paused";
             }
@@ -3399,11 +3399,11 @@ namespace HondaTuner.UI
             {
                 key = "autotune_session_stopped";
             }
-            else if (msg.StartsWith("Wideband AFR ölçümüne göre"))
+            else if (msg.StartsWith("Wideband AFR Ã¶lÃ§Ã¼mÃ¼ne gÃ¶re"))
             {
                 key = "wideband_correction_applied";
             }
-            else if (msg.StartsWith("↩"))
+            else if (msg.StartsWith("â†©"))
             {
                 key = "stock_restored_status";
             }
@@ -3457,7 +3457,7 @@ namespace HondaTuner.UI
             return b;
         }
 
-        /// <summary>Donanım paneli için beyaz yazılı, düz renkli buton.</summary>
+        /// <summary>DonanÄ±m paneli iÃ§in beyaz yazÄ±lÄ±, dÃ¼z renkli buton.</summary>
         private Button MakeHwButton(string text, int w, Color bg)
         {
             var b = new Button
@@ -3487,7 +3487,7 @@ namespace HondaTuner.UI
             return b;
         }
 
-        // ── AutoTune Closed Loop (Phase 8) ──────────────────────────
+        // â”€â”€ AutoTune Closed Loop (Phase 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         private void BuildAutoTunePage(Panel tab)
         {
@@ -3526,15 +3526,15 @@ namespace HondaTuner.UI
 
             var gbConfig = new GroupBox
             {
-                Text = HondaTuner.Core.Localization.L.Get("Oturum Ayarları"),
-                Tag = "Oturum Ayarları",
+                Text = HondaTuner.Core.Localization.L.Get("Oturum AyarlarÄ±"),
+                Tag = "Oturum AyarlarÄ±",
                 ForeColor = TextPrimary,
                 Size = new Size(350, 180),
                 Margin = new Padding(0, 0, 0, 16),
                 Padding = new Padding(12)
             };
 
-            var lblMode = MakeLabel("Çalışma Modu:", 12, 20);
+            var lblMode = MakeLabel("Ã‡alÄ±ÅŸma Modu:", 12, 20);
             _atModeCombo = new ComboBox
             {
                 Location = new Point(130, 18),
@@ -3560,7 +3560,7 @@ namespace HondaTuner.UI
             _atProfileCombo.Items.AddRange(new object[] { "Default", "Street", "Dyno" });
             _atProfileCombo.SelectedIndex = 0;
 
-            var lblUser = MakeLabel("Kullanıcı Rolü:", 12, 90);
+            var lblUser = MakeLabel("KullanÄ±cÄ± RolÃ¼:", 12, 90);
             var comboUser = new ComboBox
             {
                 Location = new Point(130, 88),
@@ -3584,7 +3584,7 @@ namespace HondaTuner.UI
             leftPanel.Controls.Add(gbConfig);
 
             var actionPanel = new Panel { Size = new Size(350, 48), Margin = new Padding(0, 0, 0, 16) };
-            _btnAtStart = MakeButton("▶ Başlat", 0, 0, 100, 36, (s, e) =>
+            _btnAtStart = MakeButton("â–¶ BaÅŸlat", 0, 0, 100, 36, (s, e) =>
             {
                 int roleIdx = comboUser.SelectedIndex;
                 string userId = roleIdx == 1 ? "AdvancedUser" :
@@ -3601,25 +3601,25 @@ namespace HondaTuner.UI
                     _atModeCombo.Enabled = false;
                     _atProfileCombo.Enabled = false;
                     comboUser.Enabled = false;
-                    SetStatus($"AutoTune Oturumu Başlatıldı ({mode})");
+                    SetStatus($"AutoTune Oturumu BaÅŸlatÄ±ldÄ± ({mode})");
                 }
                 else
                 {
-                    MessageBox.Show("AutoTune oturumu başlatılamadı. Kilit veya yetki yetersizliği olabilir.", "AutoTune", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("AutoTune oturumu baÅŸlatÄ±lamadÄ±. Kilit veya yetki yetersizliÄŸi olabilir.", "AutoTune", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             });
             _btnAtStart.BackColor = VtecGreen;
             _btnAtStart.ForeColor = Color.White;
             _btnAtStart.Tag = "btn_at_start";
 
-            _btnAtPause = MakeButton("⏸ Duraklat", 110, 0, 100, 36, (s, e) =>
+            _btnAtPause = MakeButton("â¸ Duraklat", 110, 0, 100, 36, (s, e) =>
             {
                 if (_autoTuneEngine.IsRunning)
                 {
                     _autoTuneEngine.PauseSession();
                     _btnAtPause.Tag = "btn_at_resume";
                     _btnAtPause.Text = HondaTuner.Core.Localization.L.Get("btn_at_resume");
-                    SetStatus("AutoTune Oturumu Duraklatıldı");
+                    SetStatus("AutoTune Oturumu DuraklatÄ±ldÄ±");
                 }
                 else
                 {
@@ -3634,7 +3634,7 @@ namespace HondaTuner.UI
             _btnAtPause.ForeColor = Color.White;
             _btnAtPause.Tag = "btn_at_pause";
 
-            _btnAtStop = MakeButton("⏹ Durdur", 220, 0, 100, 36, (s, e) =>
+            _btnAtStop = MakeButton("â¹ Durdur", 220, 0, 100, 36, (s, e) =>
             {
                 _autoTuneEngine.StopSession();
                 _btnAtStart.Enabled = true;
@@ -3697,7 +3697,7 @@ namespace HondaTuner.UI
                 Padding = new Padding(12)
             };
 
-            _btnRtpConnect = MakeButton("▶ Emulator Bağlan", 12, 20, 150, 28, (s, e) =>
+            _btnRtpConnect = MakeButton("â–¶ Emulator BaÄŸlan", 12, 20, 150, 28, (s, e) =>
             {
                 try
                 {
@@ -3706,13 +3706,13 @@ namespace HondaTuner.UI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Emulator bağlantısı başarısız oldu: {ex.Message}", "RTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Emulator baÄŸlantÄ±sÄ± baÅŸarÄ±sÄ±z oldu: {ex.Message}", "RTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             });
             _btnRtpConnect.BackColor = VtecGreen;
             _btnRtpConnect.ForeColor = Color.White;
 
-            _btnRtpDisconnect = MakeButton("⏹ Bağlantıyı Kes", 172, 20, 150, 28, (s, e) =>
+            _btnRtpDisconnect = MakeButton("â¹ BaÄŸlantÄ±yÄ± Kes", 172, 20, 150, 28, (s, e) =>
             {
                 _rtpEngine.DisconnectEmulator();
                 UpdateRtpStatusUI();
@@ -3740,7 +3740,7 @@ namespace HondaTuner.UI
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Senkronizasyon etkinleştirilemedi: {ex.Message}", "RTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Senkronizasyon etkinleÅŸtirilemedi: {ex.Message}", "RTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         _chkRtpSyncEnabled.Checked = false;
                     }
                 }
@@ -3751,27 +3751,27 @@ namespace HondaTuner.UI
                 UpdateRtpStatusUI();
             };
 
-            _btnRtpFullSync = MakeButton("🔄 Tüm ROM'u Senkronize Et (Upload)", 12, 85, 310, 30, (s, e) =>
+            _btnRtpFullSync = MakeButton("ğŸ”„ TÃ¼m ROM'u Senkronize Et (Upload)", 12, 85, 310, 30, (s, e) =>
             {
                 try
                 {
                     _rtpEngine.SyncFullCalibration();
                     UpdateRtpStatusUI();
-                    MessageBox.Show("Tam kalibrasyon emulatöre başarıyla yüklendi ve doğrulandı.", "RTP Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Tam kalibrasyon emulatÃ¶re baÅŸarÄ±yla yÃ¼klendi ve doÄŸrulandÄ±.", "RTP Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Tam kalibrasyon senkronizasyonu başarısız: {ex.Message}", "RTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Tam kalibrasyon senkronizasyonu baÅŸarÄ±sÄ±z: {ex.Message}", "RTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             });
             _btnRtpFullSync.BackColor = AccentBlue;
             _btnRtpFullSync.ForeColor = Color.White;
 
-            _lblRtpState = MakeLabel("Bağlantı Durumu: Disconnected", 12, 125);
-            _lblRtpQueueDepth = MakeLabel("Kuyruk Derinliği: 0 eleman", 12, 145);
+            _lblRtpState = MakeLabel("BaÄŸlantÄ± Durumu: Disconnected", 12, 125);
+            _lblRtpQueueDepth = MakeLabel("Kuyruk DerinliÄŸi: 0 eleman", 12, 145);
             _lblRtpAvgLatency = MakeLabel("Ortalama Gecikme: 0.0 ms", 12, 165);
             _lblRtpFailureCount = MakeLabel("Hata / Yeniden Deneme: 0 / 0", 12, 185);
-            _lblRtpDroppedWrites = MakeLabel("Düşen Yazmalar: 0", 12, 205);
+            _lblRtpDroppedWrites = MakeLabel("DÃ¼ÅŸen Yazmalar: 0", 12, 205);
 
             gbRtp.Controls.Add(_btnRtpConnect);
             gbRtp.Controls.Add(_btnRtpDisconnect);
@@ -3794,8 +3794,8 @@ namespace HondaTuner.UI
 
             var lblDecisions = new Label
             {
-                Text = HondaTuner.Core.Localization.L.Get("Önerilen ve Uygulanan Kararlar"),
-                Tag = "Önerilen ve Uygulanan Kararlar",
+                Text = HondaTuner.Core.Localization.L.Get("Ã–nerilen ve Uygulanan Kararlar"),
+                Tag = "Ã–nerilen ve Uygulanan Kararlar",
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
                 ForeColor = TextPrimary,
                 Dock = DockStyle.Top,
@@ -3817,16 +3817,16 @@ namespace HondaTuner.UI
             _atDecisionsListView.Columns.Add("Zaman", 80);
             _atDecisionsListView.Columns.Add("Tip", 60);
             _atDecisionsListView.Columns.Add("Harita", 80);
-            _atDecisionsListView.Columns.Add("Hücre [R, C]", 80);
+            _atDecisionsListView.Columns.Add("HÃ¼cre [R, C]", 80);
             _atDecisionsListView.Columns.Add("Sapma", 80);
-            _atDecisionsListView.Columns.Add("Düzeltme", 80);
-            _atDecisionsListView.Columns.Add("Güven Skoru", 90);
+            _atDecisionsListView.Columns.Add("DÃ¼zeltme", 80);
+            _atDecisionsListView.Columns.Add("GÃ¼ven Skoru", 90);
             _atDecisionsListView.Columns.Add("Durum", 100);
 
             var lblSuggestions = new Label
             {
-                Text = HondaTuner.Core.Localization.L.Get("Canlı AutoTune Düzeltme Önerileri (Son 50 Öneri)"),
-                Tag = "Canlı AutoTune Düzeltme Önerileri (Son 50 Öneri)",
+                Text = HondaTuner.Core.Localization.L.Get("CanlÄ± AutoTune DÃ¼zeltme Ã–nerileri (Son 50 Ã–neri)"),
+                Tag = "CanlÄ± AutoTune DÃ¼zeltme Ã–nerileri (Son 50 Ã–neri)",
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
                 ForeColor = TextPrimary,
                 Dock = DockStyle.Bottom,
@@ -3858,11 +3858,11 @@ namespace HondaTuner.UI
             _dgvAutoTuneSuggestions.DefaultCellStyle.SelectionBackColor = AccentBlue;
 
             _dgvAutoTuneSuggestions.Columns.Add("Rpm", "RPM");
-            _dgvAutoTuneSuggestions.Columns.Add("Load", "Yük (kPa)");
+            _dgvAutoTuneSuggestions.Columns.Add("Load", "YÃ¼k (kPa)");
             _dgvAutoTuneSuggestions.Columns.Add("TargetAfr", "Hedef AFR");
-            _dgvAutoTuneSuggestions.Columns.Add("MeasuredAfr", "Ölçülen AFR");
-            _dgvAutoTuneSuggestions.Columns.Add("Action", "Öneri");
-            _dgvAutoTuneSuggestions.Columns.Add("Correction", "Düzeltme %");
+            _dgvAutoTuneSuggestions.Columns.Add("MeasuredAfr", "Ã–lÃ§Ã¼len AFR");
+            _dgvAutoTuneSuggestions.Columns.Add("Action", "Ã–neri");
+            _dgvAutoTuneSuggestions.Columns.Add("Correction", "DÃ¼zeltme %");
 
             rightPanel.Controls.Add(_atDecisionsListView);
             rightPanel.Controls.Add(lblSuggestions);
@@ -4002,7 +4002,7 @@ namespace HondaTuner.UI
                     }
                 }
             }
-            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnAutoTuneDomainEvent UI güncelleme hatası: {ex.Message}"); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnAutoTuneDomainEvent UI gÃ¼ncelleme hatasÄ±: {ex.Message}"); }
         }
 
         private void UpdateLocalizedUI()
@@ -4093,7 +4093,7 @@ namespace HondaTuner.UI
                 UpdateProfileUI();
 
                 Core.Interfaces.IRomService romSvc = null;
-                try { romSvc = Core.Container.ServiceContainer.Resolve<Core.Interfaces.IRomService>(); } catch { }
+                try { romSvc = Core.Container.ServiceContainer.Resolve<Core.Interfaces.IRomService>(); } catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
                 if (romSvc == null || !romSvc.IsLoaded)
                 {
                     SetStatus(HondaTuner.Core.Localization.L.Get("rom_not_loaded_status"));
@@ -4131,7 +4131,7 @@ namespace HondaTuner.UI
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[MainForm] UpdateLocalizedUI hatası: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[MainForm] UpdateLocalizedUI hatasÄ±: {ex.Message}");
             }
         }
 
@@ -4389,7 +4389,7 @@ namespace HondaTuner.UI
 
                 UpdateRtpStatusUI();
             }
-            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnRtpDomainEvent UI güncelleme hatası: {ex.Message}"); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[MainForm] OnRtpDomainEvent UI gÃ¼ncelleme hatasÄ±: {ex.Message}"); }
         }
 
         private void UpdateRtpStatusUI()
@@ -4455,7 +4455,7 @@ namespace HondaTuner.UI
         }
     }
 
-    // ── Koyu Menü Renderer ───────────────────────────────────────
+    // â”€â”€ Koyu MenÃ¼ Renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     internal class DarkMenuRenderer : ToolStripProfessionalRenderer
     {
         private static readonly Color BgMenu = Color.FromArgb(22, 27, 34);

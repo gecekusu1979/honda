@@ -15,6 +15,13 @@
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+  </ItemGroup>
+
+  <!-- Tests klasörü ayrı bir xUnit projesidir; ana proje tarafından derlenmemeli -->
+  <ItemGroup>
+    <Compile Remove="Tests\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@ using System.Drawing.Drawing2D;
 using System.IO.Ports;
 using System.Windows.Forms;
 using HondaTuner.Core;
-using HondaTuner.Core.Config;
+using HondaTuner.Database;
 using HondaTuner.Core.Rom;
 using HondaTuner.Core.Algorithms;
 using HondaTuner.Calibration.EngineProtection;
@@ -1078,8 +1078,12 @@ namespace HondaTuner.UI
                 {
                     try
                     {
-                        _programmer.WriteChip(romData);
-                        BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ Yazma tamamlandı."); SetStatus("CH341A: Yazma tamamlandı."); }));
+                        var romSvc = Core.Container.ServiceContainer.Resolve<Core.Interfaces.IRomService>();
+                        var ack = romSvc.WritePhysical(_programmer);
+                        if (ack.Verified)
+                        {
+                            BeginInvoke((Action)(() => { AppendProgLog($"[{DateTime.Now:HH:mm:ss}] ✅ Yazma tamamlandı. (Tx: {ack.TransactionId})"); SetStatus($"{_programmer.DeviceName}: Yazma tamamlandı."); }));
+                        }
                     }
                     catch (Exception ex)
                     {

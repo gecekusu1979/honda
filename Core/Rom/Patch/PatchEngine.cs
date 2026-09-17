@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using HondaTuner.Calibration;
 using HondaTuner.Core.Container;
 using HondaTuner.Core.Interfaces;
@@ -104,6 +105,12 @@ namespace HondaTuner.Core.Rom.Patch
         /// <inheritdoc />
         public PatchResult ApplyPatch(byte[] romData, string patchId, EcuProfile profile, string username)
         {
+            var rSvc = ServiceContainer.Resolve<IRomService>();
+            if (rSvc != null && rSvc.IsReadOnly)
+            {
+                throw new InvalidOperationException("ROM READ-ONLY. Bilinmeyen profile yama (patch) uygulanamaz.");
+            }
+
             var result = new PatchResult { PatchId = patchId, IsSuccess = false };
 
             // 1. Validate
@@ -379,6 +386,83 @@ namespace HondaTuner.Core.Rom.Patch
         public bool IsPatchApplied(string patchId)
         {
             return _backupManager.GetBackup(patchId) != null;
+        }
+
+        /// <inheritdoc />
+        public PatchTransaction CreateTransaction(byte[] originalRom, string patchId, EcuProfile profile)
+        {
+            if (originalRom == null) throw new ArgumentNullException(nameof(originalRom));
+            if (string.IsNullOrEmpty(patchId)) throw new ArgumentException(nameof(patchId));
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+            // Yama tanımını bul
+            var patchDef = _patchDefinitions.FirstOrDefault(p =>
+                string.Equals(p.PatchId, patchId, StringComparison.OrdinalIgnoreCase));
+            if (patchDef == null) throw new InvalidOperationException($"Patch '{patchId}' sistemde tanımlı değil.");
+
+            // Profil tarafından destekleniyor mu?
+            var mapping = profile.SupportedPatches?.FirstOrDefault(m =>
+                string.Equals(m.PatchId, patchId, StringComparison.OrdinalIgnoreCase));
+            if (mapping == null) throw new InvalidOperationException($"Patch '{patchId}' '{profile.Name}' profiline uygun değil.");
+
+            // Önizleme ve beklenen byte kontrolü falan burada eklenebilir. Şimdilik transaction oluşturmaya odaklanıyoruz.
+            byte[] patchedBytes = new byte[originalRom.Length];
+            Array.Copy(originalRom, patchedBytes, originalRom.Length);
+
+            var changedOffsets = new List<int>();
+            if (patchDef.PatchBytes != null && mapping.Offset >= 0 && mapping.Offset + patchDef.PatchBytes.Length <= patchedBytes.Length)
+            {
+                for (int i = 0; i < patchDef.PatchBytes.Length; i++)
+                {
+                    patchedBytes[mapping.Offset + i] = patchDef.PatchBytes[i];
+                    changedOffsets.Add(mapping.Offset + i);
+                }
+            }
+
+            return new PatchTransaction(
+                profile.Name,
+                originalRom,
+                patchedBytes,
+                changedOffsets,
+                "UNKNOWN",
+                "UNKNOWN",
+                $"Transaction created for {patchId}"
+            );
+        }
+
+        /// <inheritdoc />
+        public bool RollbackTransaction(byte[] romData, PatchTransaction transaction, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            if (romData == null || transaction == null)
+            {
+                errorMessage = "Geçersiz parametre: buffer veya transaction boş.";
+                return false;
+            }
+
+            if (romData.Length != transaction.OriginalBytes.Length)
+            {
+                errorMessage = "ROM boyutu transaction orijinali ile uyuşmuyor.";
+                return false;
+            }
+
+            // Orijinal byteları doğrudan buffer'a uygulayarak Rollback işlemini tamamla
+            Array.Copy(transaction.OriginalBytes, romData, transaction.OriginalBytes.Length);
+
+            // Bütünlük Kontrolü (Rollback sonrasında SHA-256(original) == SHA-256(restored) kuralı)
+            using (var sha = SHA256.Create())
+            {
+                byte[] hash = sha.ComputeHash(romData);
+                string newHash = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+
+                if (newHash != transaction.OriginalSha256)
+                {
+                    errorMessage = "Rollback sonrası SHA-256 integrity mismatch. İşlem BLOCKED.";
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <inheritdoc />

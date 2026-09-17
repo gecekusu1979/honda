@@ -7,7 +7,7 @@ namespace HondaTuner.Hardware.EEPROM
     public interface IEepromProgrammer : Core.Interfaces.IHardwareDevice
     {
         byte[] ReadChip(int romLength);
-        void WriteChip(byte[] romData);
+        HondaTuner.Core.AutoTune.PhysicalWriterAck WriteChip(Core.Rom.Patch.PatchTransaction transaction);
         void EraseChip();
         bool VerifyChip(byte[] expectedData);
     }

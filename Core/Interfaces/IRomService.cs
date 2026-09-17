@@ -7,6 +7,7 @@ namespace HondaTuner.Core.Interfaces
     public interface IRomService
     {
         bool IsLoaded { get; }
+        bool IsReadOnly { get; }
         EcuProfile Profile { get; }
         string FilePath { get; }
         HondaTuner.Core.Metadata.EcuMetadata Metadata { get; set; }
@@ -20,5 +21,6 @@ namespace HondaTuner.Core.Interfaces
         void WriteIgnitionMap(byte[,] mapData);
         void SaveMetadata(string filePath);
         void LoadMetadata(string filePath);
+        HondaTuner.Core.AutoTune.PhysicalWriterAck WritePhysical(HondaTuner.Hardware.EEPROM.IEepromProgrammer programmer);
     }
 }

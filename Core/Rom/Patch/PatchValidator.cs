@@ -75,10 +75,23 @@ namespace HondaTuner.Core.Rom.Patch
                 }
             }
 
-            // 3. Offset Kontrolü
-            if (offset < 0 || offset + patch.PatchBytes.Length > romData.Length)
+            // 3. Offset Kontrolü (RomLayoutValidator Faz 5 Koruması)
+            try
             {
-                error = $"Yama hedef alanı ROM sınırları dışında (Offset: {offset}, PatchSize: {patch.PatchBytes.Length}, RomSize: {romData.Length}).";
+                var layoutValidator = new RomLayoutValidator();
+                // Patch işlemleri veritabanındaki EcuDefinitions'tan harita şemalarına ihtiyaç duyar (Overlap için)
+                // Şimdilik null mapDefinitions göndermek Geometry ve Map testlerini atlar ama Bounds ve temel Overlap testlerini yapar (Injector, Vtec, Idle vs.)
+                var layoutResult = layoutValidator.Validate(romData, profile, null, "Patch_" + patch.PatchId, offset, patch.PatchBytes.Length);
+
+                if (!layoutResult.IsValid)
+                {
+                    error = $"Yama reddedildi (Layout Koruması): {layoutResult.ErrorMessage}";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                error = $"Yama Layout Koruması hata fırlattı: {ex.Message}";
                 return false;
             }
 

@@ -216,7 +216,9 @@ namespace HondaTuner.Core.Telemetry
                     return newValue;
                 }
 
+#pragma warning disable 8629
                 double filtered = _alpha * ((_lastFiltered.Value) + newValue - _lastRaw.Value);
+#pragma warning restore 8629
                 _lastRaw = newValue;
                 _lastFiltered = filtered;
                 return filtered;

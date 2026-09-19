@@ -9,7 +9,9 @@ namespace HondaTuner.Calibration.Fuel
         // Görev döngüsü doyum alarmı olay dinleyicisi
         public event EventHandler<double> InjectorSaturationAlarm;
 
+#pragma warning disable 8618
         public AdvancedFuelService()
+#pragma warning restore 8618
         {
             Tables = new AdvancedFuelTables();
         }

@@ -37,7 +37,7 @@ namespace HondaTuner.Core.AutoTune
         private readonly IAutoTuneEventPublisher _eventPublisher;
         private readonly ICalibrationStreamPublisher _streamPublisher;
 
-        private AutoTuneSession _activeSession;
+        private AutoTuneSession _activeSession = null!;
 
         public bool IsRunning { get; private set; }
         public AutoTuneSession ActiveSession
@@ -56,7 +56,14 @@ namespace HondaTuner.Core.AutoTune
         public event Action<IAutoTuneDomainEvent> OnDomainEvent;
         public event Action<CalibrationStreamPayload> OnCalibrationStream;
 
+#pragma warning disable 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+        #pragma warning disable CS8618
         public AutoTuneEngine(
+#pragma warning restore 8618
             ICalibrationCellLockManager cellLockManager,
             ICalibrationSnapshotManager snapshotManager,
             ICalibrationRecoveryManager recoveryManager,
@@ -183,7 +190,7 @@ namespace HondaTuner.Core.AutoTune
                 _stableFilter.Clear();
                 _changeQueue.Clear();
 
-                ActiveSession = null;
+                ActiveSession = null!;
             }
         }
 
@@ -342,15 +349,15 @@ namespace HondaTuner.Core.AutoTune
 
         public bool ApproveDecision(string decisionId)
         {
-            TuneDecision decision = null;
-            AutoTuneSession capturedSession = null;
+            TuneDecision decision = null!;
+            AutoTuneSession capturedSession = null!;
 
             lock (_lockObj)
             {
                 capturedSession = System.Threading.Volatile.Read(ref _activeSession);
                 if (capturedSession == null) return false;
 
-                decision = capturedSession.Decisions.FirstOrDefault(d => d.DecisionId == decisionId);
+                decision = capturedSession.Decisions.FirstOrDefault(d => d.DecisionId == decisionId)!;
                 if (decision == null) return false;
 
                 if (!TuneApprovalWorkflow.CanTransition(decision.ApprovalStatus, TuneDecisionStatus.Approved, capturedSession.UserRole, out string err))
@@ -380,7 +387,7 @@ namespace HondaTuner.Core.AutoTune
             });
 
             // Write learning to memory
-            Memory.Learn(decision.ParameterName, decision.MapName, decision.CellRow, decision.CellCol, decision.ChangePercent, true, null);
+            Memory.Learn(decision.ParameterName, decision.MapName, decision.CellRow, decision.CellCol, decision.ChangePercent, true, null!);
 
             Journal.Log(new JournalEntry
             {
@@ -412,15 +419,15 @@ namespace HondaTuner.Core.AutoTune
 
         public void RejectDecision(string decisionId)
         {
-            TuneDecision decision = null;
-            AutoTuneSession capturedSession = null;
+            TuneDecision decision = null!;
+            AutoTuneSession capturedSession = null!;
 
             lock (_lockObj)
             {
                 capturedSession = System.Threading.Volatile.Read(ref _activeSession);
                 if (capturedSession == null) return;
 
-                decision = capturedSession.Decisions.FirstOrDefault(d => d.DecisionId == decisionId);
+                decision = capturedSession.Decisions.FirstOrDefault(d => d.DecisionId == decisionId)!;
                 if (decision == null) return;
 
                 if (TuneApprovalWorkflow.CanTransition(decision.ApprovalStatus, TuneDecisionStatus.Rejected, capturedSession.UserRole, out _))
@@ -429,7 +436,7 @@ namespace HondaTuner.Core.AutoTune
                 }
                 else
                 {
-                    decision = null;
+                    decision = null!;
                 }
             }
 

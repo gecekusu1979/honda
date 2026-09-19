@@ -6,8 +6,8 @@ namespace HondaTuner.Core.Rtp
         public int WriteTimeoutMs { get; set; }
         public int PacketSize { get; set; }
         public int SyncIntervalMs { get; set; }
-        public string BatchingPolicy { get; set; }
+        public string BatchingPolicy { get; set; } = null!;
         public int QueueLimit { get; set; }
-        public string BackpressurePolicy { get; set; }
+        public string BackpressurePolicy { get; set; } = null!;
     }
 }

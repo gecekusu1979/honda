@@ -1,10 +1,12 @@
+using HondaTuner.Core.Interfaces;
+
 namespace HondaTuner.Hardware.Emulator
 {
     /// <summary>
     /// RTP (Real-Time Programming) emülatör arayüzü.
     /// Motor çalışırken gerçek zamanlı kalibrasyon desteği sağlar.
     /// </summary>
-    public interface IEmulator : Core.Interfaces.IHardwareDevice
+    public interface IEmulator : IHardwareDevice
     {
         byte ReadByte(int offset);
         void WriteByte(int offset, byte value);

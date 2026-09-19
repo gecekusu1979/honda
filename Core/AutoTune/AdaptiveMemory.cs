@@ -18,13 +18,13 @@ namespace HondaTuner.Core.AutoTune
 
     public class MemoryEntry
     {
-        public string ParameterName { get; set; }
-        public string MapName { get; set; }
+        public string ParameterName { get; set; } = null!;
+        public string MapName { get; set; } = null!;
         public int Row { get; set; }
         public int Col { get; set; }
         public double AppliedCorrection { get; set; }
         public bool Success { get; set; }
-        public EnvironmentalContext Environment { get; set; }
+        public EnvironmentalContext Environment { get; set; } = null!;
         public DateTime Timestamp { get; set; }
     }
 
@@ -154,8 +154,12 @@ namespace HondaTuner.Core.AutoTune
                 {
                     var entry = new MemoryEntry
                     {
+#pragma warning disable 8601
                         ParameterName = item.TryGetProperty("ParameterName", out var pName) ? pName.GetString() : "Unknown",
+#pragma warning restore 8601
+#pragma warning disable 8601
                         MapName = item.TryGetProperty("MapName", out var mName) ? mName.GetString() : "Unknown",
+#pragma warning restore 8601
                         Row = item.TryGetProperty("Row", out var r) ? r.GetInt32() : 0,
                         Col = item.TryGetProperty("Col", out var c) ? c.GetInt32() : 0,
                         AppliedCorrection = item.TryGetProperty("AppliedCorrection", out var corr) ? corr.GetDouble() : 0.0,

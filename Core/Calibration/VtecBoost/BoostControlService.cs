@@ -19,7 +19,7 @@ namespace HondaTuner.Calibration.VtecBoost
         public double ScrambleTimeRemaining { get; private set; } = 0.0;
         public double WgHighDutyTimer { get; private set; } = 0.0;
 
-        public event EventHandler<string> WgFailureAlarm;
+        public event EventHandler<string> WgFailureAlarm = null!;
 
         public void TriggerScramble()
         {

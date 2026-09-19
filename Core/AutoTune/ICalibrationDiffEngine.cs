@@ -2,8 +2,8 @@ namespace HondaTuner.Core.AutoTune
 {
     public class CalibrationDiffResult
     {
-        public string ParameterName { get; set; }
-        public string MapName { get; set; }
+        public string ParameterName { get; set; } = null!;
+        public string MapName { get; set; } = null!;
         public int Row { get; set; }
         public int Col { get; set; }
         public double BeforeValue { get; set; }

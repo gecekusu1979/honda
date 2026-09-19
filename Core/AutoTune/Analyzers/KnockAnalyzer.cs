@@ -9,10 +9,10 @@ namespace HondaTuner.Core.AutoTune.Analyzers
 
         public TuneDecision Analyze(TelemetrySnapshot telemetry, TargetMapProvider targetMapProvider)
         {
-            if (telemetry == null || targetMapProvider == null) return null;
+            if (telemetry == null || targetMapProvider == null) return null!;
 
             // Retard spark if knock is registered
-            if (telemetry.KnockCount <= 0.0) return null;
+            if (telemetry.KnockCount <= 0.0) return null!;
 
             double currentIgn = targetMapProvider.GetTargetValue(targetMapProvider.IgnitionTargets, telemetry.RPM, telemetry.MAP);
 

@@ -22,7 +22,7 @@ namespace HondaTuner.Core.Rom.Patch
         /// <returns>Geçerli ise true</returns>
         public static bool Validate(byte[] romData, PatchDefinition patch, EcuProfile profile, int offset, out string error)
         {
-            error = null;
+            error = null!;
 
             if (romData == null)
             {
@@ -81,7 +81,7 @@ namespace HondaTuner.Core.Rom.Patch
                 var layoutValidator = new RomLayoutValidator();
                 // Patch işlemleri veritabanındaki EcuDefinitions'tan harita şemalarına ihtiyaç duyar (Overlap için)
                 // Şimdilik null mapDefinitions göndermek Geometry ve Map testlerini atlar ama Bounds ve temel Overlap testlerini yapar (Injector, Vtec, Idle vs.)
-                var layoutResult = layoutValidator.Validate(romData, profile, null, "Patch_" + patch.PatchId, offset, patch.PatchBytes.Length);
+                var layoutResult = layoutValidator.Validate(romData, profile, null!, "Patch_" + patch.PatchId, offset, patch.PatchBytes.Length);
 
                 if (!layoutResult.IsValid)
                 {

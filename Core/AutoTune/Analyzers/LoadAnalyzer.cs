@@ -9,7 +9,7 @@ namespace HondaTuner.Core.AutoTune.Analyzers
 
         public TuneDecision Analyze(TelemetrySnapshot telemetry, TargetMapProvider targetMapProvider)
         {
-            if (telemetry == null || targetMapProvider == null) return null;
+            if (telemetry == null || targetMapProvider == null) return null!;
 
             double targetVE = targetMapProvider.GetTargetValue(targetMapProvider.VeTargets, telemetry.RPM, telemetry.MAP);
             if (targetVE <= 0.0) targetVE = 60.0;

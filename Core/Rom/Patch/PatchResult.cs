@@ -6,7 +6,7 @@ namespace HondaTuner.Core.Rom.Patch
     public class PatchResult
     {
         /// <summary>Yama ID'si</summary>
-        public string PatchId { get; set; }
+        public string PatchId { get; set; } = null!;
 
         /// <summary>Yama uygulanan offset adresi</summary>
         public int AffectedOffset { get; set; }
@@ -18,9 +18,9 @@ namespace HondaTuner.Core.Rom.Patch
         public bool IsSuccess { get; set; }
 
         /// <summary>Hata durumunda hata mesajı</summary>
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; } = null!;
 
         /// <summary>Geri alma için kaydedilen ROM anlık görüntüsü veya anlık yedek</summary>
-        public byte[] Snapshot { get; set; }
+        public byte[] Snapshot { get; set; } = null!;
     }
 }

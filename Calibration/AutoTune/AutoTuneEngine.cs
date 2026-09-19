@@ -5,13 +5,13 @@ using HondaTuner.Core.Logging;
 namespace HondaTuner.Calibration.AutoTune
 {
     /// <summary>
-    /// AutoTune Motoru — Wideband AFR hedef/ölçülen farkına göre
+    /// Yakıt Düzeltme Hesaplayıcı — Wideband AFR hedef/ölçülen farkına göre
     /// hücre bazlı yakıt düzeltme önerisi hesaplar.
     /// 
-    /// ÖNEMLİ: Bu motor otomatik ROM yazma yapmaz.
+    /// ÖNEMLİ: Bu sınıf otomatik ROM yazma yapmaz.
     /// Tüm düzeltmeler kullanıcı onayı gerektirir.
     /// </summary>
-    public class AutoTuneEngine : IAutoTuneEngine
+    public class FuelCorrectionCalculator
     {
         private readonly AutoTuneValidator _validator;
         private readonly int[] _rpmAxis;
@@ -19,7 +19,7 @@ namespace HondaTuner.Calibration.AutoTune
 
         public bool IsEnabled { get; set; } = false;
 
-        public AutoTuneEngine(int[] rpmAxis, int[] loadAxis)
+        public FuelCorrectionCalculator(int[] rpmAxis, int[] loadAxis)
         {
             _validator = new AutoTuneValidator();
             _rpmAxis = rpmAxis ?? throw new ArgumentNullException(nameof(rpmAxis));
@@ -65,7 +65,7 @@ namespace HondaTuner.Calibration.AutoTune
 
             string direction = clampedCorrection > 0 ? "Richen" : "Lean";
 
-            ApplicationLogger.Debug("AutoTuneEngine",
+            ApplicationLogger.Debug("FuelCorrectionCalculator",
                 $"Düzeltme: RPM={frame.Rpm:F0} MAP={frame.Map:F0} " +
                 $"Target={targetAfr:F1} Actual={frame.Afr:F1} → {clampedCorrection:+0.0;-0.0}% ({direction})");
 
@@ -76,7 +76,7 @@ namespace HondaTuner.Calibration.AutoTune
                 PercentAdjustment = Math.Round(clampedCorrection, 1),
                 Direction = direction,
                 IsValid = true,
-                RejectionReason = null
+                RejectionReason = null!
             };
         }
 

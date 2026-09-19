@@ -4,15 +4,15 @@ namespace HondaTuner.Core.AutoTune
 {
     public class CalibrationStreamPayload
     {
-        public string SessionId { get; set; }
+        public string SessionId { get; set; } = null!;
         public DateTime Timestamp { get; set; }
         public ParameterType Parameter { get; set; }
-        public string MapAddress { get; set; }
+        public string MapAddress { get; set; } = null!;
         public double OldValue { get; set; }
         public double NewValue { get; set; }
         public double Confidence { get; set; }
-        public string SafetyStatus { get; set; }
-        public string ApprovalStatus { get; set; }
+        public string SafetyStatus { get; set; } = null!;
+        public string ApprovalStatus { get; set; } = null!;
     }
 
     public interface ICalibrationStreamPublisher

@@ -9,10 +9,10 @@ namespace HondaTuner.Core.AutoTune.Analyzers
 
         public TuneDecision Analyze(TelemetrySnapshot telemetry, TargetMapProvider targetMapProvider)
         {
-            if (telemetry == null || targetMapProvider == null) return null;
+            if (telemetry == null || targetMapProvider == null) return null!;
 
             // Only advance if knock is zero and operating parameters are stable
-            if (telemetry.KnockCount > 0) return null;
+            if (telemetry.KnockCount > 0) return null!;
 
             double currentIgn = targetMapProvider.GetTargetValue(targetMapProvider.IgnitionTargets, telemetry.RPM, telemetry.MAP);
             double proposedIgn = currentIgn + 0.5; // Small incremental advance

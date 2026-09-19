@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 using System;
 
 namespace HondaTuner.Core.Telemetry
@@ -38,14 +39,14 @@ namespace HondaTuner.Core.Telemetry
     public class TelemetryFrame
     {
         // Temel Kimlikler
-        public string ChannelId { get; set; }
+        public string ChannelId { get; set; } = null!;
         public long FrameId { get; set; }
-        public string Source { get; set; }        // Örn. "MockProvider", "OBDII_ComPort3"
-        public string SourceId { get; set; }      // Cihaz seri numarası veya benzersiz ID'si
-        public string SessionId { get; set; }     // Bağlantı oturumu benzersiz ID'si
-        public string Transport { get; set; }     // Örn. "SerialPort", "USB_FTDI", "Mock"
+        public string Source { get; set; }        // Örn. "MockProvider", "OBDII_ComPort3" = null!;
+        public string SourceId { get; set; }      // Cihaz seri numarası veya benzersiz ID'si = null!;
+        public string SessionId { get; set; }     // Bağlantı oturumu benzersiz ID'si = null!;
+        public string Transport { get; set; }     // Örn. "SerialPort", "USB_FTDI", "Mock" = null!;
         public FrameDirection Direction { get; set; }
-        public string FrameType { get; set; }     // Örn. "Datalog", "DTC", "Acknowledge"
+        public string FrameType { get; set; }     // Örn. "Datalog", "DTC", "Acknowledge" = null!;
 
         // Zaman Damgaları (Sistem genelinde tek tip ITimeProvider kullanılır)
         public DateTime UtcTimestamp { get; set; }
@@ -54,7 +55,7 @@ namespace HondaTuner.Core.Telemetry
 
         // Değerler
         public double Value { get; set; }            // Ölçeklendirilmiş ve filtrelenmiş son değer
-        public byte[] RawValue { get; set; }        // ECU'dan gelen ham baytlar
+        public byte[] RawValue { get; set; }        // ECU'dan gelen ham baytlar = null!;
         public double FilteredValue { get; set; }   // Filtre sonrası değer
         public TelemetryQuality Quality { get; set; }
         public ChannelStatus Status { get; set; }
@@ -74,19 +75,19 @@ namespace HondaTuner.Core.Telemetry
         /// </summary>
         public void Reset()
         {
-            ChannelId = null;
+            ChannelId = null!;
             FrameId = 0;
-            Source = null;
-            SourceId = null;
-            SessionId = null;
-            Transport = null;
+            Source = null!;
+            SourceId = null!;
+            SessionId = null!;
+            Transport = null!;
             Direction = FrameDirection.Rx;
-            FrameType = null;
+            FrameType = null!;
             UtcTimestamp = default;
             MonotonicTimestamp = 0;
             ElapsedTime = 0.0;
             Value = 0.0;
-            RawValue = null;
+            RawValue = null!;
             FilteredValue = 0.0;
             Quality = TelemetryQuality.Good;
             Status = ChannelStatus.Valid;

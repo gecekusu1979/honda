@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,17 +11,17 @@ namespace HondaTuner.Core.AutoTune
     {
         public string JournalId { get; set; } = Guid.NewGuid().ToString();
         public DateTime Timestamp { get; set; } = DateTime.Now;
-        public string User { get; set; }
-        public string Profile { get; set; }
-        public string Parameter { get; set; }
+        public string User { get; set; } = null!;
+        public string Profile { get; set; } = null!;
+        public string Parameter { get; set; } = null!;
         public int RPM { get; set; }
         public int Load { get; set; }
         public double BeforeValue { get; set; }
         public double AfterValue { get; set; }
         public double Confidence { get; set; }
-        public string SafetyStatus { get; set; }
-        public string ApprovalStatus { get; set; }
-        public string Result { get; set; } // Accepted, Rejected, RolledBack
+        public string SafetyStatus { get; set; } = null!;
+        public string ApprovalStatus { get; set; } = null!;
+        public string Result { get; set; } // Accepted, Rejected, RolledBack = null!;
     }
 
     public class CalibrationJournal
@@ -48,7 +49,7 @@ namespace HondaTuner.Core.AutoTune
             }
         }
 
-        public List<JournalEntry> Search(string username = null, string parameter = null, string result = null)
+        public List<JournalEntry> Search(string username = null!, string parameter = null!, string result = null!)
         {
             lock (_lockObj)
             {

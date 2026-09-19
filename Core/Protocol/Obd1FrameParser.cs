@@ -8,7 +8,7 @@ namespace HondaTuner.Core.Protocol
         private int _writeIndex = 0;
         private int _count = 0;
 
-        public event Action<byte[]> OnFrameParsed;
+        public event Action<byte[]> OnFrameParsed = null!;
 
         public void Write(byte[] data)
         {

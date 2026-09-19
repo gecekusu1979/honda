@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace HondaTuner.Core.Telemetry
         public bool SupportsAutoDetection { get; set; } // Otomatik port bulma var mı?
         public bool IsEmulator { get; set; }            // Donanım simülatörü / emülatörü mü?
         public List<ProtocolType> SupportedProtocols { get; set; } = new List<ProtocolType>();
-        public string ConnectionInterface { get; set; } // Serial, USB, Bluetooth, Socket vb.
+        public string ConnectionInterface { get; set; } // Serial, USB, Bluetooth, Socket vb. = null!;
     }
 
     /// <summary>
@@ -55,6 +56,7 @@ namespace HondaTuner.Core.Telemetry
     /// <summary>
     /// Temel sağlayıcı işlevlerini uygulayan soyut ana sınıf.
     /// </summary>
+#pragma warning disable CS8618
     public abstract class BaseTelemetryProvider : ITelemetryProvider
     {
         public abstract string Name { get; }
@@ -85,16 +87,29 @@ namespace HondaTuner.Core.Telemetry
         public abstract ProviderCapabilities Capabilities { get; }
         public IProtocol Protocol { get; protected set; }
 
-        public event Action<ProviderState> OnStateChanged;
-        public event Action<TelemetryFrame> OnFrameReceived;
-        public event Action<TelemetryEvent> OnDiagnosticEvent;
+        public event Action<ProviderState> OnStateChanged = null!;
+        public event Action<TelemetryFrame> OnFrameReceived = null!;
+        public event Action<TelemetryEvent> OnDiagnosticEvent = null!;
 
         protected readonly ITimeProvider TimeProvider;
-        protected Thread StreamThread;
-        protected CancellationTokenSource StreamCts;
+        protected Thread StreamThread = null!;
+        protected CancellationTokenSource StreamCts = null!;
         protected readonly object LockObj = new object();
 
+#pragma warning disable 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable CS8618
         protected BaseTelemetryProvider(ITimeProvider timeProvider)
+#pragma warning restore 8618
         {
             TimeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         }
@@ -165,7 +180,7 @@ namespace HondaTuner.Core.Telemetry
                     StreamCts.Cancel();
                     StreamThread?.Join(1000);
                     StreamCts.Dispose();
-                    StreamCts = null;
+                    StreamCts = null!;
                 }
 
                 State = ProviderState.Paused;

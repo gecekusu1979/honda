@@ -19,7 +19,7 @@ namespace HondaTuner.Core.Rom
 
     public class RomBackupManager
     {
-        private byte[] _originalRom;
+        private byte[] _originalRom = null!;
         private readonly List<RomVersion> _history = new List<RomVersion>();
 
         public void InitBackup(byte[] originalData)
@@ -48,7 +48,7 @@ namespace HondaTuner.Core.Rom
 
         public byte[] GetOriginal()
         {
-            return _originalRom != null ? (byte[])_originalRom.Clone() : null;
+            return _originalRom != null ? (byte[])_originalRom.Clone() : null!;
         }
 
         public List<RomVersion> GetHistory()

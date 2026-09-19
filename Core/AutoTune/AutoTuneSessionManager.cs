@@ -7,19 +7,19 @@ namespace HondaTuner.Core.AutoTune
     {
         private class SessionLockInfo
         {
-            public string SessionId { get; set; }
-            public string EcuIdentifier { get; set; }
-            public string User { get; set; }
+            public string SessionId { get; set; } = null!;
+            public string EcuIdentifier { get; set; } = null!;
+            public string User { get; set; } = null!;
             public DateTime Timestamp { get; set; }
             public AutoTuneOperatingMode Mode { get; set; }
-            public string State { get; set; }
+            public string State { get; set; } = null!;
         }
 
         private readonly ConcurrentDictionary<string, SessionLockInfo> _activeSessions = new ConcurrentDictionary<string, SessionLockInfo>();
 
         public bool AcquireSessionLock(string ecuid, string userId, AutoTuneOperatingMode mode, string state, out string existingSessionOwner)
         {
-            existingSessionOwner = null;
+            existingSessionOwner = null!;
             if (string.IsNullOrEmpty(ecuid)) return false;
 
             var lockInfo = new SessionLockInfo
@@ -52,7 +52,7 @@ namespace HondaTuner.Core.AutoTune
 
         public bool IsECULocked(string ecuid, out string userId)
         {
-            userId = null;
+            userId = null!;
             if (string.IsNullOrEmpty(ecuid)) return false;
 
             if (_activeSessions.TryGetValue(ecuid, out var active))

@@ -5,7 +5,7 @@ namespace HondaTuner.Core.AutoTune
 {
     public class CalibrationStreamPublisher : ICalibrationStreamPublisher
     {
-        public event Action<CalibrationStreamPayload> OnMessagePublished;
+        public event Action<CalibrationStreamPayload> OnMessagePublished = null!;
 
         public void PublishProposed(CalibrationStreamPayload payload)
         {

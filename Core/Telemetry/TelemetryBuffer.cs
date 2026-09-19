@@ -38,7 +38,7 @@ namespace HondaTuner.Core.Telemetry
                 if (_count == _capacity)
                 {
                     var oldFrame = _buffer[_head];
-                    _buffer[_head] = null; // Bellek sızıntısını önlemek için kaldır
+                    _buffer[_head] = null!; // Bellek sızıntısını önlemek için kaldır
                     TelemetryFramePool.Return(oldFrame); // Havuza geri kazandır
 
                     _head = (_head + 1) % _capacity;
@@ -58,10 +58,10 @@ namespace HondaTuner.Core.Telemetry
         {
             lock (_lock)
             {
-                if (_count == 0) return null;
+                if (_count == 0) return null!;
 
                 var frame = _buffer[_head];
-                _buffer[_head] = null;
+                _buffer[_head] = null!;
                 _head = (_head + 1) % _capacity;
                 _count--;
                 return frame;
@@ -97,7 +97,7 @@ namespace HondaTuner.Core.Telemetry
                     if (_buffer[i] != null)
                     {
                         TelemetryFramePool.Return(_buffer[i]);
-                        _buffer[i] = null;
+                        _buffer[i] = null!;
                     }
                 }
                 _head = 0;

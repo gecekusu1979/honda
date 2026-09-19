@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace HondaTuner.Core.ReverseEngineering
         public int Rows { get; set; }
         public int Cols { get; set; }
         public double Confidence { get; set; }
-        public string MapType { get; set; } // "Fuel" veya "Ignition"
-        public string Description { get; set; }
+        public string MapType { get; set; } // "Fuel" veya "Ignition" = null!;
+        public string Description { get; set; } = null!;
     }
 
     public static class MapSearchHelper

@@ -20,7 +20,7 @@ namespace HondaTuner.Core.Telemetry
             public Subscription(ITelemetryConsumer consumer, IEnumerable<string> channels, double minUpdateRate)
             {
                 Consumer = consumer;
-                Channels = channels != null ? new HashSet<string>(channels) : null;
+                Channels = channels != null ? new HashSet<string>(channels) : null!;
                 MinUpdateRate = minUpdateRate;
             }
         }
@@ -217,7 +217,7 @@ namespace HondaTuner.Core.Telemetry
                 copy.UpdateRate = frame.UpdateRate;
                 return copy;
             }
-            return null;
+            return null!;
         }
 
         public void Publish(TelemetryFrame frame)
@@ -304,7 +304,7 @@ namespace HondaTuner.Core.Telemetry
             _diagnosticQueue.TryAdd(busEvent);
         }
 
-        public void Subscribe(ITelemetryConsumer consumer, IEnumerable<string> channels = null, double minUpdateRate = 0.0)
+        public void Subscribe(ITelemetryConsumer consumer, IEnumerable<string> channels = null!, double minUpdateRate = 0.0)
         {
             if (consumer == null) return;
             lock (_subLock)

@@ -10,16 +10,16 @@ namespace HondaTuner.Core.Rom.Patch
     public class PatchDefinition
     {
         /// <summary>Yamanın benzersiz kimliği (Örn: LaunchControl)</summary>
-        public string PatchId { get; set; }
+        public string PatchId { get; set; } = null!;
 
         /// <summary>Yama ismi</summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         /// <summary>Yama açıklaması</summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
         /// <summary>Yamanın kategorisi (Örn: Safety, Control, DTC)</summary>
-        public string Category { get; set; }
+        public string Category { get; set; } = null!;
 
         /// <summary>Uyumlu ECU kodları listesi</summary>
         public List<string> CompatibleEcus { get; set; } = new List<string>();
@@ -58,9 +58,9 @@ namespace HondaTuner.Core.Rom.Patch
         public int MaximumRomSize { get; set; } = EcuConstants.DefaultRomSize;
 
         /// <summary>Oluşturulma sürümü</summary>
-        public string CreatedVersion { get; set; }
+        public string CreatedVersion { get; set; } = null!;
 
         /// <summary>Son güncellenme tarihi</summary>
-        public string LastUpdated { get; set; }
+        public string LastUpdated { get; set; } = null!;
     }
 }

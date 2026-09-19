@@ -64,7 +64,9 @@ namespace HondaTuner.Core.Rom
                 ByteCount = patch.PatchBytes?.Length ?? 0,
                 IsValid = valid,
                 Summary = valid
+#pragma warning disable 8602
                     ? $"Yama uygulanabilir: {patch.Description ?? patch.PatchId} — {patch.PatchBytes.Length} byte"
+#pragma warning restore 8602
                     : "Yama uygulanamaz — doğrulama başarısız."
             };
         }

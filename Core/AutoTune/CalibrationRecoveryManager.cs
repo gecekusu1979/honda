@@ -52,13 +52,13 @@ namespace HondaTuner.Core.AutoTune
 
         public bool DetectPendingTransaction(out RecoveryMetaData meta)
         {
-            meta = null;
+            meta = null!;
             try
             {
                 if (File.Exists(_recoveryPath))
                 {
                     string json = File.ReadAllText(_recoveryPath);
-                    meta = JsonSerializer.Deserialize<RecoveryMetaData>(json);
+                    meta = JsonSerializer.Deserialize<RecoveryMetaData>(json)!;
                     return meta != null;
                 }
             }

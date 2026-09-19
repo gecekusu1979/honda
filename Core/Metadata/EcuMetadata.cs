@@ -34,7 +34,7 @@ namespace HondaTuner.Core.Metadata
             if (string.IsNullOrWhiteSpace(json)) return new EcuMetadata();
             try
             {
-                return JsonSerializer.Deserialize<EcuMetadata>(json);
+                return JsonSerializer.Deserialize<EcuMetadata>(json)!;
             }
             catch
             {

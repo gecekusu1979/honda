@@ -8,12 +8,12 @@ namespace HondaTuner.Core.Rom
     public class LayoutValidationResult
     {
         public bool IsValid { get; set; }
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; } = null!;
     }
 
     public class MemoryRegion
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public int StartOffset { get; set; }
         public int Length { get; set; }
         public int EndOffset => StartOffset + Length;
@@ -66,7 +66,7 @@ namespace HondaTuner.Core.Rom
             }
 
             // 3. REGION OVERLAP CHECK
-            var regions = ExtractAllRegions(profile, mapDefinitions);
+            var regions = ExtractAllRegions(profile!, mapDefinitions!)!;
 
             // Kendi hedef alanımızı geçici olarak registered kabul edelim:
             var currentTargetRegion = new MemoryRegion { Name = targetRegionName, StartOffset = targetOffset, Length = targetLength };

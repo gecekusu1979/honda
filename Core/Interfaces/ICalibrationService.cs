@@ -27,18 +27,18 @@ namespace HondaTuner.Core.Interfaces
 
     public class CalibrationChange
     {
-        public string Parameter { get; set; }
-        public string OldValue { get; set; }
-        public string NewValue { get; set; }
+        public string Parameter { get; set; } = null!;
+        public string OldValue { get; set; } = null!;
+        public string NewValue { get; set; } = null!;
         public DateTime Timestamp { get; set; }
-        public string Source { get; set; }
+        public string Source { get; set; } = null!;
         public int CellRow { get; set; }
         public int CellCol { get; set; }
         public double ChangePercent { get; set; }
 
         // V2 Properties
         public int Offset { get; set; }
-        public string MapName { get; set; }
-        public string UserAction { get; set; }
+        public string MapName { get; set; } = null!;
+        public string UserAction { get; set; } = null!;
     }
 }

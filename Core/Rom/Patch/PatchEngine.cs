@@ -117,7 +117,7 @@ namespace HondaTuner.Core.Rom.Patch
             if (!ValidatePatch(romData, patchId, profile, out string err))
             {
                 result.ErrorMessage = err;
-                AddAudit(username, patchId, null, null, 0, $"FAILED: {err}", false, null);
+                AddAudit(username, patchId, null!, null!, 0, $"FAILED: {err}", false, null!);
                 return result;
             }
 
@@ -198,7 +198,7 @@ namespace HondaTuner.Core.Rom.Patch
                 result.ByteCount = patch.PatchBytes.Length;
                 result.Snapshot = (byte[])romData.Clone();
 
-                AddAudit(username, patchId, originalBytes, patch.PatchBytes, offset, "SUCCESS", checksumUpdated, null);
+                AddAudit(username, patchId, originalBytes, patch.PatchBytes, offset, "SUCCESS", checksumUpdated, null!);
                 Logging.ApplicationLogger.Info("PatchEngine", $"Yama başarıyla uygulandı: {patchId} @ 0x{offset:X4}");
             }
             catch (Exception ex)
@@ -213,7 +213,7 @@ namespace HondaTuner.Core.Rom.Patch
                 }
 
                 result.ErrorMessage = ex.Message;
-                AddAudit(username, patchId, originalBytes, patch.PatchBytes, offset, $"FAILED_ROLLBACK: {ex.Message}", false, null);
+                AddAudit(username, patchId, originalBytes, patch.PatchBytes, offset, $"FAILED_ROLLBACK: {ex.Message}", false, null!);
                 Logging.ApplicationLogger.Error("PatchEngine", $"Yama uygulanırken hata olustu ve rollback yapıldı: {ex.Message}");
             }
 
@@ -291,7 +291,7 @@ namespace HondaTuner.Core.Rom.Patch
                 result.ByteCount = backup.OriginalBytes.Length;
                 result.Snapshot = (byte[])romData.Clone();
 
-                AddAudit(username, patchId, backup.PatchedBytes, backup.OriginalBytes, backup.Offset, "ROLLBACK", checksumUpdated, null);
+                AddAudit(username, patchId, backup.PatchedBytes, backup.OriginalBytes, backup.Offset, "ROLLBACK", checksumUpdated, null!);
                 Logging.ApplicationLogger.Info("PatchEngine", $"Yama başarıyla geri alındı (Rollback): {patchId}");
             }
             catch (Exception ex)
@@ -301,7 +301,7 @@ namespace HondaTuner.Core.Rom.Patch
                     try { _calibrationService.RollbackTransaction(); } catch (Exception rollbackEx) { Logging.ApplicationLogger.Error("PatchEngine", $"Rollback (ikincil) hatası: {rollbackEx.Message}"); }
                 }
                 result.ErrorMessage = ex.Message;
-                AddAudit(username, patchId, backup.PatchedBytes, backup.OriginalBytes, backup.Offset, $"ROLLBACK_FAILED: {ex.Message}", false, null);
+                AddAudit(username, patchId, backup.PatchedBytes, backup.OriginalBytes, backup.Offset, $"ROLLBACK_FAILED: {ex.Message}", false, null!);
             }
 
             return result;
@@ -310,7 +310,7 @@ namespace HondaTuner.Core.Rom.Patch
         /// <inheritdoc />
         public bool ValidatePatch(byte[] romData, string patchId, EcuProfile profile, out string errorMessage)
         {
-            errorMessage = null;
+            errorMessage = null!;
             var patch = _patchDefinitions.FirstOrDefault(p => string.Equals(p.PatchId, patchId, StringComparison.OrdinalIgnoreCase));
             if (patch == null)
             {
@@ -326,7 +326,7 @@ namespace HondaTuner.Core.Rom.Patch
             }
 
             int offset = mapping != null ? mapping.Offset : patch.Offset;
-            return PatchValidator.Validate(romData, patch, profile, offset, out errorMessage);
+            return PatchValidator.Validate(romData, patch, profile!, offset, out errorMessage)!;
         }
 
         /// <inheritdoc />
@@ -347,7 +347,7 @@ namespace HondaTuner.Core.Rom.Patch
             preview.SafetyLevel = patch.SafetyLevel;
             preview.ChecksumWillChange = patch.ChecksumRequired;
 
-            bool valid = ValidatePatch(romData, patchId, profile, out string err);
+            bool valid = ValidatePatch(romData, patchId, profile!, out string err)!;
             preview.IsValid = valid;
             if (!valid)
             {
@@ -507,23 +507,23 @@ namespace HondaTuner.Core.Rom.Patch
 
     internal class PatchDefinitionJsonDto
     {
-        public string PatchId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Category { get; set; }
-        public List<string> CompatibleEcus { get; set; }
-        public List<string> RequiredFeatures { get; set; }
-        public string AddressType { get; set; }
+        public string PatchId { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public string Category { get; set; } = null!;
+        public List<string> CompatibleEcus { get; set; } = null!;
+        public List<string> RequiredFeatures { get; set; } = null!;
+        public string AddressType { get; set; } = null!;
         public int Offset { get; set; }
-        public List<int> ExpectedBytes { get; set; }
-        public List<int> PatchBytes { get; set; }
-        public List<int> RollbackBytes { get; set; }
+        public List<int> ExpectedBytes { get; set; } = null!;
+        public List<int> PatchBytes { get; set; } = null!;
+        public List<int> RollbackBytes { get; set; } = null!;
         public bool ChecksumRequired { get; set; }
-        public string SafetyLevel { get; set; }
-        public List<string> ValidationRules { get; set; }
+        public string SafetyLevel { get; set; } = null!;
+        public List<string> ValidationRules { get; set; } = null!;
         public int MinimumRomSize { get; set; }
         public int MaximumRomSize { get; set; }
-        public string CreatedVersion { get; set; }
-        public string LastUpdated { get; set; }
+        public string CreatedVersion { get; set; } = null!;
+        public string LastUpdated { get; set; } = null!;
     }
 }

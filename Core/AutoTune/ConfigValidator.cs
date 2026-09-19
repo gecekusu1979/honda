@@ -86,7 +86,7 @@ namespace HondaTuner.Core.AutoTune
                     }
 
                     // Version support compatibility check
-                    string versionStr = versionProp.GetString();
+                    string versionStr = versionProp.GetString()!;
                     if (!versionStr.StartsWith("1."))
                     {
                         errorMessage = $"Desteklenmeyen Targets Versiyonu: {versionStr}. Sadece 1.x desteklenmektedir.";

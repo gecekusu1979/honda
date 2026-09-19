@@ -9,7 +9,7 @@ namespace HondaTuner.Calibration.Diagnostics
 {
     public class FreezeFrame
     {
-        public string DtcCode { get; set; }
+        public string DtcCode { get; set; } = null!;
         public DateTime Timestamp { get; set; }
         public double Rpm { get; set; }
         public double Ect { get; set; }
@@ -23,7 +23,7 @@ namespace HondaTuner.Calibration.Diagnostics
         public DiagnosticsTables Tables { get; } = new DiagnosticsTables();
         public List<FreezeFrame> SavedFreezeFrames { get; } = new List<FreezeFrame>();
 
-        public event EventHandler<string> TestLogAdded;
+        public event EventHandler<string> TestLogAdded = null!;
 
         // DTC Tetikleyici ve Dondurulmuş Veri Çerçevesi Kaydı
         public void TriggerDtc(string code, double rpm, double ect, double iat, double speed, double boost)

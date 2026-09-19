@@ -13,14 +13,14 @@ namespace HondaTuner.Core.Interfaces
 
     public class TuningSessionInfo
     {
-        public string Vehicle { get; set; }
-        public string Engine { get; set; }
-        public string EcuCode { get; set; }
-        public string TunerName { get; set; }
+        public string Vehicle { get; set; } = null!;
+        public string Engine { get; set; } = null!;
+        public string EcuCode { get; set; } = null!;
+        public string TunerName { get; set; } = null!;
         public System.DateTime Date { get; set; }
-        public byte[] OriginalRom { get; set; }
-        public byte[] ModifiedRom { get; set; }
-        public List<CalibrationChange> Changes { get; set; }
-        public string Notes { get; set; }
+        public byte[] OriginalRom { get; set; } = null!;
+        public byte[] ModifiedRom { get; set; } = null!;
+        public List<CalibrationChange> Changes { get; set; } = null!;
+        public string Notes { get; set; } = null!;
     }
 }

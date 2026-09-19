@@ -40,7 +40,7 @@ namespace HondaTuner.Core.AutoTune
 
         public bool TryDequeue(out TuneDecision decision)
         {
-            decision = null;
+            decision = null!;
             lock (_lockObj)
             {
                 if (_queue.Count > 0)

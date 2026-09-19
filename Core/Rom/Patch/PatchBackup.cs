@@ -8,16 +8,16 @@ namespace HondaTuner.Core.Rom.Patch
     public class PatchBackup
     {
         /// <summary>Yama kimliği</summary>
-        public string PatchId { get; set; }
+        public string PatchId { get; set; } = null!;
 
         /// <summary>Yama uygulanan offset adresi</summary>
         public int Offset { get; set; }
 
         /// <summary>Orijinal (yamadan önceki) baytlar</summary>
-        public byte[] OriginalBytes { get; set; }
+        public byte[] OriginalBytes { get; set; } = null!;
 
         /// <summary>Yamalanmış baytlar</summary>
-        public byte[] PatchedBytes { get; set; }
+        public byte[] PatchedBytes { get; set; } = null!;
 
         /// <summary>Yama öncesindeki checksum değeri</summary>
         public int ChecksumBefore { get; set; }
@@ -29,9 +29,9 @@ namespace HondaTuner.Core.Rom.Patch
         public DateTime Timestamp { get; set; }
 
         /// <summary>Yama işlemini gerçekleştiren kullanıcı adı</summary>
-        public string User { get; set; }
+        public string User { get; set; } = null!;
 
         /// <summary>Yama esnasındaki ROM imzası</summary>
-        public string RomSignature { get; set; }
+        public string RomSignature { get; set; } = null!;
     }
 }

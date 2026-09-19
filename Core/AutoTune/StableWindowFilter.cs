@@ -20,7 +20,7 @@ namespace HondaTuner.Core.AutoTune
 
         public bool AddSnapshot(TelemetrySnapshot snapshot, out List<TelemetrySnapshot> stableWindow)
         {
-            stableWindow = null;
+            stableWindow = null!;
             if (snapshot == null) return false;
 
             lock (_lockObj)

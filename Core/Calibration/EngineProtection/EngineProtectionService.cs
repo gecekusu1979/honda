@@ -29,7 +29,7 @@ namespace HondaTuner.Calibration.EngineProtection
         private double _knockRecoveryTimer = 0.0;
         private bool _knockActive = false;
 
-        public event EventHandler<string> ProtectionAlarmTriggered;
+        public event EventHandler<string> ProtectionAlarmTriggered = null!;
 
         public void ResetSafeties()
         {

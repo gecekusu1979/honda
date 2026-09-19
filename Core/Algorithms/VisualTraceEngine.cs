@@ -79,7 +79,7 @@ namespace HondaTuner.Core.Algorithms
     // ── Ana Motor ─────────────────────────────────────────────────
     public class VisualTraceEngine
     {
-        private CellStats[,] _stats;
+        private CellStats[,] _stats = null!;
         private DateTime _lastTraceTime = DateTime.MinValue;
 
         /// <summary>Hücre istatistik matrisi</summary>

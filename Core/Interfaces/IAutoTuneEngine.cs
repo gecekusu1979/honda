@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 namespace HondaTuner.Core.Interfaces
 {
     /// <summary>
@@ -29,8 +30,8 @@ namespace HondaTuner.Core.Interfaces
         public int TargetRow { get; set; }
         public int TargetCol { get; set; }
         public double PercentAdjustment { get; set; }
-        public string Direction { get; set; } // "Richen" or "Lean"
+        public string Direction { get; set; } // "Richen" or "Lean" = null!;
         public bool IsValid { get; set; }
-        public string RejectionReason { get; set; }
+        public string RejectionReason { get; set; } = null!;
     }
 }

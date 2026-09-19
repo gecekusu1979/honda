@@ -4,7 +4,7 @@ namespace HondaTuner.Core.Rom.Checksum
 {
     public class ChecksumDefinition
     {
-        public string ChecksumType { get; set; }
+        public string ChecksumType { get; set; } = null!;
         public ChecksumAlgorithm Algorithm { get; set; }
         public int ChecksumAddress { get; set; }
         public int ChecksumSize { get; set; } = 1;

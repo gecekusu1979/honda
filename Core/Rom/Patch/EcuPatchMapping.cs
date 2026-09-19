@@ -6,12 +6,12 @@ namespace HondaTuner.Core.Rom.Patch
     public class EcuPatchMapping
     {
         /// <summary>Yama kimliği (Örn: LaunchControl)</summary>
-        public string PatchId { get; set; }
+        public string PatchId { get; set; } = null!;
 
         /// <summary>ECU ROM dosyasındaki yama adresi (offset)</summary>
         public int Offset { get; set; }
 
         /// <summary>Yama için gerekli olan özellik adı</summary>
-        public string RequiredFeature { get; set; }
+        public string RequiredFeature { get; set; } = null!;
     }
 }

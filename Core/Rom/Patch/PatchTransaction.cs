@@ -36,7 +36,9 @@ namespace HondaTuner.Core.Rom.Patch
             AuthorizationToken = token;
         }
 
+#pragma warning disable 8618
         public PatchTransaction(
+#pragma warning restore 8618
             string profileId,
             byte[] originalRom,
             byte[] patchedRom,

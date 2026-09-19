@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,7 +81,9 @@ namespace HondaTuner.Core.Rtp
         {
         }
 
+#pragma warning disable 8618
         public RtpCalibrationEngine(ICalibrationService calibrationService, IRomService romService, IEmulator emulator)
+#pragma warning restore 8618
         {
             _calibrationService = calibrationService ?? throw new ArgumentNullException(nameof(calibrationService));
             _romService = romService ?? throw new ArgumentNullException(nameof(romService));
@@ -100,8 +103,8 @@ namespace HondaTuner.Core.Rtp
                 try
                 {
                     string json = File.ReadAllText(configPath);
-                    _config = JsonSerializer.Deserialize<RtpConfig>(json);
-                    RtpConfigValidator.Validate(_config);
+                    _config = JsonSerializer.Deserialize<RtpConfig>(json)!;
+                    RtpConfigValidator.Validate(_config!);
                 }
                 catch (Exception ex)
                 {
@@ -420,7 +423,7 @@ namespace HondaTuner.Core.Rtp
 
                     if (!runSync) continue;
 
-                    List<CalibrationChange> batch = null;
+                    List<CalibrationChange> batch = null!;
                     lock (_pendingQueue)
                     {
                         if (_pendingQueue.Count > 0)
@@ -694,7 +697,7 @@ namespace HondaTuner.Core.Rtp
             {
                 _workerTask?.Wait(250);
             }
-            catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
+            catch (System.Exception _) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($_.Message)"); }
 
             _calibrationService.OnCalibrationChanged -= HandleCalibrationChanged;
             _queueEvent.Dispose();

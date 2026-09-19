@@ -26,7 +26,7 @@ namespace HondaTuner.Core.Container
         private static readonly Dictionary<Type, object> _overrides = new Dictionary<Type, object>();
 
         // Gerçek DI provider — lazy oluşturulur
-        private static IServiceProvider _provider;
+        private static IServiceProvider _provider = null!;
         private static readonly object _lock = new object();
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace HondaTuner.Core.Container
             lock (_lock)
             {
                 (_provider as IDisposable)?.Dispose();
-                _provider = null;
+                _provider = null!;
             }
         }
 

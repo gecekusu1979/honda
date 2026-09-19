@@ -188,7 +188,7 @@ namespace HondaTuner.Core
         {
             foreach (var r in Records)
                 if (r.Profile.EcuCode == ecuCode) return r;
-            return null;
+            return null!;
         }
 
         /// <summary>Kategoriye göre filtrele (Civic, Integra, Prelude).</summary>

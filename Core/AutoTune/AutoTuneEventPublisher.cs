@@ -5,7 +5,7 @@ namespace HondaTuner.Core.AutoTune
 {
     public class AutoTuneEventPublisher : IAutoTuneEventPublisher
     {
-        public event Action<IAutoTuneDomainEvent> OnEventPublished;
+        public event Action<IAutoTuneDomainEvent> OnEventPublished = null!;
 
         public void Publish(IAutoTuneDomainEvent domainEvent)
         {

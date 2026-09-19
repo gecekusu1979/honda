@@ -27,6 +27,6 @@ namespace HondaTuner.Core.Interfaces
     {
         public ConnectionState OldState { get; set; }
         public ConnectionState NewState { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } = null!;
     }
 }

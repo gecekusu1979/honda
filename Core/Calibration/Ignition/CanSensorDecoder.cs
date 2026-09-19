@@ -4,14 +4,14 @@ namespace HondaTuner.Calibration.Ignition
 {
     public class CanSensorDecoder
     {
-        public string SensorName { get; set; }
+        public string SensorName { get; set; } = null!;
         public uint FrameId { get; set; }
         public int StartBit { get; set; } // 0 - 63
         public int BitLength { get; set; } // e.g., 8, 12, 16 bits
         public bool IsBigEndian { get; set; }
         public double Scale { get; set; } = 1.0;
         public double Offset { get; set; } = 0.0;
-        public string Unit { get; set; }
+        public string Unit { get; set; } = null!;
 
         public CanSensorDecoder() { }
 

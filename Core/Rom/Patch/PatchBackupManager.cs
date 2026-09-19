@@ -62,7 +62,7 @@ namespace HondaTuner.Core.Rom.Patch
                         return _backups[i];
                     }
                 }
-                return null;
+                return null!;
             }
         }
 
@@ -122,7 +122,7 @@ namespace HondaTuner.Core.Rom.Patch
         {
             lock (_lock)
             {
-                if (_redoStack.Count == 0) return null;
+                if (_redoStack.Count == 0) return null!;
                 int idx = _redoStack.Count - 1;
                 var backup = _redoStack[idx];
                 _redoStack.RemoveAt(idx);

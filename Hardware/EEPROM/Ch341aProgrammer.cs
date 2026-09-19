@@ -62,8 +62,8 @@ namespace HondaTuner.Hardware.EEPROM
 
         public void Connect()
         {
-            SetState(ConnectionState.Connecting, "CH341A aranÄ±yor...");
-            ApplicationLogger.Info("Ch341aProgrammer", "CH341A baÄŸlantÄ±sÄ± baÅŸlatÄ±lÄ±yor...");
+            SetState(ConnectionState.Connecting, "CH341A aranıyor...");
+            ApplicationLogger.Info("Ch341aProgrammer", "CH341A bağlantısı başlatılıyor...");
 
             try
             {
@@ -77,11 +77,11 @@ namespace HondaTuner.Hardware.EEPROM
                     {
                         _useDll = true;
                         _deviceIndex = 0;
-                        SetState(ConnectionState.Connected, "CH341A (DLL) baÄŸlandÄ±.");
-                        ApplicationLogger.Info("Ch341aProgrammer", "CH341A DLL baÄŸlantÄ±sÄ± baÅŸarÄ±lÄ±.");
+                        SetState(ConnectionState.Connected, "CH341A (DLL) bağlandı.");
+                        ApplicationLogger.Info("Ch341aProgrammer", "CH341A DLL bağlantısı başarılı.");
                         return;
                     }
-                    ApplicationLogger.Warn("Ch341aProgrammer", "DLL baÄŸlantÄ±sÄ± baÅŸarÄ±sÄ±z, minipro.exe deneniyor...");
+                    ApplicationLogger.Warn("Ch341aProgrammer", "DLL bağlantısı başarısız, minipro.exe deneniyor...");
                 }
 
                 // Fallback: minipro CLI
@@ -90,18 +90,18 @@ namespace HondaTuner.Hardware.EEPROM
                 {
                     ApplicationLogger.Info("Ch341aProgrammer", $"minipro.exe bulundu: {miniproPath}");
                     _useDll = false;
-                    SetState(ConnectionState.Connected, "CH341A (minipro CLI) baÄŸlandÄ±.");
-                    OperationCompleted?.Invoke(this, $"minipro.exe kullanÄ±lÄ±yor: {miniproPath}");
+                    SetState(ConnectionState.Connected, "CH341A (minipro CLI) bağlandı.");
+                    OperationCompleted?.Invoke(this, $"minipro.exe kullanılıyor: {miniproPath}");
                     return;
                 }
 
                 throw new InvalidOperationException(
-                    "CH341A sÃ¼rÃ¼cÃ¼sÃ¼ (ch341a.dll) veya minipro.exe bulunamadÄ±. " +
-                    "LÃ¼tfen ch341a.dll dosyasÄ±nÄ± uygulama klasÃ¶rÃ¼ne koyun veya minipro aracÄ±nÄ± kurun.");
+                    "CH341A sürücüsü (ch341a.dll) veya minipro.exe bulunamadı. " +
+                    "Lütfen ch341a.dll dosyasını uygulama klasörüne koyun veya minipro aracını kurun.");
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Error("Ch341aProgrammer", $"BaÄŸlantÄ± hatasÄ±: {ex.Message}");
+                ApplicationLogger.Error("Ch341aProgrammer", $"Bağlantı hatası: {ex.Message}");
                 SetState(ConnectionState.Error, ex.Message);
                 throw;
             }
@@ -113,8 +113,8 @@ namespace HondaTuner.Hardware.EEPROM
             {
                 try { CH341CloseDevice(_deviceIndex); } catch (System.Exception ex) { HondaTuner.Core.Logging.ApplicationLogger.Warn("SilentCatch", $"Beklenmeyen ic hata gizlendi: $($ex.Message)"); }
             }
-            SetState(ConnectionState.Disconnected, "CH341A baÄŸlantÄ±sÄ± kesildi.");
-            ApplicationLogger.Info("Ch341aProgrammer", "BaÄŸlantÄ± kapatÄ±ldÄ±.");
+            SetState(ConnectionState.Disconnected, "CH341A bağlantısı kesildi.");
+            ApplicationLogger.Info("Ch341aProgrammer", "Bağlantı kapatıldı.");
         }
 
         // â”€â”€ IEepromProgrammer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -149,23 +149,23 @@ namespace HondaTuner.Hardware.EEPROM
 
             // Patch C: Physical Write Authorization Boundary
             if (!transaction.IsAuthorized)
-                throw new UnauthorizedAccessException("Fiziksel donanÄ±ma yazma yetkilendirmesi baÅŸarÄ±sÄ±z. (Patch C: Authorization Boundary INV-10)");
+                throw new UnauthorizedAccessException("Fiziksel donanıma yazma yetkilendirmesi başarısız. (Patch C: Authorization Boundary INV-10)");
 
 
             var romService = Core.Container.ServiceContainer.Resolve<IRomService>();
             if (romService != null && romService.IsReadOnly)
             {
-                throw new InvalidOperationException("ROM READ-ONLY. TanÄ±mlanamayan profil EEPROM/Flash chipe yazÄ±lamaz (BLOCKED).");
+                throw new InvalidOperationException("ROM READ-ONLY. Tanımlanamayan profil EEPROM/Flash chipe yazılamaz (BLOCKED).");
             }
 
             // Safety: validate ROM size
             if (romData.Length != DefaultRomSize && romData.Length != EcuConstants.ExtendedRomSize)
-                throw new InvalidOperationException($"GeÃ§ersiz ROM boyutu: {romData.Length} byte. Honda ECU: {EcuConstants.DefaultRomSize} ya da {EcuConstants.ExtendedRomSize} byte olmalÄ±.");
+                throw new InvalidOperationException($"Geçersiz ROM boyutu: {romData.Length} byte. Honda ECU: {EcuConstants.DefaultRomSize} ya da {EcuConstants.ExtendedRomSize} byte olmalı.");
 
             // Auto-backup before write
             CreateBackup(romData);
 
-            ApplicationLogger.Info("Ch341aProgrammer", $"Chip yazÄ±lÄ±yor: {romData.Length} byte, Chip: {_chipType}");
+            ApplicationLogger.Info("Ch341aProgrammer", $"Chip yazılıyor: {romData.Length} byte, Chip: {_chipType}");
             ReportProgress(0);
 
             try
@@ -182,7 +182,7 @@ namespace HondaTuner.Hardware.EEPROM
 
             // Patch E: Mandatory Post-Write Verification
             if (!VerifyChip(romData))
-                throw new InvalidOperationException("Fiziksel yazma doÄŸrulanamadÄ± (Byte Verify Failed - INV-06).");
+                throw new InvalidOperationException("Fiziksel yazma doğrulanamadı (Byte Verify Failed - INV-06).");
 
             // Patch F: Post-Write Checksum Validation
             var checksumEngine = Core.Container.ServiceContainer.Resolve<Core.Rom.Checksum.IChecksumEngine>();
@@ -192,12 +192,12 @@ namespace HondaTuner.Hardware.EEPROM
                 foreach (var def in romProfile.ChecksumDefinitions)
                 {
                     if (!checksumEngine.Validate(romData, def).IsValid)
-                        throw new InvalidOperationException($"Fiziksel ROM checksum doÄŸrulamasÄ± baÅŸarÄ±sÄ±z: {def.ChecksumType} (INV-08).");
+                        throw new InvalidOperationException($"Fiziksel ROM checksum doğrulaması başarısız: {def.ChecksumType} (INV-08).");
                 }
             }
 
-            ApplicationLogger.Info("Ch341aProgrammer", "Chip yazma, doÄŸrulama ve checksum onaylandÄ±.");
-            OperationCompleted?.Invoke(this, "Yazma ve DoÄŸrulama baÅŸarÄ±lÄ±.");
+            ApplicationLogger.Info("Ch341aProgrammer", "Chip yazma, doğrulama ve checksum onaylandı.");
+            OperationCompleted?.Invoke(this, "Yazma ve Doğrulama başarılı.");
             return new Core.AutoTune.PhysicalWriterAck(_chipType, transaction.TransactionId, true);
         }
 
@@ -219,8 +219,8 @@ namespace HondaTuner.Hardware.EEPROM
                 ReportProgress(100);
             }
 
-            ApplicationLogger.Info("Ch341aProgrammer", "Chip silme tamamlandÄ±.");
-            OperationCompleted?.Invoke(this, "Silme baÅŸarÄ±lÄ±.");
+            ApplicationLogger.Info("Ch341aProgrammer", "Chip silme tamamlandı.");
+            OperationCompleted?.Invoke(this, "Silme başarılı.");
         }
 
         public bool VerifyChip(byte[] expectedData)
@@ -228,7 +228,7 @@ namespace HondaTuner.Hardware.EEPROM
             if (expectedData == null) throw new ArgumentNullException(nameof(expectedData));
             EnsureConnected();
 
-            ApplicationLogger.Info("Ch341aProgrammer", "Chip doÄŸrulanÄ±yor...");
+            ApplicationLogger.Info("Ch341aProgrammer", "Chip doğrulanıyor...");
             byte[] actual = ReadChip(expectedData.Length);
 
             for (int i = 0; i < expectedData.Length; i++)
@@ -236,8 +236,8 @@ namespace HondaTuner.Hardware.EEPROM
                 if (actual[i] != expectedData[i])
                 {
                     ApplicationLogger.Error("Ch341aProgrammer",
-                        $"DoÄŸrulama hatasÄ± â†’ offset 0x{i:X4}: beklenen=0x{expectedData[i]:X2}, okunan=0x{actual[i]:X2}");
-                    OperationCompleted?.Invoke(this, $"DoÄŸrulama BAÅARISIZ @ 0x{i:X4}");
+                        $"Doğrulama hatası â†’ offset 0x{i:X4}: beklenen=0x{expectedData[i]:X2}, okunan=0x{actual[i]:X2}");
+                    OperationCompleted?.Invoke(this, $"Doğrulama BAŞARISIZ @ 0x{i:X4}");
                     return false;
                 }
 
@@ -245,8 +245,8 @@ namespace HondaTuner.Hardware.EEPROM
                     ReportProgress((int)((double)i / expectedData.Length * 100));
             }
 
-            ApplicationLogger.Info("Ch341aProgrammer", "DoÄŸrulama baÅŸarÄ±lÄ± â€” tÃ¼m baytlar eÅŸleÅŸiyor.");
-            OperationCompleted?.Invoke(this, "DoÄŸrulama baÅŸarÄ±lÄ±.");
+            ApplicationLogger.Info("Ch341aProgrammer", "Doğrulama başarılı â€” tüm baytlar eşleşiyor.");
+            OperationCompleted?.Invoke(this, "Doğrulama başarılı.");
             return true;
         }
 
@@ -257,7 +257,7 @@ namespace HondaTuner.Hardware.EEPROM
             var buffer = new byte[length];
             int result = CH341ReadEEPROM(_deviceIndex, buffer, length);
             if (result < 0)
-                throw new InvalidOperationException($"CH341A DLL okuma baÅŸarÄ±sÄ±z: {result}");
+                throw new InvalidOperationException($"CH341A DLL okuma başarısız: {result}");
             return buffer;
         }
 
@@ -265,7 +265,7 @@ namespace HondaTuner.Hardware.EEPROM
         {
             int result = CH341WriteEEPROM(_deviceIndex, data, data.Length);
             if (result < 0)
-                throw new InvalidOperationException($"CH341A DLL yazma baÅŸarÄ±sÄ±z: {result}");
+                throw new InvalidOperationException($"CH341A DLL yazma başarısız: {result}");
         }
 
         private void EraseViaDll()
@@ -285,7 +285,7 @@ namespace HondaTuner.Hardware.EEPROM
             {
                 RunMinipro($"-p \"{_chipType}\" -r \"{outPath}\"", "Chip okunuyor...");
                 if (!File.Exists(outPath))
-                    throw new InvalidOperationException("minipro chip okuma Ã§Ä±ktÄ±sÄ± Ã¼retilmedi.");
+                    throw new InvalidOperationException("minipro chip okuma çıktısı üretilmedi.");
                 byte[] data = File.ReadAllBytes(outPath);
                 if (data.Length < length)
                     throw new InvalidOperationException($"Chip boyutu {data.Length} byte â€” beklenen {length} byte.");
@@ -306,7 +306,7 @@ namespace HondaTuner.Hardware.EEPROM
             try
             {
                 File.WriteAllBytes(tmpPath, data);
-                RunMinipro($"-p \"{_chipType}\" -w \"{tmpPath}\"", "Chip yazÄ±lÄ±yor...");
+                RunMinipro($"-p \"{_chipType}\" -w \"{tmpPath}\"", "Chip yazılıyor...");
             }
             finally
             {
@@ -323,9 +323,9 @@ namespace HondaTuner.Hardware.EEPROM
         {
             string miniproPath = LocateMinipro();
             if (string.IsNullOrEmpty(miniproPath))
-                throw new InvalidOperationException("minipro.exe bulunamadÄ±.");
+                throw new InvalidOperationException("minipro.exe bulunamadı.");
 
-            ApplicationLogger.Info("Ch341aProgrammer", $"minipro Ã§alÄ±ÅŸtÄ±rÄ±lÄ±yor: {opDesc}");
+            ApplicationLogger.Info("Ch341aProgrammer", $"minipro çalıştırılıyor: {opDesc}");
 
             using var proc = new Process
             {
@@ -348,7 +348,7 @@ namespace HondaTuner.Hardware.EEPROM
             if (proc.ExitCode != 0)
             {
                 string msg = string.IsNullOrWhiteSpace(stderr) ? stdout : stderr;
-                throw new InvalidOperationException($"minipro hatasÄ± ({proc.ExitCode}): {msg.Trim()}");
+                throw new InvalidOperationException($"minipro hatası ({proc.ExitCode}): {msg.Trim()}");
             }
         }
 
@@ -379,19 +379,19 @@ namespace HondaTuner.Hardware.EEPROM
                 Directory.CreateDirectory(backupDir);
                 string fileName = $"chip_backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
                 File.WriteAllBytes(Path.Combine(backupDir, fileName), romData);
-                ApplicationLogger.Info("Ch341aProgrammer", $"Yedek oluÅŸturuldu: {fileName}");
+                ApplicationLogger.Info("Ch341aProgrammer", $"Yedek oluşturuldu: {fileName}");
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Error("Ch341aProgrammer", $"Yedek oluÅŸturma hatasÄ±: {ex.Message}");
-                throw new System.IO.IOException("Yedekleme baÅŸarÄ±sÄ±z. Yazma modÃ¼lÃ¼ gÃ¼venlik (INV-05) nedeniyle durduruldu.", ex);
+                ApplicationLogger.Error("Ch341aProgrammer", $"Yedek oluşturma hatası: {ex.Message}");
+                throw new System.IO.IOException("Yedekleme başarısız. Yazma modülü güvenlik (INV-05) nedeniyle durduruldu.", ex);
             }
         }
 
         private void EnsureConnected()
         {
             if (State != ConnectionState.Connected)
-                throw new InvalidOperationException("CH341A baÄŸlÄ± deÄŸil. Ã–nce Connect() Ã§aÄŸrÄ±n.");
+                throw new InvalidOperationException("CH341A bağlı değil. Ã–nce Connect() çağrın.");
         }
 
         private void ReportProgress(int percent)

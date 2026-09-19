@@ -8,18 +8,18 @@ namespace HondaTuner.Core.Metadata
 {
     public class EcuPinoutPin
     {
-        public string PinNumber { get; set; }
-        public string Connector { get; set; }
-        public string Symbol { get; set; }
-        public string SignalType { get; set; }
-        public string WiringColor { get; set; }
-        public string Description { get; set; }
+        public string PinNumber { get; set; } = null!;
+        public string Connector { get; set; } = null!;
+        public string Symbol { get; set; } = null!;
+        public string SignalType { get; set; } = null!;
+        public string WiringColor { get; set; } = null!;
+        public string Description { get; set; } = null!;
     }
 
     public class EcuPinoutManager
     {
         private static readonly object LockObj = new object();
-        private static EcuPinoutManager _instance;
+        private static EcuPinoutManager _instance = null!;
         private readonly List<EcuPinoutPin> _pins = new List<EcuPinoutPin>();
 
         public static EcuPinoutManager Instance

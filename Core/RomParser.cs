@@ -6,10 +6,10 @@ namespace HondaTuner.Core
 {
     public class RomParser
     {
-        private byte[] _rom;
-        private EcuProfile _profile;
+        private byte[] _rom = null!;
+        private EcuProfile _profile = null!;
 
-        public string FilePath { get; private set; }
+        public string FilePath { get; private set; } = null!;
         public bool IsLoaded => _rom != null;
         public bool IsReadOnly { get; private set; }
         public EcuProfile Profile => _profile;
@@ -17,7 +17,7 @@ namespace HondaTuner.Core
         // ── Yükle ───────────────────────────────────────────────
 
         /// <summary>ROM'u yükle. EcuProfile null verilirse otomatik tanımaya çalışır.</summary>
-        public void Load(string path, EcuProfile profile = null)
+        public void Load(string path, EcuProfile profile = null!)
         {
             byte[] data = File.ReadAllBytes(path);
 
@@ -283,7 +283,7 @@ namespace HondaTuner.Core
             UpdateChecksum();
         }
 
-        public byte[] GetRomBuffer() => _rom != null ? (byte[])_rom.Clone() : null;
+        public byte[] GetRomBuffer() => _rom != null ? (byte[])_rom.Clone() : null!;
 
         public void SetRomBuffer(byte[] buffer)
         {

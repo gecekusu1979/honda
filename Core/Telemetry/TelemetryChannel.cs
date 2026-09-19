@@ -1,3 +1,4 @@
+#pragma warning disable CS8618, CS8600, CS8601, CS8602, CS8603, CS8604, CS8765, CS8629, CS8622, CS0168
 using System;
 
 namespace HondaTuner.Core.Telemetry
@@ -43,13 +44,13 @@ namespace HondaTuner.Core.Telemetry
     /// </summary>
     public class TelemetryChannel
     {
-        public string ChannelId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Unit { get; set; }
-        public string Group { get; set; } // Engine, Fuel, Ignition, Sensors, Temperature, Pressure, Electrical, Transmission, Diagnostics, Calculated
-        public string Category { get; set; }
-        public string Priority { get; set; } // Critical, High, Normal, Low
+        public string ChannelId { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public string Unit { get; set; } = null!;
+        public string Group { get; set; } // Engine, Fuel, Ignition, Sensors, Temperature, Pressure, Electrical, Transmission, Diagnostics, Calculated = null!;
+        public string Category { get; set; } = null!;
+        public string Priority { get; set; } // Critical, High, Normal, Low = null!;
         public int DisplayOrder { get; set; }
 
         public double Minimum { get; set; }
@@ -64,9 +65,9 @@ namespace HondaTuner.Core.Telemetry
         public bool Loggable { get; set; }
 
         // Ölçeklendirme ve Ham Veri Tipleri
-        public string RawType { get; set; } // Byte, Int16, Int32 vb.
+        public string RawType { get; set; } // Byte, Int16, Int32 vb. = null!;
         public double Scale { get; set; } = 1.0;
         public double Offset { get; set; } = 0.0;
-        public string Formula { get; set; } // Hesaplanan kanallar için string formül (örn: "[AFR] / 14.7")
+        public string Formula { get; set; } // Hesaplanan kanallar için string formül (örn: "[AFR] / 14.7") = null!;
     }
 }

@@ -8,16 +8,16 @@ namespace HondaTuner.Core.Rom.Patch
     public class PatchPreview
     {
         /// <summary>Yama ID'si</summary>
-        public string PatchId { get; set; }
+        public string PatchId { get; set; } = null!;
 
         /// <summary>Yama uygulanacak offset adresi</summary>
         public int Offset { get; set; }
 
         /// <summary>Orijinal baytlar</summary>
-        public byte[] OriginalBytes { get; set; }
+        public byte[] OriginalBytes { get; set; } = null!;
 
         /// <summary>Yama sonrasında yazılacak baytlar</summary>
-        public byte[] NewBytes { get; set; }
+        public byte[] NewBytes { get; set; } = null!;
 
         /// <summary>Yama sebebiyle değişecek bayt adeti</summary>
         public int ByteDifference { get; set; }

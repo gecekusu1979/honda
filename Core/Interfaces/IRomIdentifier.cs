@@ -12,14 +12,14 @@ namespace HondaTuner.Core.Interfaces
 
     public class RomAnalysisResult
     {
-        public string EcuCode { get; set; }
-        public string EngineCode { get; set; }
-        public string ObdType { get; set; }
+        public string EcuCode { get; set; } = null!;
+        public string EngineCode { get; set; } = null!;
+        public string ObdType { get; set; } = null!;
         public int RomSize { get; set; }
         public double CompatibilityScore { get; set; }
         public bool IsMismatch { get; set; }
-        public string Feedback { get; set; }
-        public EcuProfile MatchedProfile { get; set; }
+        public string Feedback { get; set; } = null!;
+        public EcuProfile MatchedProfile { get; set; } = null!;
 
         // Extra V2 rules-based diagnostic properties
         public double Confidence { get; set; }

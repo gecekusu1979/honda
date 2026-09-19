@@ -19,7 +19,9 @@ namespace HondaTuner.Core.AutoTune
                 Col = col;
             }
 
+#pragma warning disable 8765
             public override bool Equals(object obj)
+#pragma warning restore 8765
             {
                 return obj is CellKey other &&
                        MapName == other.MapName &&
@@ -52,7 +54,9 @@ namespace HondaTuner.Core.AutoTune
             if (string.IsNullOrEmpty(mapName) || string.IsNullOrEmpty(ownerId)) return;
             var key = new CellKey(mapName, row, col);
 
+#pragma warning disable 8600
             if (_locks.TryGetValue(key, out string currentOwner) && currentOwner == ownerId)
+#pragma warning restore 8600
             {
                 _locks.TryRemove(key, out _);
             }
@@ -60,11 +64,13 @@ namespace HondaTuner.Core.AutoTune
 
         public bool IsCellLocked(string mapName, int row, int col, out string ownerId)
         {
-            ownerId = null;
+            ownerId = null!;
             if (string.IsNullOrEmpty(mapName)) return false;
             var key = new CellKey(mapName, row, col);
 
+#pragma warning disable 8600
             if (_locks.TryGetValue(key, out string currentOwner))
+#pragma warning restore 8600
             {
                 ownerId = currentOwner;
                 return true;

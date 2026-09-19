@@ -9,10 +9,10 @@ namespace HondaTuner.Core.AutoTune.Analyzers
 
         public TuneDecision Analyze(TelemetrySnapshot telemetry, TargetMapProvider targetMapProvider)
         {
-            if (telemetry == null || targetMapProvider == null) return null;
+            if (telemetry == null || targetMapProvider == null) return null!;
 
             // ECT based correction compensation
-            if (telemetry.ECT < 95.0) return null; // Only correct under high heat loads
+            if (telemetry.ECT < 95.0) return null!; // Only correct under high heat loads
 
             double currentVE = targetMapProvider.GetTargetValue(targetMapProvider.VeTargets, telemetry.RPM, telemetry.MAP);
 

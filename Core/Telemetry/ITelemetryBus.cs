@@ -70,7 +70,7 @@ namespace HondaTuner.Core.Telemetry
         /// <summary>
         /// Aboneyi belirli kanallar ve minimum yenilenme hızı kısıtlaması ile kaydeder.
         /// </summary>
-        void Subscribe(ITelemetryConsumer consumer, IEnumerable<string> channels = null, double minUpdateRate = 0.0);
+        void Subscribe(ITelemetryConsumer consumer, IEnumerable<string> channels = null!, double minUpdateRate = 0.0);
 
         /// <summary>
         /// Abonenin üyeliğini sonlandırır.

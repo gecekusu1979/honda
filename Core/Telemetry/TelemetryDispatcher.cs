@@ -11,7 +11,7 @@ namespace HondaTuner.Core.Telemetry
     /// </summary>
     public static class TelemetryDispatcher
     {
-        private static SynchronizationContext _uiContext;
+        private static SynchronizationContext _uiContext = null!;
 
         /// <summary>
         /// Arayüz (UI) thread'ine ait SynchronizationContext bilgisini kaydeder.

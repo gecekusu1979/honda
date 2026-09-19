@@ -9,8 +9,8 @@ namespace HondaTuner.Core.ReverseEngineering
         public bool Success { get; set; }
         public int RpmAxisOffset { get; set; }
         public int LoadAxisOffset { get; set; }
-        public int[] RpmAxisValues { get; set; }
-        public int[] LoadAxisValues { get; set; }
+        public int[] RpmAxisValues { get; set; } = null!;
+        public int[] LoadAxisValues { get; set; } = null!;
         public double Confidence { get; set; }
     }
 
@@ -34,11 +34,11 @@ namespace HondaTuner.Core.ReverseEngineering
 
             int bestRpmOffset = -1;
             double bestRpmConf = 0.0;
-            int[] bestRpmValues = null;
+            int[] bestRpmValues = null!;
 
             int bestLoadOffset = -1;
             double bestLoadConf = 0.0;
-            int[] bestLoadValues = null;
+            int[] bestLoadValues = null!;
 
             for (int offset = searchStart; offset < searchEnd; offset++)
             {
@@ -72,8 +72,8 @@ namespace HondaTuner.Core.ReverseEngineering
                 result.Success = true;
                 result.RpmAxisOffset = bestRpmOffset;
                 result.LoadAxisOffset = bestLoadOffset;
-                result.RpmAxisValues = bestRpmValues;
-                result.LoadAxisValues = bestLoadValues;
+                result.RpmAxisValues = bestRpmValues!;
+                result.LoadAxisValues = bestLoadValues!;
                 result.Confidence = (bestRpmConf + bestLoadConf) / 2.0;
             }
 

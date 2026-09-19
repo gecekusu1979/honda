@@ -32,7 +32,7 @@ namespace HondaTuner.Core.Rom
                 return result;
             }
 
-            EcuProfile bestProfile = null;
+            EcuProfile bestProfile = null!;
             double bestScore = 0;
             var bestMatchedRules = new List<string>();
             var bestUnsupportedRules = new List<string>();

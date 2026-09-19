@@ -17,31 +17,31 @@ namespace HondaTuner.Core.Interfaces
 
     public class PatchBlueprint
     {
-        public string PatchId { get; set; }
-        public string EcuCompat { get; set; }
+        public string PatchId { get; set; } = null!;
+        public string EcuCompat { get; set; } = null!;
         public int TargetOffset { get; set; }
-        public byte[] ExpectedSignature { get; set; }
-        public byte[] PatchBytes { get; set; }
-        public byte[] OriginalBytesBackup { get; set; }
-        public string Version { get; set; }
-        public string Author { get; set; }
-        public string Description { get; set; }
+        public byte[] ExpectedSignature { get; set; } = null!;
+        public byte[] PatchBytes { get; set; } = null!;
+        public byte[] OriginalBytesBackup { get; set; } = null!;
+        public string Version { get; set; } = null!;
+        public string Author { get; set; } = null!;
+        public string Description { get; set; } = null!;
     }
 
     public class PatchPreview
     {
-        public string PatchId { get; set; }
+        public string PatchId { get; set; } = null!;
         public int AffectedOffset { get; set; }
         public int ByteCount { get; set; }
-        public string Summary { get; set; }
+        public string Summary { get; set; } = null!;
         public bool IsValid { get; set; }
     }
 
     public class PatchAuditEntry
     {
-        public string PatchId { get; set; }
-        public string Operation { get; set; }
+        public string PatchId { get; set; } = null!;
+        public string Operation { get; set; } = null!;
         public System.DateTime Timestamp { get; set; }
-        public string Details { get; set; }
+        public string Details { get; set; } = null!;
     }
 }

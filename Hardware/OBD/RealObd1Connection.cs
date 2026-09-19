@@ -43,7 +43,7 @@ namespace HondaTuner.Hardware.OBD
         private const int WRITE_TIMEOUT_MS = 200;
         private const int MaxRetries = 3;
 
-        // ECT/IAT thermistor lookup table (raw byte â†’ Â°C)
+        // ECT/IAT thermistor lookup table (raw byte â†’ °C)
         // Source: Honda P28 ECU service manual
         private static readonly int[] TempTable = new int[]
         {
@@ -72,7 +72,7 @@ namespace HondaTuner.Hardware.OBD
         {
             if (string.IsNullOrWhiteSpace(_portName))
             {
-                SetState(ConnectionState.Error, "Port adÄ± belirtilmedi.");
+                SetState(ConnectionState.Error, "Port adı belirtilmedi.");
                 return;
             }
             Open(_portName, _baudRate > 0 ? _baudRate : RUN_BAUD);
@@ -84,8 +84,8 @@ namespace HondaTuner.Hardware.OBD
             _baudRate = baudRate > 0 ? baudRate : RUN_BAUD;
             _retryCount = 0;
 
-            SetState(ConnectionState.Connecting, $"Honda OBD1 baÅŸlatÄ±lÄ±yor: {portName}");
-            ApplicationLogger.Info("RealObd1Connection", $"5-baud init baÅŸlatÄ±lÄ±yor â†’ {portName}");
+            SetState(ConnectionState.Connecting, $"Honda OBD1 başlatılıyor: {portName}");
+            ApplicationLogger.Info("RealObd1Connection", $"5-baud init başlatılıyor â†’ {portName}");
 
             try
             {
@@ -122,7 +122,7 @@ namespace HondaTuner.Hardware.OBD
                     initPort.Close();
                 }
 
-                ApplicationLogger.Info("RealObd1Connection", "5-baud 0x01 gÃ¶nderildi. ECU uyandÄ±rma bekleniyor...");
+                ApplicationLogger.Info("RealObd1Connection", "5-baud 0x01 gönderildi. ECU uyandırma bekleniyor...");
                 Thread.Sleep(INIT_DELAY_MS);
 
                 // â”€â”€ Step 2: Open at normal 9600 baud â”€â”€
@@ -138,8 +138,8 @@ namespace HondaTuner.Hardware.OBD
                 while (_port.BytesToRead > 0)
                     _port.ReadByte();
 
-                SetState(ConnectionState.Connected, "Honda OBD1 baÄŸlantÄ±sÄ± kuruldu.");
-                ApplicationLogger.Info("RealObd1Connection", "OBD1 baÄŸlantÄ±sÄ± baÅŸarÄ±lÄ±.");
+                SetState(ConnectionState.Connected, "Honda OBD1 bağlantısı kuruldu.");
+                ApplicationLogger.Info("RealObd1Connection", "OBD1 bağlantısı başarılı.");
 
                 // â”€â”€ Step 4: Start streaming thread â”€â”€
                 _streaming = true;
@@ -148,7 +148,7 @@ namespace HondaTuner.Hardware.OBD
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Error("RealObd1Connection", $"BaÄŸlantÄ± hatasÄ±: {ex.Message}");
+                ApplicationLogger.Error("RealObd1Connection", $"Bağlantı hatası: {ex.Message}");
                 CleanupPort();
                 HandleConnectionError();
             }
@@ -156,11 +156,11 @@ namespace HondaTuner.Hardware.OBD
 
         public void Disconnect()
         {
-            ApplicationLogger.Info("RealObd1Connection", "BaÄŸlantÄ± kapatÄ±lÄ±yor.");
+            ApplicationLogger.Info("RealObd1Connection", "Bağlantı kapatılıyor.");
             _streaming = false;
             _streamThread?.Join(1000);
             CleanupPort();
-            SetState(ConnectionState.Disconnected, "BaÄŸlantÄ± kapatÄ±ldÄ±.");
+            SetState(ConnectionState.Disconnected, "Bağlantı kapatıldı.");
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace HondaTuner.Hardware.OBD
         {
             if (State != ConnectionState.Connected || _port == null)
             {
-                ApplicationLogger.Warn("RealObd1Connection", "Frame okunamadÄ± â€” baÄŸlantÄ± yok.");
+                ApplicationLogger.Warn("RealObd1Connection", "Frame okunamadı â€” bağlantı yok.");
                 return null;
             }
 
@@ -207,12 +207,12 @@ namespace HondaTuner.Hardware.OBD
             }
             catch (TimeoutException)
             {
-                ApplicationLogger.Warn("RealObd1Connection", "ECU cevap zaman aÅŸÄ±mÄ±.");
+                ApplicationLogger.Warn("RealObd1Connection", "ECU cevap zaman aşımı.");
                 return null;
             }
             catch (Exception ex)
             {
-                ApplicationLogger.Error("RealObd1Connection", $"Frame okuma hatasÄ±: {ex.Message}");
+                ApplicationLogger.Error("RealObd1Connection", $"Frame okuma hatası: {ex.Message}");
                 HandleConnectionError();
                 return null;
             }
@@ -222,7 +222,7 @@ namespace HondaTuner.Hardware.OBD
 
         private void StreamLoop()
         {
-            ApplicationLogger.Info("RealObd1Connection", "CanlÄ± veri stream baÅŸladÄ±.");
+            ApplicationLogger.Info("RealObd1Connection", "Canlı veri stream başladı.");
             while (_streaming && State == ConnectionState.Connected)
             {
                 var frame = ReadFrame();
@@ -230,7 +230,7 @@ namespace HondaTuner.Hardware.OBD
                     FrameReceived?.Invoke(this, frame);
                 Thread.Sleep(50); // ~20 Hz
             }
-            ApplicationLogger.Info("RealObd1Connection", "Stream sonlandÄ±.");
+            ApplicationLogger.Info("RealObd1Connection", "Stream sonlandı.");
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace HondaTuner.Hardware.OBD
             for (int i = 0; i < responseBytes; i++)
             {
                 int b = _port.ReadByte();
-                if (b < 0) throw new TimeoutException("ECU yanÄ±t vermedi.");
+                if (b < 0) throw new TimeoutException("ECU yanıt vermedi.");
                 result = (result << 8) | (b & 0xFF);
             }
             return result;
@@ -300,7 +300,7 @@ namespace HondaTuner.Hardware.OBD
             else
             {
                 CleanupPort();
-                SetState(ConnectionState.TimedOut, "Maksimum deneme sayÄ±sÄ±na ulaÅŸÄ±ldÄ±.");
+                SetState(ConnectionState.TimedOut, "Maksimum deneme sayısına ulaşıldı.");
             }
         }
 

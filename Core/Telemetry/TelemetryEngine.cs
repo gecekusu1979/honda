@@ -31,7 +31,13 @@ namespace HondaTuner.Core.Telemetry
         private readonly string _channelsFilePath;
         private readonly string _profilesFilePath;
 
+#pragma warning disable 8618
+#pragma warning disable 8618
+#pragma warning restore 8618
+#pragma warning disable CS8618
         public TelemetryEngine(
+#pragma warning restore CS8618
+#pragma warning restore 8618
             ITelemetryBus bus,
             IAccessControl access,
             ITimeProvider timeProvider,
@@ -96,7 +102,7 @@ namespace HondaTuner.Core.Telemetry
                                 var newProfiles = new List<string>();
                                 foreach (var p in profilesElem.EnumerateArray())
                                 {
-                                    newProfiles.Add(p.GetProperty("ProfileId").GetString());
+                                    newProfiles.Add(p.GetProperty("ProfileId").GetString()!);
                                 }
                                 _profiles = newProfiles;
                             }
@@ -277,7 +283,7 @@ namespace HondaTuner.Core.Telemetry
                                 var list = new List<string>();
                                 foreach (var ch in p.GetProperty("EnabledChannels").EnumerateArray())
                                 {
-                                    list.Add(ch.GetString());
+                                    list.Add(ch.GetString()!);
                                 }
                                 return list;
                             }

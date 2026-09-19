@@ -12,9 +12,9 @@ namespace HondaTuner.Core.Metadata
 
     public class MetadataValidationResult
     {
-        public string RuleId { get; set; }
+        public string RuleId { get; set; } = null!;
         public ValidationLevel Level { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } = null!;
         public bool IsValid => Level != ValidationLevel.Error;
     }
 

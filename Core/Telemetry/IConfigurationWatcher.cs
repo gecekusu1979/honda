@@ -19,14 +19,14 @@ namespace HondaTuner.Core.Telemetry
 
     public class ConfigurationWatcher : IConfigurationWatcher
     {
-        public event Action OnChannelsReloaded;
-        public event Action OnProfilesReloaded;
+        public event Action OnChannelsReloaded = null!;
+        public event Action OnProfilesReloaded = null!;
 
-        private FileSystemWatcher _channelsWatcher;
-        private FileSystemWatcher _profilesWatcher;
+        private FileSystemWatcher _channelsWatcher = null!;
+        private FileSystemWatcher _profilesWatcher = null!;
 
-        private string _channelsPath;
-        private string _profilesPath;
+        private string _channelsPath = null!;
+        private string _profilesPath = null!;
         private readonly object _lock = new object();
 
         private DateTime _lastChannelsWrite = DateTime.MinValue;
@@ -43,7 +43,7 @@ namespace HondaTuner.Core.Telemetry
 
                 if (File.Exists(_channelsPath))
                 {
-                    string dir = Path.GetDirectoryName(Path.GetFullPath(_channelsPath));
+                    string dir = Path.GetDirectoryName(Path.GetFullPath(_channelsPath))!;
                     string filename = Path.GetFileName(_channelsPath);
 
                     _channelsWatcher = new FileSystemWatcher(dir, filename)
@@ -56,7 +56,7 @@ namespace HondaTuner.Core.Telemetry
 
                 if (File.Exists(_profilesPath))
                 {
-                    string dir = Path.GetDirectoryName(Path.GetFullPath(_profilesPath));
+                    string dir = Path.GetDirectoryName(Path.GetFullPath(_profilesPath))!;
                     string filename = Path.GetFileName(_profilesPath);
 
                     _profilesWatcher = new FileSystemWatcher(dir, filename)
@@ -78,7 +78,7 @@ namespace HondaTuner.Core.Telemetry
                     _channelsWatcher.EnableRaisingEvents = false;
                     _channelsWatcher.Changed -= OnChannelsFileChanged;
                     _channelsWatcher.Dispose();
-                    _channelsWatcher = null;
+                    _channelsWatcher = null!;
                 }
 
                 if (_profilesWatcher != null)
@@ -86,7 +86,7 @@ namespace HondaTuner.Core.Telemetry
                     _profilesWatcher.EnableRaisingEvents = false;
                     _profilesWatcher.Changed -= OnProfilesFileChanged;
                     _profilesWatcher.Dispose();
-                    _profilesWatcher = null;
+                    _profilesWatcher = null!;
                 }
             }
         }

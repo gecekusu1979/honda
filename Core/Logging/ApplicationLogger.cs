@@ -14,9 +14,9 @@ namespace HondaTuner.Core.Logging
 
         private static readonly List<LogEntry> _logBuffer = new List<LogEntry>();
         private static readonly object _lock = new object();
-        private static string _logFilePath;
+        private static string _logFilePath = null!;
 
-        public static event EventHandler<LogEntry> LogAdded;
+        public static event EventHandler<LogEntry> LogAdded = null!;
 
         public static void Initialize(string logDirectory)
         {
@@ -69,8 +69,8 @@ namespace HondaTuner.Core.Logging
     public class LogEntry
     {
         public ApplicationLogger.LogLevel Level { get; set; }
-        public string Source { get; set; }
-        public string Message { get; set; }
+        public string Source { get; set; } = null!;
+        public string Message { get; set; } = null!;
         public DateTime Timestamp { get; set; }
     }
 }

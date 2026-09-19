@@ -36,7 +36,9 @@ namespace HondaTuner.Core.Telemetry
             _currentProcess = System.Diagnostics.Process.GetCurrentProcess();
 
             // Saniyede 1 kere CPU/RAM ve sistem kuyruğunu sorgula
+#pragma warning disable 8622
             _healthTimer = new Timer(CheckSystemHealth, null, 1000, 1000);
+#pragma warning restore 8622
             _telemetryBus.Subscribe(this);
         }
 
